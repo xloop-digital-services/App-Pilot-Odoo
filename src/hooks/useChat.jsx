@@ -18,7 +18,7 @@ export const ChatProvider = ({ children }) => {
     // });
 
     setTimeout(()=>{
-      setMessages( prevmsg=> [ ...prevmsg, { text: 'We are under development...', sender: 'receiver' } ]);
+      setMessages( prevmsg=> [ ...prevmsg, { text: 'Sorry! We are under development...', sender: 'receiver' } ]);
       setLoading(false);
     }, 2000)
     

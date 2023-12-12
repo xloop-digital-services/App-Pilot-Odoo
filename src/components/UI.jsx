@@ -252,7 +252,7 @@ export const UI = ({ hidden, ...props }) => {
                 }`}
               >
                 <div className="m-0 mr-2 w-6 h-6 relative flex justify-center items-center rounded-full bg-gray-500 text-xs text-white uppercase">
-                  { message.sender === 'user'?  'HB': 'GPT' }
+                  { message.sender === 'user'?  'HB': 'VA' }
                 </div>
                 {message.text}
               </span>
