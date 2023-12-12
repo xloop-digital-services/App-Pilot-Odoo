@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --leva-sizes-rootWidth: 340px;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  /* background-color: #6c100b; */
+  background: url('./src/assets/bg.jpg');
+  /* background-image: linear-gradient(19deg, #fd2014 0%, #888888 100%); */
+  background-repeat: no-repeat;
+  /* background-origin: content-box; */
+}
+
+body.greenScreen {
+  background-color: #00ff00;
+  background-image: none;
+}
