@@ -15,7 +15,7 @@
 body {
   margin: 0;
   /* background-color: #6c100b; */
-  background: url('./src/assets/bg.jpg');
+  background: url('./assets/bg.jpg');
   /* background-image: linear-gradient(19deg, #fd2014 0%, #888888 100%); */
   background-repeat: no-repeat;
   /* background-origin: content-box; */
