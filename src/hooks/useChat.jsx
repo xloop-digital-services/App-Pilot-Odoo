@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const backendUrl = "http://localhost:3000";
+const backendUrl = "https://s5v65tj8-8000.inc1.devtunnels.ms";
 
 const ChatContext = createContext();
 
@@ -9,18 +9,30 @@ export const ChatProvider = ({ children }) => {
     setMessages([ ...messages, { text: message, sender: 'user' } ]);
     console.log(message)
     setLoading(true);
-    // const data = await fetch(`${backendUrl}/chat`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ message }),
-    // });
-
-    setTimeout(()=>{
-      setMessages( prevmsg=> [ ...prevmsg, { text: 'Sorry! We are under development...', sender: 'receiver' } ]);
+    try{
+      const response = await fetch(`${backendUrl}/query_response/${message}`);
+      const result = await response.json();
+      console.log(result);
+  
+      if(result.data.length > 1){
+        setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list: [...result.data]} ]);
+      }
+      else{
+        setMessages( prevmsg=> [ ...prevmsg, ...result.data ]);
+      }
+      setMessage(result);
       setLoading(false);
-    }, 2000)
+    }
+    catch(err){
+      console.log(err)
+      setMessages([ ...messages, { text: 'Please check your network.', sender: 'receiver' } ]);
+      setLoading(false);
+    }
+
+    // setTimeout(()=>{
+    //   setMessages( prevmsg=> [ ...prevmsg, { text: 'Sorry! We are under development...', sender: 'receiver' } ]);
+    //   setLoading(false);
+    // }, 2000)
     
     // const resp = (await data.json()).messages;
     // setMessages((messages) => [...messages, ...resp]);
@@ -36,27 +48,29 @@ export const ChatProvider = ({ children }) => {
       sender: 'receiver'
     }
   ]);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cameraZoomed, setCameraZoomed] = useState(true);
 
   const onMessagePlayed = () => {
-    setMessages((messages) => messages.slice(1));
+    setMessage(null);
   };
 
   useEffect(() => {
-    if (messages.length > 0) {
-      setMessage(messages[0]);
+    if (message) {
+      console.log(message, 'innser message')
+      setMessage(prev=>  prev);
     } else {
       setMessage(null);
     }
-  }, [messages]);
+  }, [message]);
 
   return (
     <ChatContext.Provider
       value={{
         chat,
         message,
+        setMessage,
         onMessagePlayed,
         loading,
         cameraZoomed,

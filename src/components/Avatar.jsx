@@ -58,12 +58,12 @@ export function Avatar(props) {
     "/models/64f1a714fe61576b46f27ca2.glb"
   );
 
-  const { message, onMessagePlayed, chat } = useChat();
+  const { message, onMessagePlayed, chat, setMessage } = useChat();
 
   const [lipsync, setLipsync] = useState();
 
   useEffect(() => {
-    console.log(message);
+    console.log(message, 'message');
     if (!message) {
       setAnimation("Idle");
       return;

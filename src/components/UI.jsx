@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import MicrophoneIcon from "./MicrophoneIcon"; // Import the MicrophoneIcon component
+import { Image } from 'antd';
 
 export const UI = ({ hidden, ...props }) => {
   // const [messages, setMessages] = useState([
@@ -254,7 +255,33 @@ export const UI = ({ hidden, ...props }) => {
                 <div className="m-0 mr-2 w-6 h-6 relative flex justify-center items-center rounded-full bg-gray-500 text-xs text-white uppercase">
                   { message.sender === 'user'?  'HB': 'VA' }
                 </div>
-                {message.text}
+
+                { 
+                  message.type === 'list' ? 
+                  <div>
+                    {message.list.map((msg, index) => (
+                      <div key={index}>
+                        <p className="mt-3 mb-3 text-left">{ msg.step }</p>
+                        {
+                          msg.image &&
+                          <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
+                            <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
+                          </div>
+                        }
+                      </div>
+                    ))}
+                  </div>
+                  :
+                  <>
+                    {
+                      message.image &&
+                      <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
+                        <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
+                      </div>
+                    }
+                    {message.text}
+                  </>
+                }
               </span>
             </div>
           ))}
