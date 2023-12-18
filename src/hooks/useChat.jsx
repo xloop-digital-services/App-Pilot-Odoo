@@ -38,16 +38,7 @@ export const ChatProvider = ({ children }) => {
     // setMessages((messages) => [...messages, ...resp]);
     // setLoading(false);
   };
-  const [messages, setMessages] = useState([
-    {
-      text: 'How are you.',
-      sender: 'user'
-    },
-    {
-      text: 'I am good.',
-      sender: 'receiver'
-    }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cameraZoomed, setCameraZoomed] = useState(true);

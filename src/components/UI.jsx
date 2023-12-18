@@ -236,72 +236,77 @@ export const UI = ({ hidden, ...props }) => {
         </div>
       </div>
       
-      <section className="absolute overflow-y-auto right-5 w-[32%] h-[85%] z-10">
-        <h1 className="mt-5 flex justify-center text-2xl font-semibold text-white">Ask Me</h1>
-        
-        <div className="flex-1 overflow-y-aut p-4">
-          {messages?.map((message, index) => (
-            <div
-              key={index}
-              className={`mb-2 ${
-                message.sender === 'user' ? 'text-right' : 'text-left'
-              }`}
-            >
-              <span
-                className={`inline-block bg-[#8fbeee] text-gray p-2 rounded-lg flex  text-left  ${
-                  message.sender === 'user' ? 'ml-auto' : 'mr-auto bg-[#abd2fd]'
-                }`}
-              >
-                <div className="m-0 mr-2 w-6 h-6 relative flex justify-center items-center rounded-full bg-gray-500 text-xs text-white uppercase">
-                  { message.sender === 'user'?  'HB': 'VA' }
-                </div>
+      {
+        messages.length > 0 ?
+          <section className="absolute overflow-y-auto right-5 w-[32%] h-[85%] z-10">
+            <h1 className="mt-5 flex justify-center text-2xl font-semibold text-white">Ask Me</h1>
+            
+            <div className="flex-1 overflow-y-aut p-4">
+              {messages?.map((message, index) => (
+                <div
+                  key={index}
+                  className={`mb-2 ${
+                    message.sender === 'user' ? 'text-right' : 'text-left'
+                  }`}
+                >
+                  <span
+                    className={`inline-block bg-[#8fbeee] text-gray p-2 rounded-lg flex  text-left  ${
+                      message.sender === 'user' ? 'ml-auto' : 'mr-auto bg-[#abd2fd]'
+                    }`}
+                  >
+                    <div className="m-0 mr-2 w-6 h-6 relative flex justify-center items-center rounded-full bg-gray-500 text-xs text-white uppercase">
+                      { message.sender === 'user'?  'HB': 'VA' }
+                    </div>
 
-                { 
-                  message.type === 'list' ? 
-                  <div>
-                    {message.list.map((msg, index) => (
-                      <div key={index}>
-                        <p className="mt-3 mb-3 text-left">{ msg.step }</p>
+                    { 
+                      message.type === 'list' ? 
+                      <div>
+                        {message.list.map((msg, index) => (
+                          <div key={index}>
+                            <p className="mt-3 mb-3 text-left">{ msg.step }</p>
+                            {
+                              msg.image &&
+                              <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
+                                <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
+                              </div>
+                            }
+                          </div>
+                        ))}
+                      </div>
+                      :
+                      <>
                         {
-                          msg.image &&
+                          message.image &&
                           <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
                             <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
                           </div>
                         }
-                      </div>
-                    ))}
-                  </div>
-                  :
-                  <>
-                    {
-                      message.image &&
-                      <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
-                        <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
-                      </div>
+                        {message.text}
+                      </>
                     }
-                    {message.text}
-                  </>
-                }
-              </span>
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* chat history */}
-        {/* <div> */}
-          {/* sender */}
-          {/* <div className="">
-            
-          </div> */}
-          
-          {/* receiver */}
-          {/* <div className="">
+            {/* chat history */}
+            {/* <div> */}
+              {/* sender */}
+              {/* <div className="">
+                
+              </div> */}
+              
+              {/* receiver */}
+              {/* <div className="">
 
-          </div> */}
+              </div> */}
 
-        {/* </div> */}
+            {/* </div> */}
 
-      </section>
+          </section>
+        :
+        null
+      }
     </>
   );
 };
