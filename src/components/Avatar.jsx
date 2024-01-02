@@ -69,7 +69,8 @@ export function Avatar(props) {
       return;
     }
     console.log('aya hn', message)
-    setAnimation(message.animation);
+    // setAnimation(message.animation);
+    setAnimation('Idle');
     setFacialExpression(message.facialExpression);
     setLipsync(message.lipsync);
     const audio = new Audio("data:audio/mp3;base64," + message.audio);
@@ -88,6 +89,7 @@ export function Avatar(props) {
   useEffect(() => {
 
     console.log(animation, 'animation')
+    console.log(animations, 'animations')
 
     actions[animation]
       .reset()
@@ -257,7 +259,7 @@ export function Avatar(props) {
   }, []);
 
   return (
-    <group {...props} dispose={null} ref={group} scale={2} >
+    <group {...props} dispose={null} ref={group} scale={2.3} >
       <primitive object={nodes.Hips} />
       <skinnedMesh
         name="Wolf3D_Body"

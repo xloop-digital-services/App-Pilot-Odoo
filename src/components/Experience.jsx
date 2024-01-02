@@ -48,6 +48,7 @@ export const Experience = () => {
   const { cameraZoomed } = useChat();
 
   useEffect(() => {
+    // myControl.current.target.set(0, 0, 0);
     myControl.current.target.set(3, 15, -50);
     // cameraControls.current.setLookAt(0, 2, 5, 0, 1.5, 0);
     
@@ -60,6 +61,8 @@ export const Experience = () => {
   //     cameraControls.current.setLookAt(0, 2.2, 5, 0, 1.0, 0, true);
   //   }
   // }, [cameraZoomed]);
+
+
   return (
     <>
     {/* <CameraControls ref={cameraControls} /> */}
@@ -67,7 +70,7 @@ export const Experience = () => {
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
         <Suspense>
-          <Dots position-y={3.48} position-x={-0.05} />
+          <Dots position-y={4} position-x={-0.05} />
         </Suspense>
 
       <Avatar />

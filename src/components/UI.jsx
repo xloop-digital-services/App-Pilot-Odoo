@@ -103,37 +103,56 @@ export const UI = ({ hidden, ...props }) => {
   //   }
   //  ]);
   const [newMessage, setNewMessage] = useState('');
+  // const [micOn, setMicOn] = useState(false);
   
   const input = useRef();
-  const { chat, loading, cameraZoomed, setCameraZoomed, message, messages } = useChat();
+  const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
 
   useEffect(() => {
     console.log(messages)
     let recognition;
-    if ("webkitSpeechRecognition" in window) {
-      recognition = new webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.lang = "en-US";
 
-      recognition.onresult = function (event) {
-        let final_transcript = "";
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            final_transcript += event.results[i][0].transcript;
+    const startRecognition = () => {
+      if ("webkitSpeechRecognition" in window) {
+        console.log('kiya hua')
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+
+        recognition.onresult = function (event) {
+          let final_transcript = input.current.value;
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+            }
           }
-        }
-        input.current.value = final_transcript;
-      };
-    } else {
-      alert("Web Speech API is not supported in this browser.");
-    }
+          input.current.value = final_transcript;
+        };
 
+        recognition.start();
+      } else {
+        alert("Web Speech API is not supported in this browser.");
+      }
+    };
+
+
+
+    const stopRecognition = () => {
+      if (recognition) {
+        recognition.stop();
+      }
+    };
+  
     const voiceButton = document.getElementById("voice-typing-button");
+  
     if (voiceButton) {
       voiceButton.addEventListener("click", () => {
-        if (recognition) {
-          recognition.start();
+        if (recognition && recognition.isStarted) {
+          stopRecognition();
+        } else {//#endregio
+          console.log('hfhf')
+          startRecognition();
         }
       });
     }
@@ -154,6 +173,9 @@ export const UI = ({ hidden, ...props }) => {
 
   const sendMessage = () => {
     console.log('click')
+    if(micOn){
+      setMicOn(false);
+    }
     const text = input.current.value;
     if (!loading) {
     console.log('aya')
@@ -192,7 +214,9 @@ export const UI = ({ hidden, ...props }) => {
           <button
             // disabled={loading || message}
             onClick={sendMessage}
-            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center `}
+            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+              ${loading ? "cursor-not-allowed opacity-30" : ""}`}
+
             style={{
               border: "none",
               outline: "none",
@@ -217,11 +241,12 @@ export const UI = ({ hidden, ...props }) => {
 
           <button
             id="voice-typing-button"
-            // disabled={loading || message}
-            onClick={sendMessage}
-            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center `}
+            disabled={micOn}
+            onClick={ ()=> setMicOn(!micOn) }
+            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+            ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
 
-              // loading || message ? "cursor-not-allowed opacity-30" : ""
+              // loading || micOn ? "cursor-not-allowed opacity-30" : ""
             style={{
               border: "none",
               outline: "none",

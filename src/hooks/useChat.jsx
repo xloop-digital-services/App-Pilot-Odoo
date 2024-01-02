@@ -1,18 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const backendUrl = "https://s5v65tj8-8000.inc1.devtunnels.ms";
+const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const chat = async (message) => {
     setMessages([ ...messages, { text: message, sender: 'user' } ]);
-    console.log(message)
+    // console.log(message)
     setLoading(true);
     try{
       const response = await fetch(`${backendUrl}/query_response/${message}`);
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
   
       if(result.data.length > 1){
         setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list: [...result.data]} ]);
@@ -22,10 +22,11 @@ export const ChatProvider = ({ children }) => {
       }
       setMessage(result);
       setLoading(false);
+      setMicOn(false);
     }
     catch(err){
       console.log(err)
-      setMessages([ ...messages, { text: 'Please check your network.', sender: 'receiver' } ]);
+      setMessages(prev=> [ ...prev, { text: 'Please check your network.', sender: 'receiver' } ]);
       setLoading(false);
     }
 
@@ -42,6 +43,7 @@ export const ChatProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cameraZoomed, setCameraZoomed] = useState(true);
+  const [micOn, setMicOn] = useState(false);
 
   const onMessagePlayed = () => {
     setMessage(null);
@@ -64,6 +66,8 @@ export const ChatProvider = ({ children }) => {
         setMessage,
         onMessagePlayed,
         loading,
+        micOn,
+        setMicOn,
         cameraZoomed,
         setCameraZoomed,
         messages
