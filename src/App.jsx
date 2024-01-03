@@ -8,10 +8,10 @@ function App() {
   return (
     <>
       <Loader />
-      <Leva hidden/>
+      <Leva hidden />
       <UI />
-      <Canvas shadows camera={{ position: [0, 1.5, 5], fov: 30 }}>
-        <mesh position={[0,-0.25,-3]}>
+      <Canvas shadows camera={{ position: [2 , 1.5, 3], fov: 40 }}>
+        <mesh position={[2,-0.25,-3]}>
           <Experience />
         </mesh>
       </Canvas>

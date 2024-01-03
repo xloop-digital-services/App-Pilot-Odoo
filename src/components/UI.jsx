@@ -3,6 +3,12 @@ import { useChat } from "../hooks/useChat";
 import MicrophoneIcon from "./MicrophoneIcon"; // Import the MicrophoneIcon component
 import { Image } from 'antd';
 
+import { FaUserTie } from "react-icons/fa6";
+import { PiChatCircleBold } from "react-icons/pi";
+
+import Logo from '../assets/logo.png'
+
+
 export const UI = ({ hidden, ...props }) => {
   // const [messages, setMessages] = useState([
   //   {
@@ -195,8 +201,11 @@ export const UI = ({ hidden, ...props }) => {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
-        <div className="self-start   bg-opacity-50 p-4 rounded-lg">
-          <h1 className="text-white font-normal text-xl">Virtual Assistance</h1>
+        <div className="self-start   bg-opacity-50 p-4 rounded-lg flex gap-2 bg-slate-400">
+          <span>
+            <img src={Logo} alt="logo"/>
+          </span>
+          <h1 className="text-white font-bold text-2xl">App Pilot</h1>
           {/* <p>Chat with Me ❤️</p> */}
         </div>
         
@@ -263,7 +272,7 @@ export const UI = ({ hidden, ...props }) => {
       
       {
         messages.length > 0 ?
-          <section className="absolute overflow-y-auto right-5 w-[32%] h-[85%] z-10">
+          <section className="absolute overflow-y-auto right-5 w-[40%] h-[85%] z-10">
             <h1 className="mt-5 flex justify-center text-2xl font-semibold text-white">Ask Me</h1>
             
             <div className="flex-1 overflow-y-aut p-4">
@@ -275,12 +284,12 @@ export const UI = ({ hidden, ...props }) => {
                   }`}
                 >
                   <span
-                    className={`inline-block bg-[#8fbeee] text-gray p-2 rounded-lg flex  text-left  ${
-                      message.sender === 'user' ? 'ml-auto' : 'mr-auto bg-[#abd2fd]'
+                    className={`inline-block  text-[#eeeeee] p-2 rounded-lg flex  text-left text-xl font-semibold overflow-x-hidden  ${
+                      message.sender === 'user' ? 'ml-auto ' : 'mr-auto '
                     }`}
                   >
-                    <div className="m-0 mr-2 w-6 h-6 relative flex justify-center items-center rounded-full bg-gray-500 text-xs text-white uppercase">
-                      { message.sender === 'user'?  'HB': 'VA' }
+                    <div className="m-0 mr-2 w-6 h-6 absolute flex justify-center items-center rounded-full bg-white text-xs text-gray-700 uppercase">
+                      { message.sender === 'user'?  <FaUserTie />  : <PiChatCircleBold /> }
                     </div>
 
                     { 
@@ -288,10 +297,10 @@ export const UI = ({ hidden, ...props }) => {
                       <div>
                         {message.list.map((msg, index) => (
                           <div key={index}>
-                            <p className="mt-3 mb-3 text-left">{ msg.step }</p>
+                            <p className="ml-[2rem] mb-3 text-left">{ msg.step }</p>
                             {
                               msg.image &&
-                              <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
+                              <div className=" w-[100%] h-[50%] mb-3 flex justify-start ml-[2rem]">
                                 <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
                               </div>
                             }
@@ -302,11 +311,13 @@ export const UI = ({ hidden, ...props }) => {
                       <>
                         {
                           message.image &&
-                          <div className=" w-[100%] h-[50%] mt-3 mb-3 flex justify-center items-center">
+                          <div className=" w-[100%] h-[50%] mb-3 flex justify-center items-center">
                             <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
                           </div>
                         }
-                        {message.text}
+                        <span className="ml-[2rem]">
+                          {message.text}
+                        </span>
                       </>
                     }
                   </span>
