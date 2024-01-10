@@ -25,6 +25,14 @@ body {
   width: 100%;
 }
 
+.micro-phone{
+  border: none;
+  outline: none;
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+}
+
 body.greenScreen {
   background-color: #00ff00;
   background-image: none;

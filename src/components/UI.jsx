@@ -5,125 +5,27 @@ import { Image } from 'antd';
 
 import { FaUserTie } from "react-icons/fa6";
 import { PiChatCircleBold } from "react-icons/pi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Logo from '../assets/logo.png'
-import { faMicrophone, faMicrophoneSlash,faPause,  faPlay} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone, faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
 
 
 export const UI = ({ hidden, ...props }) => {
-  // const [messages, setMessages] = useState([
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   },
-  //   {
-  //     text: 'How are you.',
-  //     sender: 'user'
-  //   },
-  //   {
-  //     text: 'I am good.',
-  //     sender: 'receiver'
-  //   }
-  //  ]);
-  const [newMessage, setNewMessage] = useState('');
-  const [isRecording, setIsRecording] = useState(false);
-  // const [micOn, setMicOn] = useState(false);
+  // const [newMessage, setNewMessage] = useState('');
+  const [micStart, setMicStart] = useState(false);
+  const [startStopRecording, setStartStopRecording] = useState(true);
   
   const input = useRef();
   const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
 
-
   useEffect(() => {
-    console.log(messages);
+    console.log(messages)
     let recognition;
 
     const startRecognition = () => {
       if ("webkitSpeechRecognition" in window) {
-        console.log('kiya hua');
+        console.log('kiya hua')
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
@@ -140,33 +42,33 @@ export const UI = ({ hidden, ...props }) => {
         };
 
         recognition.start();
-        setIsRecording(true);
       } else {
         alert("Web Speech API is not supported in this browser.");
       }
     };
 
+
+
     const stopRecognition = () => {
       if (recognition) {
-        console.log('stop')
         recognition.stop();
-        setIsRecording(false);
       }
     };
-
+  
     const voiceButton = document.getElementById("voice-typing-button");
+    const stopVoiceButton = document.getElementById("voice-stop-button");
 
-    if (voiceButton) {
+    console.log(stopVoiceButton, 'chali he')
+    if (voiceButton || stopVoiceButton) {
+      console.log('aya hn')
       voiceButton.addEventListener("click", () => {
-        if (isRecording == true) {
+        if (recognition && recognition.isStarted ) {
+          console.log('Stop the recording')
           stopRecognition();
-          console.log('ruk gai');
-          setIsRecording(false);
-        } else {
-          console.log('hfhf');
+        } else {//#endregio
+          console.log('Start the recording...')
           startRecognition();
         }
-        
       });
     }
 
@@ -174,26 +76,45 @@ export const UI = ({ hidden, ...props }) => {
       if (recognition) {
         recognition.stop();
       }
+      if (voiceButton) {
+        voiceButton.removeEventListener("click", () => {
+          if (recognition) {
+            recognition.start();
+          }
+        });
+      }
     };
-  }, [isRecording]); 
-
-
+  }, [startStopRecording]);
 
   const sendMessage = () => {
     console.log('click')
     if(micOn){
       setMicOn(false);
+      setMicStart(false);
     }
+
     const text = input.current.value;
     if (!loading) {
     console.log('aya')
       chat(text);
       input.current.value = "";
     }
+    // if (!loading && !message) {
+    //   chat(text);
+    //   input.current.value = "";
+    // }
   };
 
   if (hidden) {
     return null;
+  }
+
+
+  const startStopHandle = (value)=>{
+    setStartStopRecording(value);
+    console.log(value)
+    setMicOn(!micOn);
+    setMicStart(!micStart)
   }
 
   return (
@@ -245,33 +166,38 @@ export const UI = ({ hidden, ...props }) => {
               />
             </svg>
           </button>
+            {
+              micStart ? 
+                /* //stop the recording */
+                <button
+                  id="voice-stop-button"
+                  // disabled={micOn}
+                  onClick={()=>startStopHandle(!startStopRecording)}
+                  className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center micro-phone`}
+                    // loading || micOn ? "cursor-not-allowed opacity-30" : ""
+                >
+                  {/* MicrophoneIcon integrated into the button */}
+                  {/* <MicrophoneIcon strokeWidth="2" /> */}
+                  <FontAwesomeIcon icon={faMicrophone} size="xl" />
+                </button>
+                :
+                <button
+                  id="voice-typing-button"
+                  // disabled={micOn}
+                  onClick={()=>{
+                    setMicOn(prev=> !prev);
+                    setMicStart(!micStart)
+                  }}
+                  className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center micro-phone
+                  ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}    
+                >
+                  {/* MicrophoneIcon integrated into the button */}
+                  <FontAwesomeIcon icon={faMicrophoneSlash} size="xl" />
+                </button>
 
-          <button
-            id="voice-typing-button"
-            // disabled={micOn}
-            onClick={ 
-              ()=> setMicOn(!micOn)
-             }
-            className={
-              `text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
-            ${loading || micOn ? 
-              "cursor-allowed" 
-              : ""}`
             }
+              
 
-              // loading || micOn ? "cursor-not-allowed opacity-30" : ""
-            style={{
-              border: "none",
-              outline: "none",
-              width: "70px",
-              height: "70px",
-              borderRadius: "10px",
-            }}
-          >
-            {/* MicrophoneIcon integrated into the button */}
-            {/* <MicrophoneIcon strokeWidth="2" /> */}
-            <FontAwesomeIcon icon={isRecording ? faMicrophone : faMicrophoneSlash} size="xl" />
-          </button>
         </div>
       </div>
       
