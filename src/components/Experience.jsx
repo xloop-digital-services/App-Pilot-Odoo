@@ -2,6 +2,7 @@ import {
   CameraControls,
   ContactShadows,
   Environment,
+  Html,
   OrbitControls,
   Text,
   useTexture,
@@ -10,6 +11,8 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import { Avatar } from "./Avatar";
 import { useThree } from "@react-three/fiber";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 
 const Dots = (props) => {
   const { loading } = useChat();
@@ -18,26 +21,30 @@ const Dots = (props) => {
     if (loading) {
       console.log('printing...')
       const interval = setInterval(() => {
-        setLoadingText((loadingText) => {
-          if (loadingText.length > 2) {
-            return ".";
-          }
-          return loadingText + ".";
-        });
+        // setLoadingText((loadingText) => {
+        //   if (loadingText.length > 2) {
+        //     return ".";
+        //   }
+        //   return loadingText + ".";
+        // });
+        setLoadingText(
+          <FontAwesomeIcon icon={faCommentDots} bounce size='2xl'
+          style={{ color: "#ffffff",}} />)
       }, 800);
       return () => clearInterval(interval);
     } else {
       setLoadingText("");
     }
   }, [loading]);
-  
+
   if (!loading) return null;
   return (
     <group {...props}>
-      <Text fontSize={0.3} anchorX={"left"} anchorY={"bottom"}>
+      {/* <Text fontSize={0.3} anchorX={"left"} anchorY={"bottom"}> */}
+      <Html>
         {loadingText}
-        <meshBasicMaterial attach="material" color="black" />
-      </Text>
+      </Html>
+      {/* </Text> */}
     </group>
   );
 };
@@ -51,7 +58,7 @@ export const Experience = () => {
     // myControl.current.target.set(0, 0, 0);
     myControl.current.target.set(6, 15, -50);
     // cameraControls.current.setLookAt(0, 2, 5, 0, 1.5, 0);
-    
+
   }, []);
 
   // useEffect(() => {
@@ -65,13 +72,13 @@ export const Experience = () => {
 
   return (
     <>
-    {/* <CameraControls ref={cameraControls} /> */}
-  <OrbitControls  ref={myControl} enableRotate={false} enableZoom={false}   />
+      {/* <CameraControls ref={cameraControls} /> */}
+      <OrbitControls ref={myControl} enableRotate={false} enableZoom={false} />
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
-        <Suspense>
-          <Dots position-y={4} position-x={-0.05} />
-        </Suspense>
+      <Suspense>
+        <Dots position-y={4.25} position-x={0.19} />
+      </Suspense>
 
       <Avatar />
 

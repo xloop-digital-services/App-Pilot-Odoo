@@ -5,8 +5,9 @@ import { Image } from 'antd';
 
 import { FaUserTie } from "react-icons/fa6";
 import { PiChatCircleBold } from "react-icons/pi";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from '../assets/logo.png'
+import { faMicrophone, faMicrophoneSlash,faPause,  faPlay} from "@fortawesome/free-solid-svg-icons";
 
 
 export const UI = ({ hidden, ...props }) => {
@@ -109,18 +110,20 @@ export const UI = ({ hidden, ...props }) => {
   //   }
   //  ]);
   const [newMessage, setNewMessage] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
   // const [micOn, setMicOn] = useState(false);
   
   const input = useRef();
   const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
 
+
   useEffect(() => {
-    console.log(messages)
+    console.log(messages);
     let recognition;
 
     const startRecognition = () => {
       if ("webkitSpeechRecognition" in window) {
-        console.log('kiya hua')
+        console.log('kiya hua');
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
@@ -137,29 +140,33 @@ export const UI = ({ hidden, ...props }) => {
         };
 
         recognition.start();
+        setIsRecording(true);
       } else {
         alert("Web Speech API is not supported in this browser.");
       }
     };
 
-
-
     const stopRecognition = () => {
       if (recognition) {
+        console.log('stop')
         recognition.stop();
+        setIsRecording(false);
       }
     };
-  
+
     const voiceButton = document.getElementById("voice-typing-button");
-  
+
     if (voiceButton) {
       voiceButton.addEventListener("click", () => {
-        if (recognition && recognition.isStarted) {
+        if (isRecording == true) {
           stopRecognition();
-        } else {//#endregio
-          console.log('hfhf')
+          console.log('ruk gai');
+          setIsRecording(false);
+        } else {
+          console.log('hfhf');
           startRecognition();
         }
+        
       });
     }
 
@@ -167,15 +174,10 @@ export const UI = ({ hidden, ...props }) => {
       if (recognition) {
         recognition.stop();
       }
-      if (voiceButton) {
-        voiceButton.removeEventListener("click", () => {
-          if (recognition) {
-            recognition.start();
-          }
-        });
-      }
     };
-  }, []);
+  }, [isRecording]); 
+
+
 
   const sendMessage = () => {
     console.log('click')
@@ -188,10 +190,6 @@ export const UI = ({ hidden, ...props }) => {
       chat(text);
       input.current.value = "";
     }
-    // if (!loading && !message) {
-    //   chat(text);
-    //   input.current.value = "";
-    // }
   };
 
   if (hidden) {
@@ -250,10 +248,16 @@ export const UI = ({ hidden, ...props }) => {
 
           <button
             id="voice-typing-button"
-            disabled={micOn}
-            onClick={ ()=> setMicOn(!micOn) }
-            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
-            ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
+            // disabled={micOn}
+            onClick={ 
+              ()=> setMicOn(!micOn)
+             }
+            className={
+              `text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+            ${loading || micOn ? 
+              "cursor-allowed" 
+              : ""}`
+            }
 
               // loading || micOn ? "cursor-not-allowed opacity-30" : ""
             style={{
@@ -265,7 +269,8 @@ export const UI = ({ hidden, ...props }) => {
             }}
           >
             {/* MicrophoneIcon integrated into the button */}
-            <MicrophoneIcon strokeWidth="2" />
+            {/* <MicrophoneIcon strokeWidth="2" /> */}
+            <FontAwesomeIcon icon={isRecording ? faMicrophone : faMicrophoneSlash} size="xl" />
           </button>
         </div>
       </div>

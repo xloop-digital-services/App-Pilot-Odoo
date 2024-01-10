@@ -95,7 +95,7 @@ export function Avatar(props) {
       .reset()
       .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
       .play();
-    return () => actions[animation].fadeOut(0.5);
+    return () => actions[animation]?.fadeOut(0.5);
   }, [animation]);
 
   const lerpMorphTarget = (target, value, speed = 0.1) => {
