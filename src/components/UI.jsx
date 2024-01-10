@@ -91,6 +91,7 @@ export const UI = ({ hidden, ...props }) => {
     if(micOn){
       setMicOn(false);
       setMicStart(false);
+      setStartStopRecording('stop')
     }
 
     const text = input.current.value;
