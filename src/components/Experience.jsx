@@ -13,6 +13,7 @@ import { Avatar } from "./Avatar";
 import { useThree } from "@react-three/fiber";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import { Avatar2 } from "./Avatar2";
 
 const Dots = (props) => {
   const { loading } = useChat();
@@ -80,7 +81,9 @@ export const Experience = () => {
         <Dots position-y={4.25} position-x={0.19} />
       </Suspense>
 
-      <Avatar />
+      {/* <Avatar /> */}
+
+      <Avatar2  />
 
       <ContactShadows opacity={0.7} />
     </>
