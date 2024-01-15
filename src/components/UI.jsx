@@ -8,126 +8,25 @@ import { PiChatCircleBold } from "react-icons/pi";
 
 import Logo from '../assets/logo.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone, faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faMicrophoneSlash, faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { MuteProvider, MuteContext } from './Avatar';
 
 
 export const UI = ({ hidden, ...props }) => {
-  // const [micStart, setMicStart] = useState(false);
-  // const [startStopRecording, setStartStopRecording] = useState(true);
-  // const input = useRef();
-  // const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
-
-  // useEffect(() => {
-  //   console.log(messages)
-  //   let recognition;
-
-  //   const startRecognition = () => {
-  //     if ("webkitSpeechRecognition" in window) {
-  //       console.log('kiya hua')
-  //       recognition = new webkitSpeechRecognition();
-  //       recognition.continuous = true;
-  //       recognition.interimResults = true;
-  //       recognition.lang = "en-US";
-
-  //       recognition.onresult = function (event) {
-  //         let final_transcript = input.current.value;
-  //         for (let i = event.resultIndex; i < event.results.length; ++i) {
-  //           if (event.results[i].isFinal) {
-  //             final_transcript += event.results[i][0].transcript;
-  //           }
-  //         }
-  //         input.current.value = final_transcript;
-  //       };
-
-  //       recognition.start();
-  //     } else {
-  //       alert("Web Speech API is not supported in this browser.");
-  //     }
-  //   };
-
-
-
-  //   const stopRecognition = () => {
-  //     if (recognition) {
-  //       recognition.stop();
-  //     }
-  //   };
-
-  //   const voiceButton = document.getElementById("voice-typing-button");
-  //   const stopVoiceButton = document.getElementById("voice-stop-button");
-
-  //   console.log(stopVoiceButton, 'chali he')
-  //   if (voiceButton || stopVoiceButton) {
-  //     console.log('aya hn')
-  //     voiceButton.addEventListener("click", () => {
-  //       if (recognition && recognition.isStarted ) {
-  //         console.log('Stop the recording')
-  //         stopRecognition();
-  //       } else {//#endregio
-  //         console.log('Start the recording...')
-  //         startRecognition();
-  //       }
-  //     });
-  //   }
-
-  //   return () => {
-  //     if (recognition) {
-  //       recognition.stop();
-  //     }
-  //     if (voiceButton) {
-  //       voiceButton.removeEventListener("click", () => {
-  //         if (recognition) {
-  //           recognition.start();
-  //         }
-  //       });
-  //     }
-  //   };
-  // }, [startStopRecording]);
-
-  // const sendMessage = () => {
-  //   console.log('click')
-  //   if(micOn){
-  //     setMicOn(false);
-  //     setMicStart(false);
-  //     setStartStopRecording('stop')
-  //   }
-
-  //   const text = input.current.value;
-  //   if (!loading) {
-  //   console.log('aya')
-  //     chat(text);
-  //     input.current.value = "";
-  //   }
-  // };
-
-  // if (hidden) {
-  //   return null;
-  // }
-
-
-  // const startStopHandle = (value)=>{
-  //   setStartStopRecording(value);
-  //   console.log(value)
-  //   setMicOn(!micOn);
-  //   setMicStart(!micStart)
-  // }
-
-
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const input = useRef();
-  const recognitionRef = useRef(null);
-  const { chat, loading, micOn, setMicOn, message, messages } = useChat();
+  const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
+  const { isMuted, muteAudio, unmuteAudio } = React.useContext(MuteContext);
 
   useEffect(() => {
-    console.log(messages);
+    console.log(messages)
+    let recognition;
 
     const startRecognition = () => {
       if ("webkitSpeechRecognition" in window) {
-        console.log('kiya hua');
-        recognitionRef.current = new webkitSpeechRecognition();
-        const recognition = recognitionRef.current;
-
+        console.log('kiya hua')
+        recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = "en-US";
@@ -149,7 +48,6 @@ export const UI = ({ hidden, ...props }) => {
     };
 
     const stopRecognition = () => {
-      const recognition = recognitionRef.current;
       if (recognition) {
         recognition.stop();
       }
@@ -158,29 +56,26 @@ export const UI = ({ hidden, ...props }) => {
     const voiceButton = document.getElementById("voice-typing-button");
     const stopVoiceButton = document.getElementById("voice-stop-button");
 
-    console.log(stopVoiceButton, 'chali he');
+    console.log(stopVoiceButton, 'chali he')
     if (voiceButton || stopVoiceButton) {
-      console.log('aya hn');
+      console.log('aya hn')
       voiceButton.addEventListener("click", () => {
-        const recognition = recognitionRef.current;
         if (recognition && recognition.isStarted) {
-          console.log('Stop the recording');
+          console.log('Stop the recording')
           stopRecognition();
-        } else {
-          console.log('Start the recording...');
+        } else {//#endregio
+          console.log('Start the recording...')
           startRecognition();
         }
       });
     }
 
     return () => {
-      const recognition = recognitionRef.current;
       if (recognition) {
         recognition.stop();
       }
       if (voiceButton) {
         voiceButton.removeEventListener("click", () => {
-          const recognition = recognitionRef.current;
           if (recognition) {
             recognition.start();
           }
@@ -190,16 +85,16 @@ export const UI = ({ hidden, ...props }) => {
   }, [startStopRecording]);
 
   const sendMessage = () => {
-    console.log('click');
+    console.log('click')
     if (micOn) {
       setMicOn(false);
       setMicStart(false);
-      setStartStopRecording('stop');
+      setStartStopRecording('stop')
     }
 
     const text = input.current.value;
     if (!loading) {
-      console.log('aya');
+      console.log('aya')
       chat(text);
       input.current.value = "";
     }
@@ -209,22 +104,38 @@ export const UI = ({ hidden, ...props }) => {
     return null;
   }
 
+
   const startStopHandle = (value) => {
     setStartStopRecording(value);
-    console.log(value);
+    console.log(value)
     setMicOn(!micOn);
-    setMicStart(!micStart);
+    setMicStart(!micStart)
+  }
+
+  const toggleVolume = () => {
+    console.log('Current isMuted state:', isMuted);
+
+    if (isMuted) {
+      // console.log('Unmuting audio...');
+      unmuteAudio();
+    } else {
+      // console.log('Muting audio...');
+      muteAudio();
+    }
   };
 
   return (
     <>
+
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
-        <div className="self-start   bg-opacity-50 p-4 rounded-lg flex gap-2 bg-slate-400">
+
+        <div className="self-start bg-opacity-50 p-4 rounded-lg flex gap-2 bg-slate-400" >
           <span>
             <img src={Logo} alt="logo" />
           </span>
           <h1 className="text-white font-bold text-2xl">App Pilot</h1>
           {/* <p>Chat with Me ❤️</p> */}
+
         </div>
 
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
@@ -267,7 +178,7 @@ export const UI = ({ hidden, ...props }) => {
           </button>
           {
             micStart ?
-              /* stop the recording */
+              /* //stop the recording */
               <button
                 id="voice-stop-button"
                 // disabled={micOn}
@@ -275,8 +186,6 @@ export const UI = ({ hidden, ...props }) => {
                 className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center micro-phone`}
               // loading || micOn ? "cursor-not-allowed opacity-30" : ""
               >
-                {/* MicrophoneIcon integrated into the button */}
-                {/* <MicrophoneIcon strokeWidth="2" /> */}
                 <FontAwesomeIcon icon={faMicrophone} size="xl" />
               </button>
               :
@@ -295,14 +204,32 @@ export const UI = ({ hidden, ...props }) => {
               </button>
 
           }
-
-
+            {
+              isMuted ?
+                <button
+                  onClick={toggleVolume}
+                  className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+                ${loading ? "cursor-not-allowed opacity-30" : ""}`}
+                >
+                  <FontAwesomeIcon icon={faVolumeHigh} size="xl" />
+                </button>
+                :
+                <button
+                  onClick={toggleVolume}
+                  className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+                ${loading ? "cursor-not-allowed opacity-30" : ""}`}
+                >
+                  <FontAwesomeIcon icon={faVolumeXmark} size="xl" />
+                </button>
+            }
         </div>
       </div>
+
 
       {
         messages.length > 0 ?
           <section className="absolute overflow-y-auto right-5 w-[40%] h-[85%] z-10">
+
             <h1 className="mt-5 flex justify-center text-2xl font-semibold text-white">Ask Me</h1>
 
             <div className="flex-1 overflow-y-aut p-4">
@@ -319,7 +246,6 @@ export const UI = ({ hidden, ...props }) => {
                     <div className="m-0 mr-2 w-6 h-6 absolute flex justify-center items-center rounded-full bg-white text-xs text-gray-700 uppercase">
                       {message.sender === 'user' ? <FaUserTie /> : <PiChatCircleBold />}
                     </div>
-
                     {
                       message.type === 'list' ?
                         <div>
@@ -352,20 +278,6 @@ export const UI = ({ hidden, ...props }) => {
                 </div>
               ))}
             </div>
-
-            {/* chat history */}
-            {/* <div> */}
-            {/* sender */}
-            {/* <div className="">
-                
-              </div> */}
-
-            {/* receiver */}
-            {/* <div className="">
-
-              </div> */}
-
-            {/* </div> */}
 
           </section>
           :

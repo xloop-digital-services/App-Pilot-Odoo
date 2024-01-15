@@ -6,10 +6,10 @@ Command: npx gltfjsx@6.2.3 public/models/64f1a714fe61576b46f27ca2.glb -o src/com
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { button, useControls } from "leva";
-import React, { useEffect, useRef, useState } from "react";
-
+import React, { useEffect, useRef, useState, createContext, useContext } from "react";
 import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
+import { playAudio, muteAudio, stopAudio, audioInstance } from './AudioService';
 
 const facialExpressions = {
   default: {},
@@ -36,7 +36,7 @@ const facialExpressions = {
     mouthSmileLeft: 0.35499733688813034,
     mouthSmileRight: 0.35499733688813034,
   },
-  
+
 };
 
 const corresponding = {
@@ -73,11 +73,14 @@ export function Avatar(props) {
     setAnimation('Idle');
     setFacialExpression(message.facialExpression);
     setLipsync(message.lipsync);
-    const audio = new Audio("data:audio/mp3;base64," + message.audio);
-    audio.play();
-    setAudio(audio);
-    audio.onended = onMessagePlayed;
+    playAudio(message.audio, onMessagePlayed);
+    // const audio = new Audio("data:audio/mp3;base64," + message.audio);
+    // audio.play();
+
+    setAudio(audioInstance);
+    // audio.onended = onMessagePlayed;
   }, [message]);
+
 
   const { animations } = useGLTF("/models/animations.glb");
 
@@ -119,7 +122,7 @@ export function Avatar(props) {
             set({
               [target]: value,
             });
-          } catch (e) {}
+          } catch (e) { }
         }
       }
     });
@@ -130,6 +133,7 @@ export function Avatar(props) {
   const [winkRight, setWinkRight] = useState(false);
   const [facialExpression, setFacialExpression] = useState("");
   const [audio, setAudio] = useState();
+
 
   useFrame(() => {
     !setupMode &&
@@ -210,7 +214,7 @@ export function Avatar(props) {
         }
         const value =
           nodes.EyeLeft.morphTargetInfluences[
-            nodes.EyeLeft.morphTargetDictionary[key]
+          nodes.EyeLeft.morphTargetDictionary[key]
           ];
         if (value > 0.01) {
           emotionValues[key] = value;
@@ -329,3 +333,26 @@ export function Avatar(props) {
 
 useGLTF.preload("/models/64f1a714fe61576b46f27ca2.glb");
 useGLTF.preload("/models/animations.glb");
+
+
+export const MuteContext = createContext();
+
+export const MuteProvider = ({ children }) => {
+  const [isMuted, setIsMuted] = useState(true);
+
+  const muteAudio = () => {
+    setIsMuted(true);
+    stopAudio();
+  };
+
+  const unmuteAudio = () => {
+    setIsMuted(false);
+    playAudio();
+  };
+
+  return (
+    <MuteContext.Provider value={{ isMuted, muteAudio, unmuteAudio }}>
+      {children}
+    </MuteContext.Provider>
+  );
+};

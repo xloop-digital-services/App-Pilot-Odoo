@@ -3,13 +3,17 @@ import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
 import { Experience } from "./components/Experience";
 import { UI } from "./components/UI";
+import { MuteProvider, MuteContext } from './components/Avatar';
 
 function App() {
   return (
     <>
       <Loader />
       <Leva hidden />
+      <MuteProvider>
+
       <UI />
+      </MuteProvider>
       <Canvas shadows camera={{ position: [2 , 1.5, 3], fov: 40 }}>
         <mesh position={[2,-0.25,-3]}>
           <Experience />
