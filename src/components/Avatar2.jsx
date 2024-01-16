@@ -6,10 +6,11 @@ Command: npx gltfjsx@6.2.3 public/models/64f1a714fe61576b46f27ca2.glb -o src/com
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { button, useControls } from "leva";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,createContext } from "react";
 
 import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
+import { playAudio, muteAudio, stopAudio, audioInstance,resumeAudio } from './AudioService';
 
 const facialExpressions = {
   default: {},
@@ -86,7 +87,7 @@ export function Avatar2(props) {
 
   const { message, onMessagePlayed, chat, setMessage } = useChat();
 
-  console.log(nodes.EyeLeft.morphTargetDictionary, 'nodes....');
+  // console.log(nodes.EyeLeft.morphTargetDictionary, 'nodes....');
 
   const [lipsync, setLipsync] = useState();
 
@@ -101,10 +102,11 @@ export function Avatar2(props) {
     setAnimation('Idle');
     setFacialExpression(message.facialExpression);
     setLipsync(message.lipsync);
-    const audio = new Audio("data:audio/mp3;base64," + message.audio);
-    audio.play();
-    setAudio(audio);
-    audio.onended = onMessagePlayed;
+    playAudio(message.audio, onMessagePlayed);
+    // const audio = new Audio("data:audio/mp3;base64," + message.audio);
+    // audio.play();
+    setAudio(audioInstance);
+    // audio.onended = onMessagePlayed;
   }, [message]);
 
   const { animations } = useGLTF("/models/animations.glb");
@@ -184,15 +186,15 @@ export function Avatar2(props) {
     const appliedMorphTargets = [];
     if (message && lipsync) {
       const currentAudioTime = audio.currentTime;
-      console.log(currentAudioTime, 'currentTime')
+      // console.log(currentAudioTime, 'currentTime')
       for (let i = 0; i < lipsync.mouthCues.length; i++) {
         const mouthCue = lipsync.mouthCues[i];
-        console.log(mouthCue,' mouthCue')
+        // console.log(mouthCue,' mouthCue')
         if (
           currentAudioTime >= mouthCue.start &&
           currentAudioTime <= mouthCue.end
         ) {
-          console.log('aya bro')
+          // console.log('aya bro')
           appliedMorphTargets.push(corresponding[mouthCue.viseme_id]);
           lerpMorphTarget(corresponding[mouthCue.viseme_id], 1, 0.2);
           break;
@@ -235,7 +237,7 @@ export function Avatar2(props) {
     }),
     logMorphTargetValues: button(() => {
       const emotionValues = {};
-      console.log(nodes, 'nodes...')
+      // console.log(nodes, 'nodes...')
       Object?.keys(nodes.EyeLeft.morphTargetDictionary).forEach((key) => {
         if (key === "eyeBlinkLeft" || key === "eyeBlinkRight") {
           return; // eyes wink/blink are handled separately
@@ -290,6 +292,11 @@ export function Avatar2(props) {
     return () => clearTimeout(blinkTimeout);
   }, []);
 
+
+  const lookAtTarget = new THREE.Vector3(2, 0, -1);
+  nodes.Wolf3D_Head.lookAt(lookAtTarget);
+  
+
   return (
     <group {...props} dispose={null} ref={group} scale={2.3} >
         <primitive object={nodes.Hips} />
@@ -318,6 +325,8 @@ export function Avatar2(props) {
             skeleton={nodes.Wolf3D_Head.skeleton}
             morphTargetDictionary={nodes.Wolf3D_Head.morphTargetDictionary}
             morphTargetInfluences={nodes.Wolf3D_Head.morphTargetInfluences}
+           // Adjust the position as needed
+      // rotation={headRotation} 
         />
         <skinnedMesh
             name="Wolf3D_Teeth"
@@ -367,3 +376,25 @@ export function Avatar2(props) {
 
 useGLTF.preload("/models/my-avatar.glb");
 useGLTF.preload("/models/animations.glb");
+
+export const MuteContext = createContext();
+
+export const MuteProvider = ({ children }) => {
+  const [isMuted, setIsMuted] = useState(true);
+
+  const muteAudio = () => {
+    setIsMuted(true);
+    stopAudio();
+  };
+
+  const unmuteAudio = () => {
+    setIsMuted(false);
+    playAudio();
+  };
+
+  return (
+    <MuteContext.Provider value={{ isMuted, muteAudio, unmuteAudio }}>
+      {children}
+    </MuteContext.Provider>
+  );
+};

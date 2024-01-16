@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import MicrophoneIcon from "./MicrophoneIcon"; // Import the MicrophoneIcon component
 import { Image } from 'antd';
-
 import { FaUserTie } from "react-icons/fa6";
 import { PiChatCircleBold } from "react-icons/pi";
 
@@ -18,6 +17,8 @@ export const UI = ({ hidden, ...props }) => {
   const input = useRef();
   const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
   const { isMuted, muteAudio, unmuteAudio } = React.useContext(MuteContext);
+  const chatContainerRef = useRef(null);
+
 
   useEffect(() => {
     console.log(messages)
@@ -124,6 +125,16 @@ export const UI = ({ hidden, ...props }) => {
     }
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
+
   return (
     <>
 
@@ -139,6 +150,10 @@ export const UI = ({ hidden, ...props }) => {
         </div>
 
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
+          <div 
+          // className="input-dalain"
+          >
+
           <input
             className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
             placeholder="Type a message..."
@@ -149,10 +164,15 @@ export const UI = ({ hidden, ...props }) => {
               }
             }}
           />
+          </div>
+          <div
+          style={{display:'flex'}}
+          //  className="three-buttons"
+           > 
           <button
             // disabled={loading || message}
             onClick={sendMessage}
-            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center
               ${loading ? "cursor-not-allowed opacity-30" : ""}`}
 
             style={{
@@ -224,11 +244,13 @@ export const UI = ({ hidden, ...props }) => {
             }
         </div>
       </div>
-
+      </div>
 
       {
         messages.length > 0 ?
-          <section className="absolute overflow-y-auto right-5 w-[40%] h-[85%] z-10">
+          <section
+          ref={chatContainerRef}
+           className="absolute overflow-y-auto right-5 w-[40%] h-[85%] z-10 max-sm:w-[80%] max-sm:h-[40%] max-sm:m-10 max-sm:mt-24 max-sm:bg-opacity-20 max-sm:bg-white max-sm:rounded-xl p-4;">
 
             <h1 className="mt-5 flex justify-center text-2xl font-semibold text-white">Ask Me</h1>
 
@@ -278,7 +300,6 @@ export const UI = ({ hidden, ...props }) => {
                 </div>
               ))}
             </div>
-
           </section>
           :
           null

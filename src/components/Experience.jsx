@@ -57,7 +57,7 @@ export const Experience = () => {
 
   useEffect(() => {
     // myControl.current.target.set(0, 0, 0);
-    myControl.current.target.set(6, 15, -50);
+    myControl.current.target.set(3, 25, -50);
     // cameraControls.current.setLookAt(0, 2, 5, 0, 1.5, 0);
 
   }, []);

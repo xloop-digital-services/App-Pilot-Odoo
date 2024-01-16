@@ -4,7 +4,7 @@ export const playAudio = (base64Audio, onEndedCallback) => {
   try {
     if (audioInstance) {
       audioInstance.pause();
-      audioInstance = null; // Reset to allow creating a new Audio instance
+      audioInstance.currentTime = 0; // Reset the playback position
     }
 
     audioInstance = new Audio(`data:audio/mp3;base64,${base64Audio}`);
@@ -13,10 +13,13 @@ export const playAudio = (base64Audio, onEndedCallback) => {
     if (onEndedCallback) {
       audioInstance.onended = onEndedCallback;
     }
+
+    isMuted = false; // Reset the muted state
   } catch (error) {
     console.error('Error while playing audio:', error);
   }
 };
+
 
 export const muteAudio = () => {
   try {
@@ -39,5 +42,18 @@ export const stopAudio = () => {
     }
   } catch (error) {
     console.error('Error while stopping audio:', error);
+  }
+};
+
+
+export const resumeAudio = () => {
+  try {
+    if (audioInstance && !isMuted) {
+      audioInstance.play().catch((error) => {
+        console.error('Error while resuming audio:', error);
+      });
+    }
+  } catch (error) {
+    console.error('Error while resuming audio:', error);
   }
 };

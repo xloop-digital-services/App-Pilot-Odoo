@@ -38,9 +38,6 @@ body.greenScreen {
   background-image: none;
 }
 
-
-
-
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -60,3 +57,4 @@ body.greenScreen {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
