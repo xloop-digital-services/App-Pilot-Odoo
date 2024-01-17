@@ -2,11 +2,12 @@ export let audioInstance = null;
 
 export const playAudio = (base64Audio, onEndedCallback) => {
   try {
-    console.log(audioInstance, 'sijksjKDASDJ') 
     if (audioInstance) {
       console.log('play')
       audioInstance.pause();
-      audioInstance.currentTime = 0; // Reset the playback position
+      // audioInstance = null; // Reset the playback position
+      // setAnimation('Idle')
+      // audioInstance.currentTime = 0;
     }
 
     audioInstance = new Audio(`data:audio/mp3;base64,${base64Audio}`);
@@ -16,7 +17,6 @@ export const playAudio = (base64Audio, onEndedCallback) => {
       audioInstance.onended = onEndedCallback;
     }
 
-    isMuted = false; // Reset the muted state
   } catch (error) {
     console.error('Error while playing audio:', error);
   }
@@ -27,7 +27,7 @@ export const muteAudio = () => {
   try {
     if (audioInstance) {
       audioInstance.pause();
-      audioInstance = null; // Reset the audio instance
+      // audioInstance = null; // Reset the audio instance
     }
   } catch (error) {
     console.error('Error while muting audio:', error);
@@ -35,16 +35,16 @@ export const muteAudio = () => {
 };
 
 
-export const stopAudio = () => {
+export const stopAudio = (setAnimation) => {
+  // const { setAnimation } = useChat();
   try {
     if (audioInstance) {
       console.log('stop the audio ')
-      console.log(audioInstance, 'sijksjKDASDJ')
 
       audioInstance.pause(); 
-      audioInstance.currentTime = 0; // Reset the audio to the beginning
-      audioInstance = null; // Reset the audio instance
-      console.log(audioInstance, 'sijksjKDASDJ')
+      // audioInstance.currentTime = 0; // Reset the audio to the beginning
+      // audioInstance = null; // Reset the audio instance
+      // setAnimation('Idle')
 
     }
   } catch (error) {
@@ -54,11 +54,11 @@ export const stopAudio = () => {
 
 
 export const resumeAudio = () => {
+  console.log('resume')
   try {
-    if (audioInstance && !isMuted) {
-      audioInstance.play().catch((error) => {
-        console.error('Error while resuming audio:', error);
-      });
+    if (audioInstance) {
+      audioInstance.play();
+      
     }
   } catch (error) {
     console.error('Error while resuming audio:', error);

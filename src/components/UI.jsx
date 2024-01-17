@@ -9,6 +9,7 @@ import Logo from '../assets/logo.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone, faMicrophoneSlash, faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { MuteProvider, MuteContext } from './Avatar';
+import { useMuteContext } from "./Avatar2";
 
 
 export const UI = ({ hidden, ...props }) => {
@@ -16,7 +17,8 @@ export const UI = ({ hidden, ...props }) => {
   const [startStopRecording, setStartStopRecording] = useState(true);
   const input = useRef();
   const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
-  const { isMuted, muteAudio, unmuteAudio } = React.useContext(MuteContext);
+  const { isMuted, setIsMuted , muteAudio, unmuteAudio } = useMuteContext();
+
   const chatContainerRef = useRef(null);
 
 
@@ -88,6 +90,7 @@ export const UI = ({ hidden, ...props }) => {
   const sendMessage = () => {
     console.log('click')
     const text = input.current.value;
+    setIsMuted(true)
 
     if(!text){
       return;
@@ -122,12 +125,13 @@ export const UI = ({ hidden, ...props }) => {
   const toggleVolume = () => {
     console.log('Current isMuted state:', isMuted);
 
-    if (isMuted) {
+    if (!isMuted) {
       // console.log('Unmuting audio...');
       unmuteAudio();
     } else {
       // console.log('Muting audio...');
       muteAudio();
+      // setIsMuted(false);
     }
   };
 

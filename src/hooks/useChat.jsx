@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const backendUrl = "https://r4h6fbc4-8000.inc1.devtunnels.ms";
+const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
 
 const ChatContext = createContext();
 
@@ -44,6 +44,7 @@ export const ChatProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [cameraZoomed, setCameraZoomed] = useState(true);
   const [micOn, setMicOn] = useState(false);
+  const [animation, setAnimation] = useState('Idle');
 
   const onMessagePlayed = () => {
     setMessage(null);
@@ -70,7 +71,9 @@ export const ChatProvider = ({ children }) => {
         setMicOn,
         cameraZoomed,
         setCameraZoomed,
-        messages
+        messages,
+        animation,
+        setAnimation
       }}
     >
       {children}

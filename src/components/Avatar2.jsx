@@ -6,11 +6,11 @@ Command: npx gltfjsx@6.2.3 public/models/64f1a714fe61576b46f27ca2.glb -o src/com
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { button, useControls } from "leva";
-import React, { useEffect, useRef, useState,createContext } from "react";
+import React, { useEffect, useRef, useState,createContext, useContext } from "react";
 
 import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
-import { playAudio, muteAudio, stopAudio, audioInstance,resumeAudio } from './AudioService';
+import { playAudio, muteAudio, stopAudio, audioInstance, resumeAudio } from './AudioService';
 
 const facialExpressions = {
   default: {},
@@ -85,7 +85,7 @@ let setupMode = false;
 export function Avatar2(props) {
     const { nodes, materials, scene } = useGLTF("/models/my-avatar.glb");
 
-  const { message, onMessagePlayed, chat, setMessage } = useChat();
+  const { message, onMessagePlayed, chat, setMessage, setAnimation, animation } = useChat();
 
   // console.log(nodes.EyeLeft.morphTargetDictionary, 'nodes....');
 
@@ -113,9 +113,10 @@ export function Avatar2(props) {
 
   const group = useRef();
   const { actions, mixer } = useAnimations(animations, group);
-  const [animation, setAnimation] = useState(
-    animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name // Check if Idle animation exists otherwise use first animation
-  );
+  // const [animation, setAnimation] = useState(
+  //   animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name // Check if Idle animation exists otherwise use first animation
+  // );
+
   useEffect(() => {
 
     console.log(animation, 'animation')
@@ -377,24 +378,37 @@ export function Avatar2(props) {
 useGLTF.preload("/models/my-avatar.glb");
 useGLTF.preload("/models/animations.glb");
 
-export const MuteContext = createContext();
+
+const MuteContext = createContext();
 
 export const MuteProvider = ({ children }) => {
   const [isMuted, setIsMuted] = useState(true);
+  const { setAnimation } = useChat();
 
-  const muteAudio = () => {
-    setIsMuted(true);
+  const muteAudio = (setAnimation) => {
     stopAudio();
+    setIsMuted(false);
+    console.log('mute the audio')
   };
 
   const unmuteAudio = () => {
-    setIsMuted(false);
-    playAudio();
+    console.log('call hua')
+    setIsMuted(true);
+    // playAudio();
+    resumeAudio()
   };
 
   return (
-    <MuteContext.Provider value={{ isMuted, muteAudio, unmuteAudio }}>
+    <MuteContext.Provider value={{ isMuted, setIsMuted , muteAudio, unmuteAudio }}>
       {children}
     </MuteContext.Provider>
   );
+};
+
+export const useMuteContext = () => {
+  const context = useContext(MuteContext);
+  if (!context) {
+    throw new Error("useChat must be used within a ChatProvider");
+  }
+  return context;
 };
