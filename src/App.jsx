@@ -11,13 +11,12 @@ function App() {
       <Loader />
       <Leva hidden />
       <MuteProvider>
-
-      <UI />
+        <UI />
       </MuteProvider>
-      <Canvas shadows camera={{ position: [2 , 1.5, 3], fov: 40 }}>
-        <mesh position={[2,-0.25,-3]}>
+      <Canvas shadows camera={{ position: [0 , 0, 8], fov: 42 }}>
+        {/* <mesh position={[2,-0.25,-3]}> */}
           <Experience />
-        </mesh>
+        {/* </mesh> */}
       </Canvas>
     </>
   );

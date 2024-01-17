@@ -2,7 +2,9 @@ export let audioInstance = null;
 
 export const playAudio = (base64Audio, onEndedCallback) => {
   try {
+    console.log(audioInstance, 'sijksjKDASDJ') 
     if (audioInstance) {
+      console.log('play')
       audioInstance.pause();
       audioInstance.currentTime = 0; // Reset the playback position
     }
@@ -36,9 +38,14 @@ export const muteAudio = () => {
 export const stopAudio = () => {
   try {
     if (audioInstance) {
-      audioInstance.pause();
+      console.log('stop the audio ')
+      console.log(audioInstance, 'sijksjKDASDJ')
+
+      audioInstance.pause(); 
       audioInstance.currentTime = 0; // Reset the audio to the beginning
       audioInstance = null; // Reset the audio instance
+      console.log(audioInstance, 'sijksjKDASDJ')
+
     }
   } catch (error) {
     console.error('Error while stopping audio:', error);

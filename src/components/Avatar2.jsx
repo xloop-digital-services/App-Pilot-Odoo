@@ -40,44 +40,44 @@ const facialExpressions = {
   
 };
 
-// const corresponding = {
-//   A: "viseme_PP",
-//   B: "viseme_kk",
-//   C: "viseme_I",
-//   D: "viseme_AA",
-//   E: "viseme_O",
-//   F: "viseme_U",
-//   G: "viseme_FF",
-//   H: "viseme_TH",
-//   X: "viseme_PP",
-// };
-
-
-
 const corresponding = {
-  0: "viseme_PP",     // Silence
-  1: "viseme_I",      // æ, ə, ʌ
-  2: "viseme_AA",     // ɑ
-  3: "viseme_O",      // ɔ
-  4: "viseme_U",      // ɛ, ʊ
-  5: "viseme_FF",     // ɝ
-  6: "viseme_I",      // j, i, ɪ
-  7: "viseme_U",      // w, u
-  8: "viseme_O",      // o
-  9: "viseme_UU",     // aʊ
-  10: "viseme_OO",    // ɔɪ
-  11: "viseme_AI",    // aɪ
-  12: "viseme_H",     // h
-  13: "viseme_R",     // ɹ
-  14: "viseme_L",     // l
-  15: "viseme_S",     // s, z
-  16: "viseme_SH",    // ʃ, tʃ, dʒ, ʒ
-  17: "viseme_TH",    // ð
-  18: "viseme_F",     // f, v
-  19: "viseme_T",     // d, t, n, θ
-  20: "viseme_K",     // k, g, ŋ
-  21: "viseme_P",     // p, b, m
+  A: "viseme_PP",
+  B: "viseme_kk",
+  C: "viseme_I",
+  D: "viseme_AA",
+  E: "viseme_O",
+  F: "viseme_U",
+  G: "viseme_FF",
+  H: "viseme_TH",
+  X: "viseme_PP",
 };
+
+
+
+// const corresponding = {
+//   0: "viseme_PP",     // Silence
+//   1: "viseme_I",      // æ, ə, ʌ
+//   2: "viseme_AA",     // ɑ
+//   3: "viseme_O",      // ɔ
+//   4: "viseme_U",      // ɛ, ʊ
+//   5: "viseme_FF",     // ɝ
+//   6: "viseme_I",      // j, i, ɪ
+//   7: "viseme_U",      // w, u
+//   8: "viseme_O",      // o
+//   9: "viseme_UU",     // aʊ
+//   10: "viseme_OO",    // ɔɪ
+//   11: "viseme_AI",    // aɪ
+//   12: "viseme_H",     // h
+//   13: "viseme_R",     // ɹ
+//   14: "viseme_L",     // l
+//   15: "viseme_S",     // s, z
+//   16: "viseme_SH",    // ʃ, tʃ, dʒ, ʒ
+//   17: "viseme_TH",    // ð
+//   18: "viseme_F",     // f, v
+//   19: "viseme_T",     // d, t, n, θ
+//   20: "viseme_K",     // k, g, ŋ
+//   21: "viseme_P",     // p, b, m
+// };
 
 
 let setupMode = false;
@@ -195,8 +195,8 @@ export function Avatar2(props) {
           currentAudioTime <= mouthCue.end
         ) {
           // console.log('aya bro')
-          appliedMorphTargets.push(corresponding[mouthCue.viseme_id]);
-          lerpMorphTarget(corresponding[mouthCue.viseme_id], 1, 0.2);
+          appliedMorphTargets.push(corresponding[mouthCue.value]);
+          lerpMorphTarget(corresponding[mouthCue.value], 1, 0.2);
           break;
         }
       }

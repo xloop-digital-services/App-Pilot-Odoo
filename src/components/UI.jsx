@@ -87,13 +87,19 @@ export const UI = ({ hidden, ...props }) => {
 
   const sendMessage = () => {
     console.log('click')
+    const text = input.current.value;
+
+    if(!text){
+      return;
+    }
+    
+
     if (micOn) {
       setMicOn(false);
       setMicStart(false);
       setStartStopRecording('stop')
     }
 
-    const text = input.current.value;
     if (!loading) {
       console.log('aya')
       chat(text);
@@ -151,11 +157,11 @@ export const UI = ({ hidden, ...props }) => {
 
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
           <div 
-          // className="input-dalain"
+          className="lg:w-full"
           >
 
           <input
-            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
+            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md lg:w-full"
             placeholder="Type a message..."
             ref={input}
             onKeyDown={(e) => {
@@ -172,7 +178,7 @@ export const UI = ({ hidden, ...props }) => {
           <button
             // disabled={loading || message}
             onClick={sendMessage}
-            className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center
+            className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
               ${loading ? "cursor-not-allowed opacity-30" : ""}`}
 
             style={{
@@ -203,7 +209,7 @@ export const UI = ({ hidden, ...props }) => {
                 id="voice-stop-button"
                 // disabled={micOn}
                 onClick={() => startStopHandle(!startStopRecording)}
-                className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center micro-phone`}
+                className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center micro-phone`}
               // loading || micOn ? "cursor-not-allowed opacity-30" : ""
               >
                 <FontAwesomeIcon icon={faMicrophone} size="xl" />
@@ -216,7 +222,7 @@ export const UI = ({ hidden, ...props }) => {
                   setMicOn(prev => !prev);
                   setMicStart(!micStart)
                 }}
-                className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center micro-phone
+                className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center micro-phone
                   ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
               >
                 {/* MicrophoneIcon integrated into the button */}
@@ -228,7 +234,7 @@ export const UI = ({ hidden, ...props }) => {
               isMuted ?
                 <button
                   onClick={toggleVolume}
-                  className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+                  className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
                 ${loading ? "cursor-not-allowed opacity-30" : ""}`}
                 >
                   <FontAwesomeIcon icon={faVolumeHigh} size="xl" />
@@ -236,7 +242,7 @@ export const UI = ({ hidden, ...props }) => {
                 :
                 <button
                   onClick={toggleVolume}
-                  className={`text-white hover:text-pink-600 p-6 font-semibold uppercase flex items-center justify-center 
+                  className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
                 ${loading ? "cursor-not-allowed opacity-30" : ""}`}
                 >
                   <FontAwesomeIcon icon={faVolumeXmark} size="xl" />
