@@ -20,14 +20,7 @@ const Dots = (props) => {
   const [loadingText, setLoadingText] = useState("");
   useEffect(() => {
     if (loading) {
-      console.log('printing...')
       const interval = setInterval(() => {
-        // setLoadingText((loadingText) => {
-        //   if (loadingText.length > 2) {
-        //     return ".";
-        //   }
-        //   return loadingText + ".";
-        // });
         setLoadingText(
           <FontAwesomeIcon icon={faCommentDots} bounce size='2xl'
           style={{ color: "#ffffff",}} />)
@@ -55,12 +48,35 @@ export const Experience = () => {
   const myControl = useRef();
   const { cameraZoomed } = useChat();
 
-  useEffect(() => {
-    // myControl.current.target.set(0, 0, 0);
-    myControl.current.target.set(3, 25, -50);
-    // cameraControls.current.setLookAt(0, 2, 5, 0, 1.5, 0);
+  // useEffect(() => {
+  //   // myControl.current.target.set(0, 0, 0);
+  //   myControl.current.target.set(7, 5, -50);
+  //   // cameraControls.current.setLookAt(0, 2, 5, 0, 1.5, 0);
 
-  }, []);
+  // }, []);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Adjust the target values based on screen size
+      if (window.innerWidth <= 600) {
+        myControl.current.target.set(3, 9, -50);
+      } else {
+        myControl.current.target.set(6, 5, -50);
+      }
+    };
+
+    // Initial setup
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [myControl]);
 
   // useEffect(() => {
   //   if (cameraZoomed) {
@@ -78,7 +94,7 @@ export const Experience = () => {
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
       <Suspense>
-        <Dots position-y={3.6} position-x={0.19} />
+        <Dots position-y={2.6} position-x={0.19} />
       </Suspense>
 
       {/* <Avatar /> */}

@@ -92,12 +92,10 @@ export function Avatar2(props) {
   const [lipsync, setLipsync] = useState();
 
   useEffect(() => {
-    console.log(message, 'message');
     if (!message) {
       setAnimation("Idle");
       return;
     }
-    console.log('aya hn', message)
     // setAnimation(message.animation);
     setAnimation('Idle');
     setFacialExpression(message.facialExpression);
@@ -118,10 +116,6 @@ export function Avatar2(props) {
   // );
 
   useEffect(() => {
-
-    console.log(animation, 'animation')
-    console.log(animations, 'animations')
-
     actions[animation]
       .reset()
       .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
@@ -251,7 +245,7 @@ export function Avatar2(props) {
           emotionValues[key] = value;
         }
       });
-      console.log(JSON.stringify(emotionValues, null, 2));
+      // console.log(JSON.stringify(emotionValues, null, 2));
     }),
   });
 
@@ -388,11 +382,9 @@ export const MuteProvider = ({ children }) => {
   const muteAudio = (setAnimation) => {
     stopAudio();
     setIsMuted(false);
-    console.log('mute the audio')
   };
 
   const unmuteAudio = () => {
-    console.log('call hua')
     setIsMuted(true);
     // playAudio();
     resumeAudio()

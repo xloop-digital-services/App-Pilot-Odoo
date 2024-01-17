@@ -23,12 +23,12 @@ export const UI = ({ hidden, ...props }) => {
 
 
   useEffect(() => {
-    console.log(messages)
+    // console.log(messages)
     let recognition;
 
     const startRecognition = () => {
       if ("webkitSpeechRecognition" in window) {
-        console.log('kiya hua')
+        // console.log('kiya hua')
         recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
@@ -59,9 +59,9 @@ export const UI = ({ hidden, ...props }) => {
     const voiceButton = document.getElementById("voice-typing-button");
     const stopVoiceButton = document.getElementById("voice-stop-button");
 
-    console.log(stopVoiceButton, 'chali he')
+    // console.log(stopVoiceButton, 'chali he')
     if (voiceButton || stopVoiceButton) {
-      console.log('aya hn')
+      // console.log('aya hn')
       voiceButton.addEventListener("click", () => {
         if (recognition && recognition.isStarted) {
           console.log('Stop the recording')
@@ -88,7 +88,7 @@ export const UI = ({ hidden, ...props }) => {
   }, [startStopRecording]);
 
   const sendMessage = () => {
-    console.log('click')
+    // console.log('click')
     const text = input.current.value;
     setIsMuted(true)
 
@@ -104,7 +104,6 @@ export const UI = ({ hidden, ...props }) => {
     }
 
     if (!loading) {
-      console.log('aya')
       chat(text);
       input.current.value = "";
     }
@@ -117,13 +116,11 @@ export const UI = ({ hidden, ...props }) => {
 
   const startStopHandle = (value) => {
     setStartStopRecording(value);
-    console.log(value)
     setMicOn(!micOn);
     setMicStart(!micStart)
   }
 
   const toggleVolume = () => {
-    console.log('Current isMuted state:', isMuted);
 
     if (!isMuted) {
       // console.log('Unmuting audio...');

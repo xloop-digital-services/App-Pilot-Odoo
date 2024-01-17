@@ -3,11 +3,7 @@ export let audioInstance = null;
 export const playAudio = (base64Audio, onEndedCallback) => {
   try {
     if (audioInstance) {
-      console.log('play')
       audioInstance.pause();
-      // audioInstance = null; // Reset the playback position
-      // setAnimation('Idle')
-      // audioInstance.currentTime = 0;
     }
 
     audioInstance = new Audio(`data:audio/mp3;base64,${base64Audio}`);
@@ -39,12 +35,7 @@ export const stopAudio = (setAnimation) => {
   // const { setAnimation } = useChat();
   try {
     if (audioInstance) {
-      console.log('stop the audio ')
-
       audioInstance.pause(); 
-      // audioInstance.currentTime = 0; // Reset the audio to the beginning
-      // audioInstance = null; // Reset the audio instance
-      // setAnimation('Idle')
 
     }
   } catch (error) {
@@ -54,7 +45,6 @@ export const stopAudio = (setAnimation) => {
 
 
 export const resumeAudio = () => {
-  console.log('resume')
   try {
     if (audioInstance) {
       audioInstance.play();

@@ -12,7 +12,7 @@ export const ChatProvider = ({ children }) => {
     try{
       const response = await fetch(`${backendUrl}/query_response/${message}`);
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
   
       if(result.data.length > 1){
         setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list: [...result.data]} ]);
@@ -52,7 +52,7 @@ export const ChatProvider = ({ children }) => {
 
   useEffect(() => {
     if (message) {
-      console.log(message, 'innser message')
+      // console.log(message, 'innser message')
       setMessage(prev=>  prev);
     } else {
       setMessage(null);
