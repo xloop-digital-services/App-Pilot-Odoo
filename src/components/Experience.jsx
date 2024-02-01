@@ -23,7 +23,7 @@ const Dots = (props) => {
       const interval = setInterval(() => {
         setLoadingText(
           <FontAwesomeIcon icon={faCommentDots} bounce size='2xl'
-          style={{ color: "#ffffff",}} />)
+          style={{ color: "#000",}} />)
       }, 800);
       return () => clearInterval(interval);
     } else {
@@ -94,7 +94,7 @@ export const Experience = () => {
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
       <Suspense>
-        <Dots position-y={2.6} position-x={0.19} />
+        <Dots position-y={2.2} position-x={0.19} />
       </Suspense>
 
       {/* <Avatar /> */}

@@ -274,10 +274,12 @@ export const UI = ({ hidden, ...props }) => {
                     }`}
                 >
                   <span
-                    className={`inline-block text-[1.5rem] p-2 rounded-lg flex  text-left text-2xl overflow-x-hidden  ${message.sender === 'user' ? 'ml-auto ' : 'mr-auto '
+                    className={`inline-block text-[1.5rem] p-2 rounded-lg flex  text-left text-2xl overflow-x-hidden  ${message.sender === 'user' ? 'ml-auto text-[#BE0000]' : 'mr-auto text-black '
                       }`}
                   >
-                    <div className="m-0 mr-3 w-7 h-7 absolute flex justify-center items-center rounded-full bg-black text-xs text-white-900 text-[1rem] capitalize">
+                    <div className={`m-0 mr-3 w-7 h-7 absolute flex justify-center items-center rounded-full text-xs text-white-900 text-[1rem] capitalize ${
+                      message.sender === 'user' ? 'bg-[#BE0000] text-white' : 'bg-black text-white'
+                    }`}>
                       {message.sender === 'user' ? <FaUserTie /> : <PiChatCircleBold />}
                     </div>
                     {
@@ -298,7 +300,7 @@ export const UI = ({ hidden, ...props }) => {
                           }
                           )}
                           { message.list.length -1 <= currentIndex ? null : 
-                            <button className="text-black" onClick={()=> handleNextClick(message.list.length)}>Next step
+                            <button className="text-black font-bold" onClick={()=> handleNextClick(message.list.length)}>Next step
                               <FontAwesomeIcon icon={faForward} size="xl" className="ml-4 " />
                             </button>
                           }
@@ -311,7 +313,7 @@ export const UI = ({ hidden, ...props }) => {
                               <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
                             </div>
                           }
-                          <span className="ml-[2.1rem] text-black " >
+                          <span className="ml-[2.1rem]" >
                             {message.text}
                           </span>
                         </>
