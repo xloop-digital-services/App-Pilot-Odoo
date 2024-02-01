@@ -162,7 +162,7 @@ export const UI = ({ hidden, ...props }) => {
           <span>
             <img src={Logo} alt="logo" />
           </span>
-          <h1 className="text-white font-bold text-2xl">App Pilot</h1>
+          <h1 className="text-black font-bold text-2xl">App Pilot</h1>
           {/* <p>Chat with Me ❤️</p> */}
 
         </div>
@@ -184,20 +184,14 @@ export const UI = ({ hidden, ...props }) => {
           />
           </div>
           <div
-          style={{display:'flex'}}
+            className="flex items-center"
           //  className="three-buttons"
            > 
           <button
             // disabled={loading || message}
             onClick={sendMessage}
-            className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
+            className={`text-black hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
               ${loading ? "cursor-not-allowed opacity-30" : ""}`}
-
-            style={{
-              border: "none",
-              outline: "none",
-              fontSize: "24px",
-            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +215,7 @@ export const UI = ({ hidden, ...props }) => {
                 id="voice-stop-button"
                 // disabled={micOn}
                 onClick={() => startStopHandle(!startStopRecording)}
-                className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center micro-phone`}
+                className={`text-black hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center micro-phone`}
               // loading || micOn ? "cursor-not-allowed opacity-30" : ""
               >
                 <FontAwesomeIcon icon={faMicrophone} size="xl" />
@@ -234,7 +228,7 @@ export const UI = ({ hidden, ...props }) => {
                   setMicOn(prev => !prev);
                   setMicStart(!micStart)
                 }}
-                className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center micro-phone
+                className={`text-black hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center micro-phone
                   ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
               >
                 {/* MicrophoneIcon integrated into the button */}
@@ -246,7 +240,7 @@ export const UI = ({ hidden, ...props }) => {
               isMuted ?
                 <button
                   onClick={toggleVolume}
-                  className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
+                  className={`text-black hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
                 ${loading ? "cursor-not-allowed opacity-30" : ""}`}
                 >
                   <FontAwesomeIcon icon={faVolumeHigh} size="xl" />
@@ -254,7 +248,7 @@ export const UI = ({ hidden, ...props }) => {
                 :
                 <button
                   onClick={toggleVolume}
-                  className={`text-white hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
+                  className={`text-black hover:text-pink-600 lg:p-6 font-semibold uppercase flex items-center justify-center 
                 ${loading ? "cursor-not-allowed opacity-30" : ""}`}
                 >
                   <FontAwesomeIcon icon={faVolumeXmark} size="xl" />
@@ -270,20 +264,20 @@ export const UI = ({ hidden, ...props }) => {
           ref={chatContainerRef}
            className="absolute font-mono overflow-y-auto right-5 w-[40%] h-[85%] z-10 max-sm:w-[80%] max-sm:h-[40%] max-sm:m-10 max-sm:mt-24 max-sm:bg-opacity-30 max-sm:bg-white max-sm:rounded-xl p-4;">
 
-            <h1 className="mt-5 font-mono flex justify-center text-2xl  text-white">Ask Me</h1>
+            <h1 className="mt-5 font-mono flex justify-center text-2xl text-black font-bold">Ask Me</h1>
 
             <div className="flex-1 overflow-y-aut p-4">
               {messages?.map((message, index) => (
                 <div
                   key={index}
-                  className={`mb-2 capitalize font-semibold ${message.sender === 'user' ? 'text-right' : 'text-left font-normal'
+                  className={`mb-2 capitalize  ${message.sender === 'user' ? 'text-right font-semibold' : 'text-left font-normal'
                     }`}
                 >
                   <span
-                    className={`inline-block text-[1.3rem]  text-[#eeeeee] p-2 rounded-lg flex  text-left text-xl font-semibold overflow-x-hidden  ${message.sender === 'user' ? 'ml-auto ' : 'mr-auto '
+                    className={`inline-block text-[1.5rem] p-2 rounded-lg flex  text-left text-2xl overflow-x-hidden  ${message.sender === 'user' ? 'ml-auto ' : 'mr-auto '
                       }`}
                   >
-                    <div className="m-0 mr-2 w-6 h-6 absolute flex justify-center items-center rounded-full bg-white text-xs text-gray-700 capitalize">
+                    <div className="m-0 mr-3 w-7 h-7 absolute flex justify-center items-center rounded-full bg-black text-xs text-white-900 text-[1rem] capitalize">
                       {message.sender === 'user' ? <FaUserTie /> : <PiChatCircleBold />}
                     </div>
                     {
@@ -292,7 +286,7 @@ export const UI = ({ hidden, ...props }) => {
                           {message.list.map((msg, index) =>{
                             return index <= currentIndex && (
                               <div key={index}>
-                                <p className="ml-[2rem] mb-3 text-left font-normal">{msg.step}</p>
+                                <p className="ml-[2rem] mb-3 text-left  text-black font-normal">{msg.step}</p>
                                 {
                                   msg.image &&
                                   <div className=" w-[100%] h-[50%] mb-3 flex justify-start ml-[2rem]">
@@ -304,8 +298,8 @@ export const UI = ({ hidden, ...props }) => {
                           }
                           )}
                           { message.list.length -1 <= currentIndex ? null : 
-                            <button onClick={()=> handleNextClick(message.list.length)}>Next step
-                              <FontAwesomeIcon icon={faForward} size="xl" className="ml-4" />
+                            <button className="text-black" onClick={()=> handleNextClick(message.list.length)}>Next step
+                              <FontAwesomeIcon icon={faForward} size="xl" className="ml-4 " />
                             </button>
                           }
                         </div>
@@ -317,7 +311,7 @@ export const UI = ({ hidden, ...props }) => {
                               <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
                             </div>
                           }
-                          <span className="ml-[2rem]">
+                          <span className="ml-[2.1rem] text-black " >
                             {message.text}
                           </span>
                         </>

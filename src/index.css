@@ -24,7 +24,7 @@ body {
 
 
 body {
-  background-image: url('./assets/bg4.jpg');
+  background-image: url('./assets/bg3.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -57,7 +57,7 @@ body.greenScreen {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   /* background: #888;  */
-  background: #be0000;
+  background: #000;
 }
 
 /* Handle on hover */
@@ -66,11 +66,11 @@ body.greenScreen {
 }
 
 
-@media screen and (max-width : 400px) {
+/* @media screen and (max-width : 400px) {
   body{
-    background-image: url('/src/assets/bg4.jpg');
+    background-image: url('/src/assets/bg3.jpg');
     background-repeat: round;
     color: #FFFFFF;
   }
-}
+} */
 
