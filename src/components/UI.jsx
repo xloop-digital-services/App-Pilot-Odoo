@@ -7,20 +7,22 @@ import { PiChatCircleBold } from "react-icons/pi";
 
 import Logo from '../assets/logo.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone, faMicrophoneSlash, faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faMicrophoneSlash, faForward, faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { MuteProvider, MuteContext } from './Avatar';
 import { useMuteContext } from "./Avatar2";
 
 
 export const UI = ({ hidden, ...props }) => {
   const [micStart, setMicStart] = useState(false);
+  // const [currentIndex, setCurrentIndex] = useState(0);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const input = useRef();
-  const { chat, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
+  const { chat, currentIndex, setCurrentIndex, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
   const { isMuted, setIsMuted , muteAudio, unmuteAudio } = useMuteContext();
 
   const chatContainerRef = useRef(null);
 
+  console.log(messages);
 
   useEffect(() => {
     // console.log(messages)
@@ -142,6 +144,15 @@ export const UI = ({ hidden, ...props }) => {
     }
   };
 
+
+  const handleNextClick = (length)=>{
+    console.log(length);
+    if (currentIndex < length - 1) {
+
+      setCurrentIndex(currentIndex + 1);
+    }
+  }
+
   return (
     <>
 
@@ -162,7 +173,7 @@ export const UI = ({ hidden, ...props }) => {
           >
 
           <input
-            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md lg:w-full"
+            className="w-full placeholder:text-gray-800 text-black placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md lg:w-full"
             placeholder="Type a message..."
             ref={input}
             onKeyDown={(e) => {
@@ -257,38 +268,46 @@ export const UI = ({ hidden, ...props }) => {
         messages.length > 0 ?
           <section
           ref={chatContainerRef}
-           className="absolute overflow-y-auto right-5 w-[40%] h-[85%] z-10 max-sm:w-[80%] max-sm:h-[40%] max-sm:m-10 max-sm:mt-24 max-sm:bg-opacity-20 max-sm:bg-white max-sm:rounded-xl p-4;">
+           className="absolute font-mono overflow-y-auto right-5 w-[40%] h-[85%] z-10 max-sm:w-[80%] max-sm:h-[40%] max-sm:m-10 max-sm:mt-24 max-sm:bg-opacity-30 max-sm:bg-white max-sm:rounded-xl p-4;">
 
-            <h1 className="mt-5 flex justify-center text-2xl font-semibold text-white">Ask Me</h1>
+            <h1 className="mt-5 font-mono flex justify-center text-2xl  text-white">Ask Me</h1>
 
             <div className="flex-1 overflow-y-aut p-4">
               {messages?.map((message, index) => (
                 <div
                   key={index}
-                  className={`mb-2 ${message.sender === 'user' ? 'text-right' : 'text-left'
+                  className={`mb-2 capitalize font-semibold ${message.sender === 'user' ? 'text-right' : 'text-left font-normal'
                     }`}
                 >
                   <span
-                    className={`inline-block  text-[#eeeeee] p-2 rounded-lg flex  text-left text-xl font-semibold overflow-x-hidden  ${message.sender === 'user' ? 'ml-auto ' : 'mr-auto '
+                    className={`inline-block text-[1.3rem]  text-[#eeeeee] p-2 rounded-lg flex  text-left text-xl font-semibold overflow-x-hidden  ${message.sender === 'user' ? 'ml-auto ' : 'mr-auto '
                       }`}
                   >
-                    <div className="m-0 mr-2 w-6 h-6 absolute flex justify-center items-center rounded-full bg-white text-xs text-gray-700 uppercase">
+                    <div className="m-0 mr-2 w-6 h-6 absolute flex justify-center items-center rounded-full bg-white text-xs text-gray-700 capitalize">
                       {message.sender === 'user' ? <FaUserTie /> : <PiChatCircleBold />}
                     </div>
                     {
                       message.type === 'list' ?
                         <div>
-                          {message.list.map((msg, index) => (
-                            <div key={index}>
-                              <p className="ml-[2rem] mb-3 text-left">{msg.step}</p>
-                              {
-                                msg.image &&
-                                <div className=" w-[100%] h-[50%] mb-3 flex justify-start ml-[2rem]">
-                                  <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
-                                </div>
-                              }
-                            </div>
-                          ))}
+                          {message.list.map((msg, index) =>{
+                            return index <= currentIndex && (
+                              <div key={index}>
+                                <p className="ml-[2rem] mb-3 text-left font-normal">{msg.step}</p>
+                                {
+                                  msg.image &&
+                                  <div className=" w-[100%] h-[50%] mb-3 flex justify-start ml-[2rem]">
+                                    <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
+                                  </div>
+                                }
+                              </div>
+                            )
+                          }
+                          )}
+                          { message.list.length -1 <= currentIndex ? null : 
+                            <button onClick={()=> handleNextClick(message.list.length)}>Next step
+                              <FontAwesomeIcon icon={faForward} size="xl" className="ml-4" />
+                            </button>
+                          }
                         </div>
                         :
                         <>

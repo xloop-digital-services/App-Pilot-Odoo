@@ -12,9 +12,10 @@ export const ChatProvider = ({ children }) => {
     try{
       const response = await fetch(`${backendUrl}/query_response/${message}`);
       const result = await response.json();
-      // console.log(result);
+      console.log(result);
   
       if(result.data.length > 1){
+        setCurrentIndex(0);
         setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list: [...result.data]} ]);
       }
       else{
@@ -45,6 +46,7 @@ export const ChatProvider = ({ children }) => {
   const [cameraZoomed, setCameraZoomed] = useState(true);
   const [micOn, setMicOn] = useState(false);
   const [animation, setAnimation] = useState('Idle');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const onMessagePlayed = () => {
     setMessage(null);
@@ -62,6 +64,7 @@ export const ChatProvider = ({ children }) => {
   return (
     <ChatContext.Provider
       value={{
+        currentIndex, setCurrentIndex,
         chat,
         message,
         setMessage,
