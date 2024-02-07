@@ -336,7 +336,7 @@ export const UI = ({ hidden, ...props }) => {
                               <Image width={'50%'} src={`data:image/png;base64, ${msg.image}`} alt={'result image'} />
                             </div>
                           }
-                          <span className={`ml-[2.1rem] w-full ${message.sender != 'user' && 'ml-[0.5rem] text-end'}`} >
+                          <span className={`ml-[2.1rem] w-full ${message.sender != 'user' && 'ml-[0.5rem] text-inherit'}`} >
                             {message.text}
                           </span>
                         </>
