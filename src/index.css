@@ -24,7 +24,8 @@ body {
 
 
 body {
-  background-image: url('./assets/bg3.jpg');
+  /* background-image: url('./assets/bg3.jpg'); */
+  background-image: url('./assets/bg.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -68,7 +69,7 @@ body.greenScreen {
 
 /* @media screen and (max-width : 400px) {
   body{
-    background-image: url('/src/assets/bg3.jpg');
+    background-image: url('./assets/bg.png');
     background-repeat: round;
     color: #FFFFFF;
   }

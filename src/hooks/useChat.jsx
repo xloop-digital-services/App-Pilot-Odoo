@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
+// const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
+const backendUrl = "https://app-pilot-suierlw5oa-uc.a.run.app";
 
 const ChatContext = createContext();
 
@@ -10,16 +11,20 @@ export const ChatProvider = ({ children }) => {
     // console.log(message)
     setLoading(true);
     try{
-      const response = await fetch(`${backendUrl}/query_response/${message}`);
+      const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(message)}/${selectLanguage}`);
       const result = await response.json();
       console.log(result);
   
       if(result.data.length > 1){
         setCurrentIndex(0);
-        setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list: [...result.data]} ]);
+        const list = selectLanguage === 'en' ? [...result.data] : [...result.translate]
+
+        setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list} ]);
       }
       else{
-        setMessages( prevmsg=> [ ...prevmsg, ...result.data ]);
+        const myData = selectLanguage === 'en' ? {...result.data} : {...result.translate};
+        console.log(myData)
+        setMessages( prevmsg=> [ ...prevmsg, myData[0] ]);
       }
       setMessage(result);
       setLoading(false);
@@ -43,6 +48,7 @@ export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectLanguage, setSelectLanguage] = useState('en');
   const [cameraZoomed, setCameraZoomed] = useState(true);
   const [micOn, setMicOn] = useState(false);
   const [animation, setAnimation] = useState('Idle');
@@ -65,6 +71,7 @@ export const ChatProvider = ({ children }) => {
     <ChatContext.Provider
       value={{
         currentIndex, setCurrentIndex,
+        selectLanguage, setSelectLanguage,
         chat,
         message,
         setMessage,
