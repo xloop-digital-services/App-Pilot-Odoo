@@ -23,7 +23,7 @@ const Dots = (props) => {
       const interval = setInterval(() => {
         setLoadingText(
           <FontAwesomeIcon icon={faCommentDots} bounce size='2xl'
-          style={{ color: "#fff",}} />)
+          style={{ color: "#DA2D27",}} />)
       }, 800);
       return () => clearInterval(interval);
     } else {
@@ -60,9 +60,9 @@ export const Experience = () => {
     const handleResize = () => {
       // Adjust the target values based on screen size
       if (window.innerWidth <= 600) {
-        myControl.current.target.set(3, 5, -50);
+        myControl.current.target.set(3, 8, -50);
       } else {
-        myControl.current.target.set(6, 5, -50);
+        myControl.current.target.set(12, 5, -50);
       }
     };
 

@@ -25,11 +25,12 @@ body {
 
 body {
   /* background-image: url('./assets/bg3.jpg'); */
-  background-image: url('./assets/bg.png');
-  background-repeat: no-repeat;
+  /* background-image: url('./assets/bg.png');
+  background-repeat: no-repeat;*/
+  background-color: #f5f8fa;
   background-attachment: fixed;
-  background-size: cover;
-  color: #FFFFFF;
+  background-size: cover; 
+  color: #000;
 }
 
 .micro-phone{
@@ -65,6 +66,11 @@ body.greenScreen {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
+/* input:focus {
+  outline: none;
+} */
+
 
 
 /* @media screen and (max-width : 400px) {

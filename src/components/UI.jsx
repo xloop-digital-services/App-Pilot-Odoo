@@ -157,7 +157,6 @@ export const UI = ({ hidden, ...props }) => {
 
   const languageHandleChange = (value)=>{
     console.log(value);
-
     setSelectLanguage(value);
   }
 
