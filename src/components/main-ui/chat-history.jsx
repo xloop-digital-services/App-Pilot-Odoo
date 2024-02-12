@@ -12,7 +12,7 @@ import { Image } from 'antd';
 function ChatHistory({ inputRef, handleNextClick, sendMessage, loading, micOn, setMicOn, micStart, setMicStart, startStopHandle, startStopRecording, messages, currentIndex }) {
   return (
     <div className='bg-white lg:ml-9 rounded-3xl h-full px-5 relative'>
-        <h1 className=' lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl'>Super chat</h1>
+        <h1 className=' lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl'>Ask me</h1>
 
         {/* list of messages */}
         <div className='overflow-y-auto lg:h-[80%] h-[63%]'>
@@ -92,7 +92,7 @@ function ChatHistory({ inputRef, handleNextClick, sendMessage, loading, micOn, s
         </div>
 
         <div className='flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5'>
-            <input ref={inputRef}  placeholder='Ask or search anything' className='w-full bg-[#F3F3F3] rounded-3xl p-1 focus:outline-none'
+            <input ref={inputRef}  placeholder='Ask or search anything' className='w-full bg-[#F3F3F3] text-btn-color rounded-3xl p-1 focus:outline-none'
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       sendMessage();

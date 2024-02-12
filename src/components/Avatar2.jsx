@@ -86,6 +86,7 @@ export function Avatar2(props) {
     const { nodes, materials, scene } = useGLTF("/models/my-avatar.glb");
 
   const { message, onMessagePlayed, chat, setMessage, setAnimation, animation } = useChat();
+  const { isMuted } = useMuteContext();
 
   // console.log(nodes.EyeLeft.morphTargetDictionary, 'nodes....');
 
@@ -100,7 +101,7 @@ export function Avatar2(props) {
     setAnimation('Idle');
     setFacialExpression(message.facialExpression);
     setLipsync(message.lipsync);
-    playAudio(message.audio, onMessagePlayed);
+    playAudio(message.audio, onMessagePlayed, isMuted);
     // const audio = new Audio("data:audio/mp3;base64," + message.audio);
     // audio.play();
     setAudio(audioInstance);

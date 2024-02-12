@@ -1,13 +1,20 @@
+import { useMuteContext } from "./Avatar2";
+
 export let audioInstance = null;
 
-export const playAudio = (base64Audio, onEndedCallback) => {
+
+
+export const playAudio = (base64Audio, onEndedCallback, isMuted) => {
   try {
     if (audioInstance) {
       audioInstance.pause();
     }
 
     audioInstance = new Audio(`data:audio/mp3;base64,${base64Audio}`);
-    audioInstance.play();
+    console.log(isMuted, 'muted');
+    if(isMuted){
+      audioInstance.play();
+    }
 
     if (onEndedCallback) {
       audioInstance.onended = onEndedCallback;

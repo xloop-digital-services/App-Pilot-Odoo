@@ -28,12 +28,12 @@ export const ChatProvider = ({ children }) => {
       }
       setMessage(result);
       setLoading(false);
-      setMicOn(false);
+      // setMicOn(false);
     }
     catch(err){
       console.log(err)
       setMessages(prev=> [ ...prev, { text: 'Please check your network.', sender: 'receiver' } ]);
-      setLoading(false);
+      // setLoading(false);
     }
 
     // setTimeout(()=>{

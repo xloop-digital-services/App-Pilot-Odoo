@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState, createContext, useContext } from "r
 import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
 import { playAudio, muteAudio, stopAudio, audioInstance } from './AudioService';
+import { useMuteContext } from "./Avatar2";
 
 const facialExpressions = {
   default: {},
@@ -59,6 +60,8 @@ export function Avatar(props) {
   );
 
   const { message, onMessagePlayed, chat, setMessage } = useChat();
+  const { isMuted } = useMuteContext();
+
 
   const [lipsync, setLipsync] = useState();
 
@@ -73,7 +76,7 @@ export function Avatar(props) {
     setAnimation('Idle');
     setFacialExpression(message.facialExpression);
     setLipsync(message.lipsync);
-    playAudio(message.audio, onMessagePlayed);
+    playAudio(message.audio, onMessagePlayed, isMuted);
     // const audio = new Audio("data:audio/mp3;base64," + message.audio);
     // audio.play();
 
