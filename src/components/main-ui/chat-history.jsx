@@ -85,7 +85,7 @@ function ChatHistory({ inputRef, handleNextClick, sendMessage, loading, micOn, s
                 })
                 :
                 <div className='flex justify-center items-center h-full'>
-                    <img src= {ChatIcon} alt='chat icon' className=' lg:w-[100%] lg:h-[100%] w-[60%] h-[60%] ' />
+                    <img src= {ChatIcon} alt='chat icon' className=' sm:w-[60%] sm:h-[60%] ' />
                 </div>
             }
 
