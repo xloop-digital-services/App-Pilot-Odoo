@@ -33,7 +33,7 @@ export const ChatProvider = ({ children }) => {
     catch(err){
       console.log(err)
       setMessages(prev=> [ ...prev, { text: 'Please check your network.', sender: 'receiver' } ]);
-      // setLoading(false);
+      setLoading(false);
     }
 
     // setTimeout(()=>{

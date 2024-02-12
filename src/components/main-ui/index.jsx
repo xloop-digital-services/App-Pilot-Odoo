@@ -139,8 +139,8 @@ function MainUi() {
 
   return (
     <>
-        <div className='lg:p-[2.125rem] absolute z-30 w-full '>
-            <header className='flex justify-between w-[100%] items-center lg:pb-9 lg:pt-0 py-4 px-4'>
+        <div className='lg:p-[2rem] absolute z-30 w-full '>
+            <header className='flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4'>
                 <div className='flex gap-2 items-center'>
                     <img src={Logo} alt="logo" className='lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]' />   
                     <h3 className='text-h-color lg:text-[2.106rem]  font-[600]'>App Pilot</h3>

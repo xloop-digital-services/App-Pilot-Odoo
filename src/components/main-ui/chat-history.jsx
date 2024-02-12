@@ -15,7 +15,7 @@ function ChatHistory({ inputRef, handleNextClick, sendMessage, loading, micOn, s
         <h1 className=' lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl'>Ask me</h1>
 
         {/* list of messages */}
-        <div className='overflow-y-auto lg:h-[80%] h-[63%]'>
+        <div className='overflow-y-auto lg:h-[80%] h-[77%]'>
 
             {
                 messages.length > 0 ?

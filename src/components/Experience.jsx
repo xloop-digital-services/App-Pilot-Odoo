@@ -62,7 +62,7 @@ export const Experience = () => {
       if (window.innerWidth <= 600) {
         myControl.current.target.set(3, 8, -50);
       } else {
-        myControl.current.target.set(12, 5, -50);
+        myControl.current.target.set(8, 6, -50);
       }
     };
 
@@ -94,12 +94,12 @@ export const Experience = () => {
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
       <Suspense>
-        <Dots position-y={2.2} position-x={0.19} />
+        <Dots position-y={4.5} position-x={0.19} />
       </Suspense>
 
       {/* <Avatar /> */}
 
-      <Avatar2 position={[0, -2, 3]} />
+      <Avatar2 position={[0, -0.3, 3]} />
 
       <ContactShadows opacity={0.7} />
     </>
