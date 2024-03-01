@@ -1,206 +1,355 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ChatHistory from './chat-history'
-import SideBar from './sideBar'
-import Logo from '../../assets/logo.png';
-import bflLogo from '../../assets/bfl-logo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeXmark, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
-import { useChat } from '../../hooks/useChat';
-import { useMuteContext } from '../Avatar2';
+import React, { useEffect, useRef, useState } from "react";
+import ChatHistory from "./chat-history";
+import SideBar from "./sideBar";
+import Logo from "../../assets/logo.png";
+import bflLogo from "../../assets/bfl-logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { useChat } from "../../hooks/useChat";
+import { useMuteContext } from "../Avatar2";
+import { Select, MenuItem } from "@mui/material";
 
 function MainUi() {
-    const [micStart, setMicStart] = useState(false);
-    // const [currentIndex, setCurrentIndex] = useState(0);
-    const [startStopRecording, setStartStopRecording] = useState(true);
-    const input = useRef();
-    const { chat, currentIndex, selectLanguage, setSelectLanguage, setCurrentIndex, loading, micOn, setMicOn, cameraZoomed, setCameraZoomed, message, messages } = useChat();
-    const { isMuted, setIsMuted , muteAudio, unmuteAudio } = useMuteContext();
+  const [micStart, setMicStart] = useState(false);
+  // const [currentIndex, setCurrentIndex] = useState(0);
+  const [startStopRecording, setStartStopRecording] = useState(true);
+  const input = useRef();
+  const {
+    chat,
+    currentIndex,
+    selectLanguage,
+    setSelectLanguage,
+    setCurrentIndex,
+    loading,
+    micOn,
+    setMicOn,
+    cameraZoomed,
+    setCameraZoomed,
+    message,
+    messages,
+  } = useChat();
+  const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
+  useEffect(() => {
+    // console.log(messages)
+    let recognition;
 
-    useEffect(() => {
-        // console.log(messages)
-        let recognition;
-    
-        const startRecognition = () => {
-          if ("webkitSpeechRecognition" in window) {
-            // console.log('kiya hua')
-            recognition = new webkitSpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            recognition.lang = "en-US";
-    
-            recognition.onresult = function (event) {
-              let final_transcript = input.current.value;
-              for (let i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                  final_transcript += event.results[i][0].transcript;
-                }
-              }
-              input.current.value = final_transcript;
-            };
-    
-            recognition.start();
-          } else {
-            alert("Web Speech API is not supported in this browser.");
-          }
-        };
-    
-        const stopRecognition = () => {
-          if (recognition) {
-            recognition.stop();
-          }
-        };
-    
-        const voiceButton = document.getElementById("voice-typing-button");
-        const stopVoiceButton = document.getElementById("voice-stop-button");
-    
-        // console.log(stopVoiceButton, 'chali he')
-        if (voiceButton || stopVoiceButton) {
-          // console.log('aya hn')
-          voiceButton.addEventListener("click", () => {
-            if (recognition && recognition.isStarted) {
-              console.log('Stop the recording')
-              stopRecognition();
-            } else {//#endregio
-              console.log('Start the recording...')
-              startRecognition();
+    const startRecognition = () => {
+      if ("webkitSpeechRecognition" in window) {
+        // console.log('kiya hua')
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+
+        recognition.onresult = function (event) {
+          let final_transcript = input.current.value;
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
             }
-          });
-        }
-    
-        return () => {
-          if (recognition) {
-            recognition.stop();
           }
-          if (voiceButton) {
-            voiceButton.removeEventListener("click", () => {
-              if (recognition) {
-                recognition.start();
-              }
-            });
-          }
+          input.current.value = final_transcript;
         };
-      }, [startStopRecording]);
 
-    const sendMessage = (value = undefined) => {
-        console.log('click', value)
-        const text = input.current.value.length > 0 ? input.current.value : value ;
-        console.log(text)
-        // setIsMuted(true)
-    
-        if(!text){
-          return;
-        }
-        
-    
-        if (micOn) {
-          setMicOn(false);
-          setMicStart(false);
-          setStartStopRecording('stop')
-        }
-    
-        if (!loading) {
-          chat(text);
-          input.current.value = "";
-        }
-      };
-
-      const startStopHandle = (value) => {
-        setStartStopRecording(value);
-        setMicOn(!micOn);
-        setMicStart(!micStart)
+        recognition.start();
+      } else {
+        alert("Web Speech API is not supported in this browser.");
       }
+    };
 
-
-      const languageHandleChange = (value)=>{
-        console.log(value);
-        setSelectLanguage(value);
+    const stopRecognition = () => {
+      if (recognition) {
+        recognition.stop();
       }
+    };
 
-      const handleNextClick = (length)=>{
-        console.log(length);
-        if (currentIndex < length - 1) {
-    
-          setCurrentIndex(currentIndex + 1);
-        }
-      }
+    const voiceButton = document.getElementById("voice-typing-button");
+    const stopVoiceButton = document.getElementById("voice-stop-button");
 
-
-      const toggleVolume = () => {
-
-        if (!isMuted) {
-        //   console.log('Unmuting audio...');
-          unmuteAudio();
+    // console.log(stopVoiceButton, 'chali he')
+    if (voiceButton || stopVoiceButton) {
+      // console.log('aya hn')
+      voiceButton.addEventListener("click", () => {
+        if (recognition && recognition.isStarted) {
+          console.log("Stop the recording");
+          stopRecognition();
         } else {
-        //   console.log('Muting audio...');
-          muteAudio();
-          // setIsMuted(false);
+          //#endregio
+          console.log("Start the recording...");
+          startRecognition();
         }
-      };
+      });
+    }
+
+    return () => {
+      if (recognition) {
+        recognition.stop();
+      }
+      if (voiceButton) {
+        voiceButton.removeEventListener("click", () => {
+          if (recognition) {
+            recognition.start();
+          }
+        });
+      }
+    };
+  }, [startStopRecording]);
+
+  const sendMessage = (value = undefined) => {
+    console.log("click", value);
+    const text = input.current.value.length > 0 ? input.current.value : value;
+    console.log(text);
+    // setIsMuted(true)
+
+    if (!text) {
+      return;
+    }
+
+    if (micOn) {
+      setMicOn(false);
+      setMicStart(false);
+      setStartStopRecording("stop");
+    }
+
+    if (!loading) {
+      chat(text);
+      input.current.value = "";
+    }
+  };
+
+  const startStopHandle = (value) => {
+    setStartStopRecording(value);
+    setMicOn(!micOn);
+    setMicStart(!micStart);
+  };
+
+  const languageHandleChange = (value) => {
+    console.log(value);
+    setSelectLanguage(value);
+  };
+
+  const handleNextClick = (length) => {
+    console.log(length);
+    if (currentIndex < length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const toggleVolume = () => {
+    if (!isMuted) {
+      //   console.log('Unmuting audio...');
+      unmuteAudio();
+    } else {
+      //   console.log('Muting audio...');
+      muteAudio();
+      // setIsMuted(false);
+    }
+  };
+
+  // Function to handle option click
+  // const handleOptionClick = (option) => {
+  //   setSelectedOption(option);
+  // };
+
+  const [bankingOptions, setBankingOptions] = useState([
+    { label: "Islamic Banking", isOpen: false },
+    { label: "Customer Banking", isOpen: false },
+    { label: "Digital Banking", isOpen: false },
+  ]);
+
+  const toggleDropdown = (index) => {
+    setBankingOptions((prevOptions) =>
+      prevOptions.map((option, i) =>
+        i === index
+          ? { ...option, isOpen: !option.isOpen }
+          : { ...option, isOpen: false }
+      )
+    );
+  };
 
   return (
     <>
-        <div className='lg:p-[2rem] absolute z-30 w-full '>
-            <header className='flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4'>
-                <div className='flex gap-2 items-center'>
-                    <img src={Logo} alt="logo" className='lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]' />  
-                    <img src={bflLogo} alt="logo" className='lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]' />   
-                    <h3 className='text-h-color lg:text-[2.106rem]  font-[600]'>App Pilot</h3>
-                </div>
-                <div className="flex items-center gap-4 ">
-
-                    {
-                        isMuted ?
-                        <button
-                            onClick={toggleVolume}
-                            className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
+      <div className="lg:p-[2rem]  absolute z-30 w-full ">
+        <header className="flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4">
+          <div className="flex gap-2 items-center">
+            <img
+              src={Logo}
+              alt="logo"
+              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
+            />
+            <img
+              src={bflLogo}
+              alt="logo"
+              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
+            />
+            <h3 className="text-h-color lg:text-[2.106rem]  font-[600]">
+              App Pilot
+            </h3>
+          </div>
+          <div className="flex items-center gap-4 ">
+            {isMuted ? (
+              <button
+                onClick={toggleVolume}
+                className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
                             ${loading ? "cursor-not-allowed opacity-30" : ""}`}
-                        >
-                            <FontAwesomeIcon icon={faVolumeHigh} />
-                        </button>
-                        :
-                        <button
-                            onClick={toggleVolume}
-                            className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
+              >
+                <FontAwesomeIcon icon={faVolumeHigh} />
+              </button>
+            ) : (
+              <button
+                onClick={toggleVolume}
+                className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
                             ${loading ? "cursor-not-allowed opacity-30" : ""}`}
-                        >
-                            <FontAwesomeIcon icon={faVolumeXmark} />
-                        </button>
-                    }
+              >
+                <FontAwesomeIcon icon={faVolumeXmark} />
+              </button>
+            )}
 
-                    <select onChange={(e)=> languageHandleChange(e.target.value)} value={selectLanguage} className="lg:px-5 lg:py-3 p-1 lg:w-[9.688rem] w-[5rem]  rounded-[20px] bg-bg-secondary text-white" >
-                        <option className='text-btn-color bg-bg-primary rounded-lg'  value={'en'} >English</option>
-                        <option className='text-btn-color bg-bg-primary' value={'ur'} >Urdu</option>
-                        <option className='text-btn-color bg-bg-primary' value={'ar'} >Arabic</option>
-                    </select>
-                </div>
-            </header>
+            <select
+              onChange={(e) => languageHandleChange(e.target.value)}
+              value={selectLanguage}
+              className="lg:px-5 lg:py-3 p-1 lg:w-[9.688rem] w-[5rem]  rounded-[20px] bg-bg-secondary text-white"
+            >
+              <option
+                className="text-btn-color bg-bg-primary rounded-lg"
+                value={"en"}
+              >
+                English
+              </option>
+              <option className="text-btn-color bg-bg-primary" value={"ur"}>
+                Urdu
+              </option>
+              <option className="text-btn-color bg-bg-primary" value={"ar"}>
+                Arabic
+              </option>
+            </select>
+          </div>
+        </header>
 
-            {/* main dashboard css */}
-            <div className='flex justify-between w-[100%]'>
-                <div className=' hidden lg:block '>
-                    <SideBar sendMessage={sendMessage} />
-                </div>
-                <div className='lg:h-[85vh] h-[65vh] lg:w-[50%] w-full'>
-                    <ChatHistory 
-                        inputRef={input} 
-                        sendMessage={sendMessage} 
-                        loading={loading}
-                        micStart={micStart}
-                        micOn={micOn}
-                        setMicOn={setMicOn}
-                        setMicStart={setMicStart}
-                        startStopHandle={startStopHandle}
-                        startStopRecording={startStopRecording}
-                        messages={messages}
-                        handleNextClick={handleNextClick}
-                        currentIndex={currentIndex}
-                        />
-                </div>
-            </div>
+        {/* <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 w-full items-center h-[80px] mb-7 flex justify-center ">
+        <div className=" flex flex-row space-x-20 mt-8 ">
+          <div className=" text-[#ff5555]">
+          <span className="text-lg font-semibold text-red-500">Islamic Banking</span>
+          <FontAwesomeIcon icon={faChevronDown} className="text-lg ml-2" />
+          </div>
+          <div>
+          <span className="text-lg font-semibold">Customer Banking</span>
+          <FontAwesomeIcon icon={faChevronDown} className="text-lg ml-2" />
+          </div>
+          <div>
+          <span className="text-lg font-semibold">Digital Banking</span>
+          <FontAwesomeIcon icon={faChevronDown} className="text-lg ml-2" />
+          </div>
+          </div>
+        </div> */}
+
+        {/* Banking Options */}
+        <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 w-full items-center h-[80px] mb-7 flex justify-center">
+          <div className="flex flex-row space-x-20 mt-8">
+            {bankingOptions.map((option, index) => (
+              <div
+                key={index}
+                className={`relative ${
+                  option.isOpen ? "text-[#000] z-10 " : ""
+                }`}
+              >
+                <span
+                  className={`text-lg font-semibold cursor-pointer ${
+                    option.isOpen ? "text-[#ee1d23]" : ""
+                  }`}
+                  onClick={() => toggleDropdown(index)}
+                >
+                  {option.label}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className={`text-lg ml-2 ${
+                      option.isOpen ? "transform rotate-180 text-[#ee1d23]" : ""
+                    }`}
+                  />
+                </span>
+
+                {option.isOpen && (
+                  <div className="absolute top-full left-0 mt-7 bg-white rounded-lg shadow-lg p-2 w-[1150px] h-[300px] flex">
+                    <ul className="w-1/3 p-2">
+                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg">
+                        Eligibility Criteria
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Alfalah Orbit Rewards
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Free Locker Facility
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Complimentary Takeful Coverage!
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Zindagi Premier Takaful Savings (Vitality) Plan
+                      </li>
+                    </ul>
+                    <ul className="w-1/3 p-2 flex flex-col pl-10">
+                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg ">
+                        Customer Onboarding
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Process
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Documentation
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Frequently Asked Questions
+                      </li>
+                    </ul>
+                    <ul className="w-1/3 p-2 pl-10">
+                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg">
+                        Customer Onboarding
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Process
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Documentation
+                      </li>
+                      <li className="mb-4 rounded-md hover:bg-[#f8a5a7] p-2">
+                        Frequently Asked Questions
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* main dashboard css */}
+        <div className="flex justify-between w-[100%]">
+          <div className=" hidden lg:block ">
+            <SideBar sendMessage={sendMessage} />
+          </div>
+
+          <div className="  lg:w-[100%] w-full">
+            <ChatHistory
+              inputRef={input}
+              sendMessage={sendMessage}
+              loading={loading}
+              micStart={micStart}
+              micOn={micOn}
+              setMicOn={setMicOn}
+              setMicStart={setMicStart}
+              startStopHandle={startStopHandle}
+              startStopRecording={startStopRecording}
+              messages={messages}
+              handleNextClick={handleNextClick}
+              currentIndex={currentIndex}
+            />
+          </div>
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default MainUi
+export default MainUi;

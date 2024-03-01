@@ -45,7 +45,7 @@ function App() {
       <Leva hidden />
       {/* <UI /> */}
       <MainUi />
-      <Canvas shadows camera={{ position: [0 , 2.5, 10], fov: 20 }}>
+      <Canvas shadows camera={{ position: [0 , 2.6, 11], fov: 38 }}>
         {/* <mesh position={[2,-0.25,-3]}> */}
           <Experience />
         {/* </mesh> */}

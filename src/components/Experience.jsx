@@ -62,7 +62,7 @@ export const Experience = () => {
       if (window.innerWidth <= 600) {
         myControl.current.target.set(3, 8, -50);
       } else {
-        myControl.current.target.set(8, 6, -50);
+        myControl.current.target.set(24, 5, -50);
       }
     };
 
@@ -99,7 +99,7 @@ export const Experience = () => {
 
       {/* <Avatar /> */}
 
-      <Avatar2 position={[0, -0.3, 3]} />
+      <Avatar2 position={[-0.7, -2, 3]} />
 
       <ContactShadows opacity={0.7} />
     </>

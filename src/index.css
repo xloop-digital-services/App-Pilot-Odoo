@@ -11,6 +11,10 @@
   width: 100vw;
   height: 100vh;
 }
+
+.ant-modal .ant-modal-content {
+  background-color: #ebf2ff;
+}
 /* 
 body {
   margin: 0;
