@@ -11,6 +11,8 @@ import React, { useEffect, useRef, useState,createContext, useContext } from "re
 import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
 import { playAudio, muteAudio, stopAudio, audioInstance, resumeAudio } from './AudioService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentAlt } from '@fortawesome/free-solid-svg-icons';
 
 const facialExpressions = {
   default: {},
@@ -81,6 +83,9 @@ const corresponding = {
 
 
 let setupMode = false;
+
+
+
 
 export function Avatar2(props) {
     const { nodes, materials, scene } = useGLTF("/models/my-avatar.glb");
@@ -295,6 +300,7 @@ export function Avatar2(props) {
 
   return (
     <group {...props} dispose={null} ref={group} scale={2.3} >
+
         <primitive object={nodes.Hips} />
         <skinnedMesh
             name="EyeLeft"

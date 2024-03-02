@@ -15,6 +15,12 @@
 .ant-modal .ant-modal-content {
   background-color: #ebf2ff;
 }
+
+.overflow-y-auto {
+  height: calc(100% - 60px); /* Adjust height according to your input box height */
+}
+
+
 /* 
 body {
   margin: 0;

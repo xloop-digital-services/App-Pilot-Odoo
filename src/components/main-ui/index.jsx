@@ -179,11 +179,11 @@ function MainUi() {
               alt="logo"
               className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
             />
-            <img
+            {/* <img
               src={bflLogo}
               alt="logo"
               className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
-            />
+            /> */}
             <h3 className="text-h-color lg:text-[2.106rem]  font-[600]">
               App Pilot
             </h3>
@@ -227,23 +227,6 @@ function MainUi() {
             </select>
           </div>
         </header>
-
-        {/* <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 w-full items-center h-[80px] mb-7 flex justify-center ">
-        <div className=" flex flex-row space-x-20 mt-8 ">
-          <div className=" text-[#ff5555]">
-          <span className="text-lg font-semibold text-red-500">Islamic Banking</span>
-          <FontAwesomeIcon icon={faChevronDown} className="text-lg ml-2" />
-          </div>
-          <div>
-          <span className="text-lg font-semibold">Customer Banking</span>
-          <FontAwesomeIcon icon={faChevronDown} className="text-lg ml-2" />
-          </div>
-          <div>
-          <span className="text-lg font-semibold">Digital Banking</span>
-          <FontAwesomeIcon icon={faChevronDown} className="text-lg ml-2" />
-          </div>
-          </div>
-        </div> */}
 
         {/* Banking Options */}
         <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 w-full items-center h-[80px] mb-7 flex justify-center">
@@ -334,9 +317,9 @@ function MainUi() {
             <ChatHistory
               inputRef={input}
               sendMessage={sendMessage}
-              loading={loading}
               micStart={micStart}
               micOn={micOn}
+              loading={loading}
               setMicOn={setMicOn}
               setMicStart={setMicStart}
               startStopHandle={startStopHandle}

@@ -31,7 +31,7 @@ export const ChatProvider = ({ children }) => {
       // setMicOn(false);
     }
     catch(err){
-      console.log(err)
+      console.log("errOr",err)
       setMessages(prev=> [ ...prev, { text: 'Please check your network.', sender: 'receiver' } ]);
       setLoading(false);
     }

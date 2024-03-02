@@ -4,6 +4,7 @@ import userImg from "../../assets/user.png";
 import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatar.png";
 import ChatIcon from "../../assets/chat-frame.png";
+import mainPic from "../../assets/mainPic.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faForward,
@@ -14,8 +15,8 @@ import { Image } from "antd";
 
 function ChatHistory({
   inputRef,
-  handleNextClick,
   sendMessage,
+  handleNextClick,
   loading,
   micOn,
   setMicOn,
@@ -39,6 +40,7 @@ function ChatHistory({
             messages?.map((message, index) => {
               return (
                 <div key={index}>
+                  {/* USER MSG */}
                   {message.sender === "user" ? (
                     <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
                       <div>
@@ -97,6 +99,17 @@ function ChatHistory({
                       ) : (
                         <div className="flex flex-col">
                           <p className="w-full mt-2">{message.text}</p>
+                          {/* REPLY CHAT BUTTON START */}
+                          <div className="flex flex-row mt-3 -mb-3">
+                            <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
+                              No
+                            </button>
+                            <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
+                              Yes
+                            </button>
+                          </div>
+                          {/* REPLY CHAT BUTTON END */}
+
                           {message.image && (
                             <div className=" w-[60%] h-[100%] mb-3 mt-4">
                               <Image
@@ -116,13 +129,16 @@ function ChatHistory({
           ) : (
             <div className="flex justify-center items-center h-full">
               <img
-                src={ChatIcon}
+                src={mainPic}
                 alt="chat icon"
-                className=" sm:w-[60%] sm:h-[60%] "
+                className="sm:w-[60%] sm:h-[100%]"
               />
             </div>
           )}
         </div>
+
+
+        {/* SEND INPUT BOX IN MAIN PAGE */}
 
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
           <input
@@ -135,9 +151,12 @@ function ChatHistory({
               }
             }}
           />
+
+
+
           <div className="flex gap-4">
             {micStart ? (
-              /* //stop the recording */
+              // /* //stop the recording */
               <button
                 id="voice-stop-button"
                 // disabled={micOn}
@@ -173,6 +192,13 @@ function ChatHistory({
             </button>
           </div>
         </div>
+
+        {/* SEND INPUT BOX IN MAIN PAGE */}
+
+
+
+
+
       </div>
     </>
   );

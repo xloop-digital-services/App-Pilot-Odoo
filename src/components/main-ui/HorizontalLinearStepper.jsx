@@ -34,11 +34,10 @@ const CustomStepIcon = ({ index, active, onClick }) => {
   );
 };
 
-export default function HorizontalLinearStepper() {
-  const [activeStep, setActiveStep] = useState(0);
+export default function HorizontalLinearStepper( { activeStep, onChangeStep }) {
 
   const handleStepClick = (step) => {
-    setActiveStep(step);
+    onChangeStep(step); 
   };
 
   return (
@@ -47,14 +46,17 @@ export default function HorizontalLinearStepper() {
         {steps.map((_, index) => (
           <Step key={index} sx={{ width: "20%" }}>
             {" "}
-            {/* Adjusted width of Step */}
             <StepLabel
-              StepIconComponent={CustomStepIcon.bind(null, {
-                index,
-                active: index === activeStep,
-                onClick: handleStepClick,
-              })}
+              StepIconComponent={() => (
+                <CustomStepIcon
+                  index={index}
+                  active={index === activeStep}
+                  onClick={handleStepClick} 
+                />
+              )}
+              
             />
+            {console.log("activeStep In HorizontalLinearStepper", activeStep)}
           </Step>
         ))}
       </Stepper>
