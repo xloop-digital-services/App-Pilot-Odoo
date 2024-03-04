@@ -23,18 +23,21 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
-const stepDescriptions = [
-  "Please enter your 4-digit login PIN to proceed.",
-  "Click 'Show Quick Balance' on the home page.",
-  "Click on the available balance in the account.",
-  "Click on the 'View Statement' on the overview page.",
-];
+// const stepDescriptions = [
+//   "Please enter your 4-digit login PIN to proceed.",
+//   "Click 'Show Quick Balance' on the home page.",
+//   "Click on the available balance in the account.",
+//   "Click on the 'View Statement' on the overview page.",
+// ];
+
+const backendUrl = "http://13.233.132.194:8000";
+
 
 const QuestionModal = ({
   selectedQuestion,
   closeModal,
-  inputRef,
-  sendMessage,
+  // inputRef,
+  // sendMessage,
   handleNextClick,
   loading,
   micOn,
@@ -43,13 +46,18 @@ const QuestionModal = ({
   setMicStart,
   startStopHandle,
   startStopRecording,
-  messages,
+  // messages,
   currentIndex,
+  stepDescriptions,
+  images
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
+  const [messages, setMessages] = useState([]);
+  const snap = images[activeStep];
   const input = useRef();
   const [skipped, setSkipped] = useState(new Set());
+  const inputRef = useRef();
 
   const handleStepChange = (step) => {
     setActiveStep(step);
@@ -77,6 +85,33 @@ const QuestionModal = ({
   const handleReset = () => {
     setActiveStep(0);
   };
+
+
+  const sendMessage = async ()=>{
+    
+    const input = inputRef.current.value;
+
+    if(input){
+
+      setMessages([ ...messages, { text: input, sender: 'user' } ]);
+      
+      inputRef.current.value = "";
+
+      const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(input)}/en`);
+      const result = await response.json();
+      console.log(result);
+
+      const myData = 'en' === 'en' ? {...result.data} : {...result.translate};
+      console.log(myData)
+      setMessages( prevmsg=> [ ...prevmsg, myData[0] ]);
+
+      
+    }
+
+  }
+
+
+
   return (
     <Modal
       title={<h1 className="bg-[#ebf2ff] mt-2">{selectedQuestion}</h1>}
@@ -94,6 +129,7 @@ const QuestionModal = ({
             onChangeStep={handleStepChange}
             completedSteps={completedSteps}
             setActiveStep={setActiveStep}
+            steps = {stepDescriptions}
           />
           <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[350px]">
             {/* STEPPER SHOULD CHANGE THIS start */}
@@ -103,7 +139,7 @@ const QuestionModal = ({
                 {activeStep + 1}
               </p>
               <p className="text-sm mt-2 ml-3">
-                Step {activeStep + 1}: {description}
+                {description}
               </p>
             </div>
 
@@ -111,12 +147,17 @@ const QuestionModal = ({
 
             <hr class="w-[556px] border border-1 border-[#ffc3c3] mt-1 -ml-4"></hr>
 
-            <div className="flex items-center justify-center flex-col">
+            <div className="flex items-center justify-center flex-col mt-2">
               {/* mid content here */}
+              <Image
+                width={"15%"}
+                src={snap}
+                alt={"step image"}
+              />
             </div>
           </div>
 
-          {activeStep === steps.length - 1 ? (
+          {activeStep === stepDescriptions.length - 1 ? (
             <div className="flex justify-center w-[500px] -mt-5 -mb-3">
               {/* <div>
             All steps completed - you&apos;re finished
@@ -145,7 +186,7 @@ const QuestionModal = ({
                   className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
                   onClick={handleNext}
                 >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"}
                   {console.log("active state at 0", activeStep)}
                 </button>
               </div>

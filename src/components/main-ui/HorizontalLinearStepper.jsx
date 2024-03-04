@@ -72,7 +72,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
+// const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
 const CustomStepIcon = ({ index, active, completed, onClick }) => {
   const handleClick = () => {
@@ -107,6 +107,7 @@ export default function HorizontalLinearStepper({
   onChangeStep,
   completedSteps,
   setActiveStep,
+  steps
 }) {
   const [skipped, setSkipped] = useState(new Set());
 
@@ -160,7 +161,7 @@ export default function HorizontalLinearStepper({
   return (
     <Box sx={{ width: "70%", marginTop: "-9px", marginBottom: "15px" }}>
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((_, index) => (
+        {steps?.map((_, index) => (
           <Step key={index} sx={{ width: "20%" }}>
             {" "}
             <StepLabel

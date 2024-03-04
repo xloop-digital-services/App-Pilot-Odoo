@@ -5,6 +5,9 @@ import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
 // import { useChatModal } from "../../hooks/useChatModal";
 
+const backendUrl = "http://13.233.132.194:8000";
+
+
 const questions = [
   {
     question: "How to view e-statement?",
@@ -19,6 +22,9 @@ const questions = [
     question: "What is Alfa app?",
   },
 ];
+
+let stepDescriptions = null;
+let images = null
 
 function SideBar() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -48,7 +54,16 @@ function SideBar() {
 
 
 
-  const handleQuestionClick = (question) => {
+  const handleQuestionClick = async (question) => {
+
+    const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(question)}/${selectLanguage}`);
+    const result = await response.json();
+    console.log(result);
+
+    stepDescriptions = result.data.map(step=> step.step);
+    images =  result.data.map(step=> step.image);
+
+    // console.log(JSON.stringify(stepDescriptions));
     setSelectedQuestion(question);
   };
 
@@ -105,7 +120,7 @@ function SideBar() {
   };
   return (
     <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl ">
-      <h1 className="text-center p-2.5 text-[20px] font-semibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
+      <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
         {" "}
         Frequently Asked journeys{" "}
       </h1>
@@ -132,6 +147,8 @@ function SideBar() {
         <QuestionModal
           selectedQuestion={selectedQuestion}
           closeModal={closeModal}
+          stepDescriptions={stepDescriptions}
+          images={images}
           // loading={loading}
           // chat={chat}
           // activeStep={activeStep}
