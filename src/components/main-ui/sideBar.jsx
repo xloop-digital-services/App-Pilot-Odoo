@@ -3,6 +3,7 @@ import QuestionMark from "../../assets/message-question.svg";
 import QuestionModal from "./QuestionModal";
 import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
+// import { useChatModal } from "../../hooks/useChatModal";
 
 const questions = [
   {
@@ -22,9 +23,6 @@ const questions = [
 function SideBar() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   // const [activeStep, setActiveStep] = useState(0);
- 
-  
-
 
   const [micStart, setMicStart] = useState(false);
   // const [currentIndex, setCurrentIndex] = useState(0);
@@ -45,6 +43,8 @@ function SideBar() {
     messages,
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
+  // const { modalMessages: messages, modalLoading: loading } = useChatModal();
+
 
 
 
@@ -151,6 +151,7 @@ function SideBar() {
       
       )}
       {/* {console.log("activeStep", activeStep)} */}
+      {console.log("chatting messagee", messages)}
     </div>
   );
 }

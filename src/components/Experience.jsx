@@ -99,7 +99,7 @@ export const Experience = () => {
 
       {/* <Avatar /> */}
 
-<Avatar2 position={[-0.7, -2, 3]} />
+<Avatar2 position={[-0.7, -2.3, 2]} />
 
       <ContactShadows opacity={0.7} />
     </>

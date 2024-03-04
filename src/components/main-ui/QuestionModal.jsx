@@ -18,7 +18,11 @@ import avatarLogo from "../../assets/avatar.png";
 import ChatIcon from "../../assets/chat-frame.png";
 import mainPic from "../../assets/mainPic.svg";
 import { Image } from "antd";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
+const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 const stepDescriptions = [
   "Please enter your 4-digit login PIN to proceed.",
   "Click 'Show Quick Balance' on the home page.",
@@ -45,33 +49,34 @@ const QuestionModal = ({
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
   const input = useRef();
+  const [skipped, setSkipped] = useState(new Set());
 
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
 
-  // const sendMessage = (value = undefined) => {
-  //   console.log("click", value);
-  //   const text = input.current.value.length > 0 ? input.current.value : value;
-  //   console.log(text);
-  //   // setIsMuted(true)
+  // Define completed steps based on some logic (e.g., user's progress)
+  const completedSteps = []; // Example: Steps 1 and 2 are completed
 
-  //   if (!text) {
-  //     return;
-  //   }
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
 
-  //   if (micOn) {
-  //     setMicOn(false);
-  //     setMicStart(false);
-  //     setStartStopRecording("stop");
-  //   }
-
-  //   if (!loading) {
-  //     chat(text);
-  //     input.current.value = "";
-  //   }
-  // };
-
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+  const handleReset = () => {
+    setActiveStep(0);
+  };
   return (
     <Modal
       title={<h1 className="bg-[#ebf2ff] mt-2">{selectedQuestion}</h1>}
@@ -87,8 +92,10 @@ const QuestionModal = ({
           <HorizontalLinearStepper
             activeStep={activeStep}
             onChangeStep={handleStepChange}
+            completedSteps={completedSteps}
+            setActiveStep={setActiveStep}
           />
-          <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl  p-4 mb-8  w-[560px] h-[350px]">
+          <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[350px]">
             {/* STEPPER SHOULD CHANGE THIS start */}
 
             <div className="flex flex-row  w-full">
@@ -108,14 +115,42 @@ const QuestionModal = ({
               {/* mid content here */}
             </div>
           </div>
-          <div className="flex flex-row -mt-5 -mb-3">
-            <button className="w-[110px] rounded-3xl py-3 border border-[#ee1d23] bg-white text-[#ee1d23] mr-4">
-              Back
-            </button>
-            <button className="w-[110px] rounded-3xl py-3 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
-              Next
-            </button>
-          </div>
+
+          {activeStep === steps.length - 1 ? (
+            <div className="flex justify-center w-[500px] -mt-5 -mb-3">
+              {/* <div>
+            All steps completed - you&apos;re finished
+          </div> */}
+              <div>
+                <button
+                  className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
+                  onClick={handleReset}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          ) : (
+            // ""
+            <React.Fragment>
+              <div className="flex flex-row -mt-5 -mb-3">
+                <button
+                  className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-white text-[#ee1d23] mr-4"
+                  onClick={handleBack}
+                  disabled={activeStep < 1}
+                >
+                  Back
+                </button>
+                <button
+                  className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
+                  onClick={handleNext}
+                >
+                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  {console.log("active state at 0", activeStep)}
+                </button>
+              </div>
+            </React.Fragment>
+          )}
         </div>
       </div>
 
@@ -222,16 +257,14 @@ const QuestionModal = ({
                 );
               })
             ) : (
-              <div className="flex justify-center items-center h-full ">
+              <div className="flex justify-center items-center h-full">
                 <img
                   src={mainPic}
                   alt="chat icon"
-                  className="sm:w-[60%] sm:h-[100%] mb-4 "
+                  className="sm:w-[60%] sm:h-[100%] p-0 "
                 />
               </div>
             )}
-
-           
           </div>
 
           {/* SEND INPUT BOX IN MAIN PAGE */}
