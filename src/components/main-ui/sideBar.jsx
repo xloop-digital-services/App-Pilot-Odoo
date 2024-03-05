@@ -41,6 +41,7 @@ function SideBar() {
     setSelectLanguage,
     setCurrentIndex,
     loading,
+    setLoading,
     micOn,
     setMicOn,
     cameraZoomed,
@@ -55,6 +56,7 @@ function SideBar() {
 
 
   const handleQuestionClick = async (question) => {
+    
 
     const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(question)}/${selectLanguage}`);
     const result = await response.json();
@@ -66,6 +68,12 @@ function SideBar() {
     // console.log(JSON.stringify(stepDescriptions));
     setSelectedQuestion(question);
   };
+
+  
+  
+  
+  
+
 
   const closeModal = () => {
     setSelectedQuestion(null);

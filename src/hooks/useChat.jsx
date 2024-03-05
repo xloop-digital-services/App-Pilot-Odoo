@@ -77,6 +77,7 @@ export const ChatProvider = ({ children }) => {
         setMessage,
         onMessagePlayed,
         loading,
+        setLoading,
         micOn,
         setMicOn,
         cameraZoomed,

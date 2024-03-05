@@ -32,7 +32,6 @@ const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
 const backendUrl = "http://13.233.132.194:8000";
 
-
 const QuestionModal = ({
   selectedQuestion,
   closeModal,
@@ -49,13 +48,13 @@ const QuestionModal = ({
   // messages,
   currentIndex,
   stepDescriptions,
-  images
+  images,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
   const [messages, setMessages] = useState([]);
   const snap = images[activeStep];
-  const input = useRef();
+  // const input = useRef();
   const [skipped, setSkipped] = useState(new Set());
   const inputRef = useRef();
 
@@ -73,44 +72,55 @@ const QuestionModal = ({
     return skipped.has(step);
   };
 
+  // const handleNext = () => {
+  //   let newSkipped = skipped;
+  //   if (isStepSkipped(activeStep)) {
+  //     newSkipped = new Set(newSkipped.values());
+  //     newSkipped.delete(activeStep);
+  //   }
+
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped(newSkipped);
+  // };
+  // const handleReset = () => {
+  //   setActiveStep(0);
+  // };
+
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    // Prevent incrementing activeStep beyond the last step
+    if (activeStep < stepDescriptions.length - 1) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+
     setSkipped(newSkipped);
   };
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
-
-  const sendMessage = async ()=>{
-    
+  const sendMessage = async () => {
     const input = inputRef.current.value;
 
-    if(input){
+    if (input) {
+      setMessages([...messages, { text: input, sender: "user" }]);
 
-      setMessages([ ...messages, { text: input, sender: 'user' } ]);
-      
       inputRef.current.value = "";
 
-      const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(input)}/en`);
+      const response = await fetch(
+        `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
+      );
       const result = await response.json();
       console.log(result);
 
-      const myData = 'en' === 'en' ? {...result.data} : {...result.translate};
-      console.log(myData)
-      setMessages( prevmsg=> [ ...prevmsg, myData[0] ]);
-
-      
+      const myData =
+        "en" === "en" ? { ...result.data } : { ...result.translate };
+      console.log(myData);
+      setMessages((prevmsg) => [...prevmsg, myData[0]]);
     }
-
-  }
-
-
+  };
 
   return (
     <Modal
@@ -127,9 +137,9 @@ const QuestionModal = ({
           <HorizontalLinearStepper
             activeStep={activeStep}
             onChangeStep={handleStepChange}
-            completedSteps={completedSteps}
-            setActiveStep={setActiveStep}
-            steps = {stepDescriptions}
+            // completedSteps={completedSteps}
+            // setActiveStep={setActiveStep}
+            steps={stepDescriptions}
           />
           <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[350px]">
             {/* STEPPER SHOULD CHANGE THIS start */}
@@ -138,30 +148,26 @@ const QuestionModal = ({
               <p className="bg-[#ffc3c3] rounded-full h-10 w-10 flex items-center justify-center font-semibold -mt-1 -mt-1">
                 {activeStep + 1}
               </p>
-              <p className="text-sm mt-2 ml-3">
-                {description}
-              </p>
+              <p className="text-sm mt-2 ml-3">{description}</p>
             </div>
 
             {/* STEPPER SHOULD CHANGE THIS End */}
 
             <hr class="w-[556px] border border-1 border-[#ffc3c3] mt-1 -ml-4"></hr>
 
-            <div className="flex items-center justify-center flex-col mt-2">
+            <div className="flex items-center justify-center flex-col mt-1">
               {/* mid content here */}
               <Image
-                width={"15%"}
+                width={"16%"}
+                // height={"175px"}
                 src={snap}
                 alt={"step image"}
               />
             </div>
           </div>
 
-          {activeStep === stepDescriptions.length - 1 ? (
+          {/* {activeStep === stepDescriptions.length - 1 ? (
             <div className="flex justify-center w-[500px] -mt-5 -mb-3">
-              {/* <div>
-            All steps completed - you&apos;re finished
-          </div> */}
               <div>
                 <button
                   className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
@@ -171,27 +177,42 @@ const QuestionModal = ({
                 </button>
               </div>
             </div>
-          ) : (
-            // ""
-            <React.Fragment>
-              <div className="flex flex-row -mt-5 -mb-3">
-                <button
-                  className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-white text-[#ee1d23] mr-4"
-                  onClick={handleBack}
-                  disabled={activeStep < 1}
-                >
-                  Back
-                </button>
-                <button
-                  className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
-                  onClick={handleNext}
-                >
-                  {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"}
-                  {console.log("active state at 0", activeStep)}
-                </button>
-              </div>
-            </React.Fragment>
-          )}
+          ) : ( */}
+          <React.Fragment>
+            <div className="flex flex-row -mt-5 -mb-3">
+              <button
+                // className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-white text-[#ee1d23] mr-4"
+                className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] mr-4 ${
+                  activeStep === 0
+                    ? "bg-white text-[#ee1d23]"
+                    : "bg-[#ee1d23] text-[#fff]"
+                } ${activeStep === 0 && "disabled-button"}`}
+                onClick={handleBack}
+                disabled={activeStep < 1}
+              >
+                Back
+              </button>
+              <button
+                // className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
+                className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] ${
+                  activeStep === stepDescriptions.length - 1
+                    ? "bg-white text-[#ee1d23]"
+                    : "bg-[#ee1d23] text-[#fff]"
+                } ${
+                  activeStep === stepDescriptions.length - 1 &&
+                  "disabled-button"
+                }`}
+                onClick={handleNext}
+                // Disable the button on the last step
+                disabled={activeStep === stepDescriptions.length - 1}
+              >
+                {/* {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"} */}
+                Next
+                {console.log("active state at 0", activeStep)}
+              </button>
+            </div>
+          </React.Fragment>
+          {/* )} */}
         </div>
       </div>
 
