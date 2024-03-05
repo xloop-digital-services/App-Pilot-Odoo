@@ -1,6 +1,7 @@
 import React from "react";
 import sender from "../../assets/send-2.svg";
 import userImg from "../../assets/user.png";
+import bflLogo from "../../assets/bfl-logo.png";
 import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatar.png";
 import ChatIcon from "../../assets/chat-frame.png";
@@ -45,7 +46,11 @@ function ChatHistory({
                     <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
                       <div>
                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#9B9B9B] rounded-full flex items-center justify-center">
-                          <img src={userImg} alt="sender image" />
+                          <img
+                            src={bflLogo}
+                            alt="sender image"
+                            className="w-9 h-9"
+                          />
                         </div>
                       </div>
                       <p className="w-full flex items-center">{message.text}</p>
@@ -99,16 +104,21 @@ function ChatHistory({
                       ) : (
                         <div className="flex flex-col">
                           <p className="w-full mt-2">{message.text}</p>
-                          {/* REPLY CHAT BUTTON START */}
-                          <div className="flex flex-row mt-3 -mb-3">
-                            <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
-                              No
-                            </button>
-                            <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
-                              Yes
-                            </button>
-                          </div>
-                          {/* REPLY CHAT BUTTON END */}
+
+                          {message.type === "list" && (
+                            <div>
+                              {/* REPLY CHAT BUTTON START */}
+                              <div className="flex flex-row mt-3 -mb-3">
+                                <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
+                                  No
+                                </button>
+                                <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
+                                  Yes
+                                </button>
+                              </div>
+                              {/* REPLY CHAT BUTTON END */}
+                            </div>
+                          )}
 
                           {message.image && (
                             <div className=" w-[60%] h-[100%] mb-3 mt-4">
@@ -137,7 +147,6 @@ function ChatHistory({
           )}
         </div>
 
-
         {/* SEND INPUT BOX IN MAIN PAGE */}
 
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
@@ -151,8 +160,6 @@ function ChatHistory({
               }
             }}
           />
-
-
 
           <div className="flex gap-4">
             {micStart ? (
@@ -194,11 +201,6 @@ function ChatHistory({
         </div>
 
         {/* SEND INPUT BOX IN MAIN PAGE */}
-
-
-
-
-
       </div>
     </>
   );

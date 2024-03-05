@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Modal } from "antd";
+import { Modal, Spin } from "antd";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
 import bflLogo from "../../assets/bfl-logo.png";
 import avatar from "../../assets/avatar.png";
@@ -23,12 +23,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
-// const stepDescriptions = [
-//   "Please enter your 4-digit login PIN to proceed.",
-//   "Click 'Show Quick Balance' on the home page.",
-//   "Click on the available balance in the account.",
-//   "Click on the 'View Statement' on the overview page.",
-// ];
 
 const backendUrl = "http://13.233.132.194:8000";
 
@@ -50,6 +44,7 @@ const QuestionModal = ({
   stepDescriptions,
   images,
 }) => {
+  // const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
   const [messages, setMessages] = useState([]);
@@ -242,7 +237,7 @@ const QuestionModal = ({
                     ) : (
                       <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] flex flex-row">
                         <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center mt-2">
                             <img src={avatarLogo} alt="chat avatar image" />
                           </div>
                         </div>
@@ -287,7 +282,7 @@ const QuestionModal = ({
                           </div>
                         ) : (
                           <div className="flex flex-col">
-                            <p className="text-[#2C2A2B] font-inter text-sm font-light mt-5 ml-3">
+                            <p className="text-[#2C2A2B] font-inter text-sm font-light mt-3 ml-3">
                               {message.text}
                             </p>
 
@@ -350,8 +345,8 @@ const QuestionModal = ({
                   id="voice-stop-button"
                   // disabled={micOn}
                   onClick={() => startStopHandle(!startStopRecording)}
-                  className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold`}
-                  // loading || micOn ? "cursor-not-allowed opacity-30" : ""
+                  className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold
+                    ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
                 >
                   <FontAwesomeIcon icon={faMicrophone} />
                 </button>

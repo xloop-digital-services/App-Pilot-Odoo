@@ -3,6 +3,8 @@ import QuestionMark from "../../assets/message-question.svg";
 import QuestionModal from "./QuestionModal";
 import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 // import { useChatModal } from "../../hooks/useChatModal";
 
 const backendUrl = "http://13.233.132.194:8000";
@@ -33,6 +35,7 @@ function SideBar() {
   const [micStart, setMicStart] = useState(false);
   // const [currentIndex, setCurrentIndex] = useState(0);
   const [startStopRecording, setStartStopRecording] = useState(true);
+  const [modalLoading, setModalLoading] = useState(true);
   const input = useRef();
   const {
     chat,
@@ -57,16 +60,16 @@ function SideBar() {
 
   const handleQuestionClick = async (question) => {
     
-
     const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(question)}/${selectLanguage}`);
     const result = await response.json();
     console.log(result);
-
+    
     stepDescriptions = result.data.map(step=> step.step);
     images =  result.data.map(step=> step.image);
-
-    // console.log(JSON.stringify(stepDescriptions));
+    
     setSelectedQuestion(question);
+    // console.log(JSON.stringify(stepDescriptions));
+    setModalLoading(false)
   };
 
   
@@ -126,6 +129,14 @@ function SideBar() {
       // setIsMuted(false);
     }
   };
+
+  if(modalLoading){
+    console.log("modal is active")
+  }
+
+  if(!modalLoading){
+    console.log("modal is not active after getting response")
+  }
   return (
     <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl ">
       <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
@@ -150,13 +161,19 @@ function SideBar() {
           </p>
         </div>
       ))}
-
-      {selectedQuestion && (
+ {
+//  modalLoading ? ( 
+//         <div style={{ textAlign: 'center', marginTop: '50px' }}>
+//           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+//         </div>
+//       ) : (
+      selectedQuestion && (
         <QuestionModal
           selectedQuestion={selectedQuestion}
           closeModal={closeModal}
           stepDescriptions={stepDescriptions}
           images={images}
+          // modalLoading={modalLoading}
           // loading={loading}
           // chat={chat}
           // activeStep={activeStep}
@@ -173,8 +190,9 @@ function SideBar() {
           handleNextClick={handleNextClick}
           currentIndex={currentIndex}
         />
-      
       )}
+      {/* )} */}
+
       {/* {console.log("activeStep", activeStep)} */}
       {console.log("chatting messagee", messages)}
     </div>
