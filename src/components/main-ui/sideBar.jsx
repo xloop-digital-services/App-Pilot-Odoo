@@ -3,12 +3,11 @@ import QuestionMark from "../../assets/message-question.svg";
 import QuestionModal from "./QuestionModal";
 import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 // import { useChatModal } from "../../hooks/useChatModal";
 
 const backendUrl = "http://13.233.132.194:8000";
-
 
 const questions = [
   {
@@ -26,7 +25,7 @@ const questions = [
 ];
 
 let stepDescriptions = null;
-let images = null
+let images = null;
 
 function SideBar() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -35,7 +34,7 @@ function SideBar() {
   const [micStart, setMicStart] = useState(false);
   // const [currentIndex, setCurrentIndex] = useState(0);
   const [startStopRecording, setStartStopRecording] = useState(true);
-  const [modalLoading, setModalLoading] = useState(true);
+  const [modalLoading, setModalLoading] = useState(false);
   const input = useRef();
   const {
     chat,
@@ -55,33 +54,28 @@ function SideBar() {
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
   // const { modalMessages: messages, modalLoading: loading } = useChatModal();
 
-
-
-
   const handleQuestionClick = async (question) => {
-    
-    const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(question)}/${selectLanguage}`);
+    setModalLoading(true);
+
+    const response = await fetch(
+      `${backendUrl}/query_response/${encodeURIComponent(
+        question
+      )}/${selectLanguage}`
+    );
     const result = await response.json();
     console.log(result);
-    
-    stepDescriptions = result.data.map(step=> step.step);
-    images =  result.data.map(step=> step.image);
-    
+
+    stepDescriptions = result.data.map((step) => step.step);
+    images = result.data.map((step) => step.image);
+
     setSelectedQuestion(question);
     // console.log(JSON.stringify(stepDescriptions));
-    setModalLoading(false)
+    setModalLoading(false);
   };
-
-  
-  
-  
-  
-
 
   const closeModal = () => {
     setSelectedQuestion(null);
   };
-
 
   const sendMessage = (value = undefined) => {
     console.log("click", value);
@@ -111,8 +105,6 @@ function SideBar() {
     setMicStart(!micStart);
   };
 
- 
-
   const handleNextClick = (length) => {
     console.log(length);
     if (currentIndex < length - 1) {
@@ -130,12 +122,12 @@ function SideBar() {
     }
   };
 
-  if(modalLoading){
-    console.log("modal is active")
+  if (modalLoading) {
+    console.log("modal is active");
   }
 
-  if(!modalLoading){
-    console.log("modal is not active after getting response")
+  if (!modalLoading) {
+    console.log("modal is not active after getting response");
   }
   return (
     <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl ">
@@ -144,9 +136,46 @@ function SideBar() {
         Frequently Asked journeys{" "}
       </h1>
 
+      {modalLoading ? (
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
+        </div>
+      ) : (
+        selectedQuestion && (
+          <QuestionModal
+            selectedQuestion={selectedQuestion}
+            closeModal={closeModal}
+            stepDescriptions={stepDescriptions}
+            images={images}
+            // modalLoading={modalLoading}
+            // loading={loading}
+            // chat={chat}
+            // activeStep={activeStep}
+            inputRef={input}
+            sendMessage={sendMessage}
+            micStart={micStart}
+            micOn={micOn}
+            loading={loading}
+            setMicOn={setMicOn}
+            setMicStart={setMicStart}
+            startStopHandle={startStopHandle}
+            startStopRecording={startStopRecording}
+            messages={messages}
+            handleNextClick={handleNextClick}
+            currentIndex={currentIndex}
+          />
+        )
+      )}
+
       {questions.map((question, index) => (
         <div
-          className="bg-sidbar-color p-2.5 flex items-center mb-4 gap-4 rounded-3xl w-[480px]"
+          className="bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px]"
           key={index}
         >
           <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
@@ -161,37 +190,6 @@ function SideBar() {
           </p>
         </div>
       ))}
- {
-//  modalLoading ? ( 
-//         <div style={{ textAlign: 'center', marginTop: '50px' }}>
-//           <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-//         </div>
-//       ) : (
-      selectedQuestion && (
-        <QuestionModal
-          selectedQuestion={selectedQuestion}
-          closeModal={closeModal}
-          stepDescriptions={stepDescriptions}
-          images={images}
-          // modalLoading={modalLoading}
-          // loading={loading}
-          // chat={chat}
-          // activeStep={activeStep}
-          inputRef={input}
-          sendMessage={sendMessage}
-          micStart={micStart}
-          micOn={micOn}
-          loading={loading}
-          setMicOn={setMicOn}
-          setMicStart={setMicStart}
-          startStopHandle={startStopHandle}
-          startStopRecording={startStopRecording}
-          messages={messages}
-          handleNextClick={handleNextClick}
-          currentIndex={currentIndex}
-        />
-      )}
-      {/* )} */}
 
       {/* {console.log("activeStep", activeStep)} */}
       {console.log("chatting messagee", messages)}

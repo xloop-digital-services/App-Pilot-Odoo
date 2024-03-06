@@ -309,7 +309,10 @@ function MainUi() {
 
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
-          <div className=" hidden lg:block ">
+          <div 
+          className=" hidden lg:block" 
+         
+          >
             <SideBar sendMessage={sendMessage} />
           </div>
 

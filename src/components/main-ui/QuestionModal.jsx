@@ -44,12 +44,10 @@ const QuestionModal = ({
   stepDescriptions,
   images,
 }) => {
-  // const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
   const [messages, setMessages] = useState([]);
   const snap = images[activeStep];
-  // const input = useRef();
   const [skipped, setSkipped] = useState(new Set());
   const inputRef = useRef();
 
@@ -67,19 +65,6 @@ const QuestionModal = ({
     return skipped.has(step);
   };
 
-  // const handleNext = () => {
-  //   let newSkipped = skipped;
-  //   if (isStepSkipped(activeStep)) {
-  //     newSkipped = new Set(newSkipped.values());
-  //     newSkipped.delete(activeStep);
-  //   }
-
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  //   setSkipped(newSkipped);
-  // };
-  // const handleReset = () => {
-  //   setActiveStep(0);
-  // };
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -88,7 +73,6 @@ const QuestionModal = ({
       newSkipped.delete(activeStep);
     }
 
-    // Prevent incrementing activeStep beyond the last step
     if (activeStep < stepDescriptions.length - 1) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -176,7 +160,6 @@ const QuestionModal = ({
           <React.Fragment>
             <div className="flex flex-row -mt-5 -mb-3">
               <button
-                // className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-white text-[#ee1d23] mr-4"
                 className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] mr-4 ${
                   activeStep === 0
                     ? "bg-white text-[#ee1d23]"
@@ -188,7 +171,6 @@ const QuestionModal = ({
                 Back
               </button>
               <button
-                // className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
                 className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] ${
                   activeStep === stepDescriptions.length - 1
                     ? "bg-white text-[#ee1d23]"
