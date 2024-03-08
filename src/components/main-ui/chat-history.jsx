@@ -182,7 +182,8 @@ function ChatHistory({
                   setMicStart(!micStart);
                 }}
                 className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold
-                    ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
+                    ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}
+                    `}
               >
                 {/* MicrophoneIcon integrated into the button */}
                 <FontAwesomeIcon icon={faMicrophoneSlash} />

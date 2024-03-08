@@ -11,8 +11,8 @@ import { useMuteContext } from "../Avatar2";
 import { Select, MenuItem } from "@mui/material";
 
 function MainUi() {
-  const [micStart, setMicStart] = useState(false);
   // const [currentIndex, setCurrentIndex] = useState(0);
+  const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const input = useRef();
   const {
@@ -98,9 +98,9 @@ function MainUi() {
   }, [startStopRecording]);
 
   const sendMessage = (value = undefined) => {
-    console.log("click", value);
+    // console.log("click sendMSG index", value);
     const text = input.current.value.length > 0 ? input.current.value : value;
-    console.log(text);
+    console.log("given text : ",text);
     // setIsMuted(true)
 
     if (!text) {

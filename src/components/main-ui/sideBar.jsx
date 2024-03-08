@@ -37,21 +37,21 @@ function SideBar() {
   const [modalLoading, setModalLoading] = useState(false);
   const input = useRef();
   const {
-    chat,
+    // chat,
     currentIndex,
     selectLanguage,
-    setSelectLanguage,
+    // setSelectLanguage,
     setCurrentIndex,
-    loading,
-    setLoading,
-    micOn,
-    setMicOn,
-    cameraZoomed,
-    setCameraZoomed,
-    message,
-    messages,
+    // loading,
+    // setLoading,
+    // micOn,
+    // setMicOn,
+    // cameraZoomed,
+    // setCameraZoomed,
+    // message,
+    // messages,
   } = useChat();
-  const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
+  // const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
   // const { modalMessages: messages, modalLoading: loading } = useChatModal();
 
   const handleQuestionClick = async (question) => {
@@ -63,7 +63,7 @@ function SideBar() {
       )}/${selectLanguage}`
     );
     const result = await response.json();
-    console.log(result);
+    console.log("Question response data", result);
 
     stepDescriptions = result.data.map((step) => step.step);
     images = result.data.map((step) => step.image);
@@ -77,33 +77,33 @@ function SideBar() {
     setSelectedQuestion(null);
   };
 
-  const sendMessage = (value = undefined) => {
-    console.log("click", value);
-    const text = input.current.value.length > 0 ? input.current.value : value;
-    console.log(text);
-    // setIsMuted(true)
+  // const sendMessage = (value = undefined) => {
+  //   console.log("click sendMSG sidebar", value);
+  //   const text = input.current.value.length > 0 ? input.current.value : value;
+  //   console.log(text);
+  //   // setIsMuted(true)
 
-    if (!text) {
-      return;
-    }
+  //   if (!text) {
+  //     return;
+  //   }
 
-    if (micOn) {
-      setMicOn(false);
-      setMicStart(false);
-      setStartStopRecording("stop");
-    }
+  //   if (micOn) {
+  //     setMicOn(false);
+  //     setMicStart(false);
+  //     setStartStopRecording("stop");
+  //   }
 
-    if (!loading) {
-      chat(text);
-      input.current.value = "";
-    }
-  };
+  //   if (!loading) {
+  //     chat(text);
+  //     input.current.value = "";
+  //   }
+  // };
 
-  const startStopHandle = (value) => {
-    setStartStopRecording(value);
-    setMicOn(!micOn);
-    setMicStart(!micStart);
-  };
+  // const startStopHandle = (value) => {
+  //   setStartStopRecording(value);
+  //   setMicOn(!micOn);
+  //   setMicStart(!micStart);
+  // };
 
   const handleNextClick = (length) => {
     console.log(length);
@@ -111,24 +111,21 @@ function SideBar() {
       setCurrentIndex(currentIndex + 1);
     }
   };
-  const toggleVolume = () => {
-    if (!isMuted) {
-      //   console.log('Unmuting audio...');
-      unmuteAudio();
-    } else {
-      //   console.log('Muting audio...');
-      muteAudio();
-      // setIsMuted(false);
-    }
-  };
+  // const toggleVolume = () => {
+  //   if (!isMuted) {
+  //     unmuteAudio();
+  //   } else {
+  //     muteAudio();
+  //   }
+  // };
 
-  if (modalLoading) {
-    console.log("modal is active");
-  }
+  // if (modalLoading) {
+  //   console.log("modal is active");
+  // }
 
-  if (!modalLoading) {
-    console.log("modal is not active after getting response");
-  }
+  // if (!modalLoading) {
+  //   console.log("modal is not active after getting response");
+  // }
   return (
     <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl ">
       <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
@@ -157,16 +154,16 @@ function SideBar() {
             // loading={loading}
             // chat={chat}
             // activeStep={activeStep}
-            inputRef={input}
-            sendMessage={sendMessage}
-            micStart={micStart}
-            micOn={micOn}
-            loading={loading}
-            setMicOn={setMicOn}
-            setMicStart={setMicStart}
-            startStopHandle={startStopHandle}
-            startStopRecording={startStopRecording}
-            messages={messages}
+            // inputRef={input}
+            // sendMessage={sendMessage}
+            // micStart={micStart}
+            // micOn={micOn}
+            // loading={loading}
+            // setMicOn={setMicOn}
+            // setMicStart={setMicStart}
+            // startStopHandle={startStopHandle}
+            // startStopRecording={startStopRecording}
+            // messages={messages}
             handleNextClick={handleNextClick}
             currentIndex={currentIndex}
           />
@@ -192,7 +189,7 @@ function SideBar() {
       ))}
 
       {/* {console.log("activeStep", activeStep)} */}
-      {console.log("chatting messagee", messages)}
+      {/* {console.log("chatting messagee", messages)} */}
     </div>
   );
 }

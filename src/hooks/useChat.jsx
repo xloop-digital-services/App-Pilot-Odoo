@@ -5,15 +5,28 @@ const backendUrl = "http://13.233.132.194:8000";
 
 const ChatContext = createContext();
 
+
+
 export const ChatProvider = ({ children }) => {
+
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectLanguage, setSelectLanguage] = useState('en');
+  const [cameraZoomed, setCameraZoomed] = useState(true);
+  const [micOn, setMicOn] = useState(false);
+  const [animation, setAnimation] = useState('Idle');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const chat = async (message) => {
     setMessages([ ...messages, { text: message, sender: 'user' } ]);
-    // console.log(message)
+    console.log("message given to chat func",message)
+    console.log("data comes from response in mainUI",messages);
     setLoading(true);
     try{
       const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(message)}/${selectLanguage}`);
       const result = await response.json();
-      console.log(result);
+      console.log("result by useChat",result);
   
       if(result.data.length > 1){
         setCurrentIndex(0);
@@ -23,7 +36,7 @@ export const ChatProvider = ({ children }) => {
       }
       else{
         const myData = selectLanguage === 'en' ? {...result.data} : {...result.translate};
-        console.log(myData)
+        // console.log(myData)
         setMessages( prevmsg=> [ ...prevmsg, myData[0] ]);
       }
       setMessage(result);
@@ -45,14 +58,7 @@ export const ChatProvider = ({ children }) => {
     // setMessages((messages) => [...messages, ...resp]);
     // setLoading(false);
   };
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [selectLanguage, setSelectLanguage] = useState('en');
-  const [cameraZoomed, setCameraZoomed] = useState(true);
-  const [micOn, setMicOn] = useState(false);
-  const [animation, setAnimation] = useState('Idle');
-  const [currentIndex, setCurrentIndex] = useState(0);
+ 
 
   const onMessagePlayed = () => {
     setMessage(null);
@@ -66,6 +72,10 @@ export const ChatProvider = ({ children }) => {
       setMessage(null);
     }
   }, [message]);
+
+  // console.log("data comes from response in mainUI2",messages[1]);
+  // console.log("Image URL:", messages[1]?.list[0]?.image);
+
 
   return (
     <ChatContext.Provider

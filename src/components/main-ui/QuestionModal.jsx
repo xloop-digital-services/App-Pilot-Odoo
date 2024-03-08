@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { Modal, Spin } from "antd";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
 import bflLogo from "../../assets/bfl-logo.png";
-import avatar from "../../assets/avatar.png";
+// import avatar from "../../assets/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faForward,
@@ -12,17 +12,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import sender from "../../assets/send-2.svg";
-import userImg from "../../assets/user.png";
+// import userImg from "../../assets/user.png";
 import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatar.png";
-import ChatIcon from "../../assets/chat-frame.png";
+// import ChatIcon from "../../assets/chat-frame.png";
 import mainPic from "../../assets/mainPic.svg";
 import { Image } from "antd";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+// import Box from "@mui/material/Box";
+// import Button from "@mui/material/Button";
+// import Typography from "@mui/material/Typography";
 
-const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
+// const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
 const backendUrl = "http://13.233.132.194:8000";
 
@@ -32,13 +32,13 @@ const QuestionModal = ({
   // inputRef,
   // sendMessage,
   handleNextClick,
-  loading,
-  micOn,
-  setMicOn,
-  micStart,
-  setMicStart,
-  startStopHandle,
-  startStopRecording,
+  // loading,
+  // micOn,
+  // setMicOn,
+  // micStart,
+  // setMicStart,
+  // startStopHandle,
+  // startStopRecording,
   // messages,
   currentIndex,
   stepDescriptions,
@@ -50,6 +50,77 @@ const QuestionModal = ({
   const snap = images[activeStep];
   const [skipped, setSkipped] = useState(new Set());
   const inputRef = useRef();
+  const [loading, setLoading] = useState(false);
+
+  const [micStart, setMicStart] = useState(false);
+  const [startStopRecording, setStartStopRecording] = useState(true);
+  const [micOn, setMicOn] = useState(false);
+
+  useEffect(() => {
+    // console.log(messages)
+    let recognition;
+
+    const startRecognition = () => {
+      if ("webkitSpeechRecognition" in window) {
+        // console.log('kiya hua')
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+
+        recognition.onresult = function (event) {
+          let final_transcript = inputRef.current.value;
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+            }
+          }
+          inputRef.current.value = final_transcript;
+        };
+
+        recognition.start();
+      } else {
+        alert("Web Speech API is not supported in this browser.");
+      }
+    };
+
+    const stopRecognition = () => {
+      if (recognition) {
+        recognition.stop();
+      }
+    };
+
+    const voiceButton = document.getElementById("voice-sending-button");
+    const stopVoiceButton = document.getElementById("voice-stopSending-button");
+
+    // console.log(stopVoiceButton, 'chali he')
+    if (voiceButton || stopVoiceButton) {
+      // console.log('aya hn')
+      voiceButton.addEventListener("click", () => {
+        if (recognition && recognition.isStarted) {
+          console.log("Stop the recording");
+          stopRecognition();
+        } else {
+          //#endregio
+          console.log("Start the recording...");
+          startRecognition();
+        }
+      });
+    }
+
+    return () => {
+      if (recognition) {
+        recognition.stop();
+      }
+      if (voiceButton) {
+        voiceButton.removeEventListener("click", () => {
+          if (recognition) {
+            recognition.start();
+          }
+        });
+      }
+    };
+  }, [startStopRecording]);
 
   const handleStepChange = (step) => {
     setActiveStep(step);
@@ -80,26 +151,71 @@ const QuestionModal = ({
     setSkipped(newSkipped);
   };
 
+  // const sendMessage = async () => {
+  //   const input = inputRef.current.value;
+  //   console.log("click sendMSG modal")
+  //   setLoading(true)
+
+  //   if (input) {
+  //     setMessages([...messages, { text: input, sender: "user" }]);
+  //     inputRef.current.value = "";
+
+  //     const response = await fetch(
+  //       `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
+  //     );
+  //     const result = await response.json();
+  //     console.log("response in modal",result);
+
+  //     const myData =
+  //       "en" === "en" ? { ...result.data } : { ...result.translate };
+  //     console.log("only ai data",myData);
+  //     setMessages((prevmsg) => [...prevmsg, myData[0]]);
+  //     setLoading(false);
+  //   }
+  // };
+
   const sendMessage = async () => {
     const input = inputRef.current.value;
-
+    console.log("click sendMSG modal");
+    setLoading(true);
+  
     if (input) {
+      // Set micOn to false if it is true
+      if (micOn) {
+        setMicOn(false);
+        setMicStart(false);
+        setStartStopRecording("stop");
+      }
+  
       setMessages([...messages, { text: input, sender: "user" }]);
-
       inputRef.current.value = "";
-
-      const response = await fetch(
-        `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
-      );
-      const result = await response.json();
-      console.log(result);
-
-      const myData =
-        "en" === "en" ? { ...result.data } : { ...result.translate };
-      console.log(myData);
-      setMessages((prevmsg) => [...prevmsg, myData[0]]);
+  
+      try {
+        const response = await fetch(
+          `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
+        );
+        const result = await response.json();
+        console.log("response in modal", result);
+  
+        const myData =
+          "en" === "en" ? { ...result.data } : { ...result.translate };
+        console.log("only ai data", myData);
+        setMessages((prevmsg) => [...prevmsg, myData[0]]);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        // Handle errors if necessary
+      } finally {
+        setLoading(false);
+      }
     }
   };
+
+  const startStopHandle = (value) => {
+    setStartStopRecording(value);
+    setMicOn(!micOn);
+    setMicStart(!micStart);
+  };
+  
 
   return (
     <Modal
@@ -185,7 +301,7 @@ const QuestionModal = ({
               >
                 {/* {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"} */}
                 Next
-                {console.log("active state at 0", activeStep)}
+                {/* {console.log("active state at 0", activeStep)} */}
               </button>
             </div>
           </React.Fragment>
@@ -324,17 +440,17 @@ const QuestionModal = ({
               {micStart ? (
                 // /* //stop the recording */
                 <button
-                  id="voice-stop-button"
+                  id="voice-stopSending-button"
                   // disabled={micOn}
                   onClick={() => startStopHandle(!startStopRecording)}
-                  className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold
-                    ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
+                  className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold`}
+                    // loading || micOn ? "cursor-not-allowed opacity-30" : ""
                 >
                   <FontAwesomeIcon icon={faMicrophone} />
                 </button>
               ) : (
                 <button
-                  id="voice-typing-button"
+                  id="voice-sending-button"
                   // disabled={micOn}
                   onClick={() => {
                     setMicOn((prev) => !prev);
@@ -362,6 +478,7 @@ const QuestionModal = ({
           {/* SEND INPUT BOX IN MAIN PAGE */}
         </div>
       </div>
+      {console.log("all msg by modal",messages)}
     </Modal>
   );
 };
