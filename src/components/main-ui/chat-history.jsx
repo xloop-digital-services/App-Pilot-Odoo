@@ -26,8 +26,15 @@ function ChatHistory({
   startStopHandle,
   startStopRecording,
   messages,
+  dataMessage,
   currentIndex,
 }) {
+  const startJourney = () => {
+    console.log("hit api for journey questions");
+  };
+
+  console.log("messages", messages);
+  console.log("DataMessage me data he", dataMessage);
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
@@ -105,20 +112,27 @@ function ChatHistory({
                         <div className="flex flex-col">
                           <p className="w-full mt-2">{message.text}</p>
 
-                          {message.type === "list" && (
-                            <div>
-                              {/* REPLY CHAT BUTTON START */}
-                              <div className="flex flex-row mt-3 -mb-3">
-                                <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
-                                  No
-                                </button>
-                                <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
-                                  Yes
-                                </button>
+                          {console.log("data message :", dataMessage)}
+
+                          {dataMessage &&
+                            dataMessage.is_journey &&
+                            dataMessage.is_journey.journey_avalible == 1 && (
+                              <div>
+                                {/* REPLY CHAT BUTTON START */}
+                                <div className="flex flex-row mt-3 -mb-3">
+                                  <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
+                                    No
+                                  </button>
+                                  <button
+                                    className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
+                                    onClick={() => startJourney()}
+                                  >
+                                    Yes
+                                  </button>
+                                </div>
+                                {/* REPLY CHAT BUTTON END */}
                               </div>
-                              {/* REPLY CHAT BUTTON END */}
-                            </div>
-                          )}
+                            )}
 
                           {message.image && (
                             <div className=" w-[60%] h-[100%] mb-3 mt-4">

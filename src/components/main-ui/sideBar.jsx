@@ -9,18 +9,46 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 const backendUrl = "http://13.233.132.194:8000";
 
+
 const questions = [
+  // {
+  //   question: "How to view e-statement?",
+  // },
+  // {
+  //   question: "How to apply for loan?",
+  // },
+  // {
+  //   question: "How to apply for BNPL?",
+  // },
+  // {
+  //   question: "What is Alfa app?",
+  // },
   {
-    question: "How to view e-statement?",
+    question: "How to view eStatement?",
   },
   {
-    question: "How to apply for loan?",
+    question: "How do you load a mobile package via a banking app?",
   },
   {
-    question: "How to apply for BNPL?",
+    question: "How to online apply for new cheque book using Bank Alfalah Alfa App",
   },
   {
-    question: "What is Alfa app?",
+    question: "How to register for Bank Alfalah App",
+  },
+  {
+    question: "How to Open Bank Alfalah Roshan Digital Account Online",
+  },
+  {
+    question: "How to create Alfa Savings Account",
+  },
+  {
+    question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING",
+  },
+  {
+    question: "How to activate credit card?",
+  },
+  {
+    question: "How to activate Debit Card via WhatsApp?",
   },
 ];
 

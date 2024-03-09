@@ -21,17 +21,26 @@ export const ChatProvider = ({ children }) => {
   const chat = async (message) => {
     setMessages([ ...messages, { text: message, sender: 'user' } ]);
     console.log("message given to chat func",message)
-    console.log("data comes from response in mainUI",messages);
     setLoading(true);
     try{
       const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(message)}/${selectLanguage}`);
       const result = await response.json();
       console.log("result by useChat",result);
-  
+      
+      
+      if(result.is_journey.journey_avalible == 1){
+        console.log("ye journey question he",result.is_journey.journey_avalible)
+      }
+      if(result.is_journey.journey_avalible == 0){
+        console.log("ye journey question he",result.is_journey.journey_avalible)
+      }
+      
+      
+      
       if(result.data.length > 1){
         setCurrentIndex(0);
         const list = selectLanguage === 'en' ? [...result.data] : [...result.translate]
-
+        
         setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list} ]);
       }
       else{
@@ -42,6 +51,7 @@ export const ChatProvider = ({ children }) => {
       setMessage(result);
       setLoading(false);
       // setMicOn(false);
+      console.log("data comes from response in mainUI",messages);
     }
     catch(err){
       console.log("errOr",err)
@@ -75,7 +85,10 @@ export const ChatProvider = ({ children }) => {
 
   // console.log("data comes from response in mainUI2",messages[1]);
   // console.log("Image URL:", messages[1]?.list[0]?.image);
+  // console.log("messages:", messages);
+  // console.log("message:", message);
 
+// newly added 
 
   return (
     <ChatContext.Provider

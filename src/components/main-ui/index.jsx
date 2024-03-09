@@ -169,6 +169,9 @@ function MainUi() {
     );
   };
 
+  // console.log("messages",messages)
+  // console.log("message",message)
+
   return (
     <>
       <div className="lg:p-[2rem]  absolute z-30 w-full ">
@@ -328,6 +331,7 @@ function MainUi() {
               startStopHandle={startStopHandle}
               startStopRecording={startStopRecording}
               messages={messages}
+              dataMessage={message}
               handleNextClick={handleNextClick}
               currentIndex={currentIndex}
             />
