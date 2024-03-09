@@ -33,7 +33,7 @@ function ChatHistory({
   startStopHandle,
   startStopRecording,
   messages,
-  dataMessage,
+  // dataMessage,
   currentIndex,
 }) {
 
@@ -42,11 +42,6 @@ function ChatHistory({
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
 
-
-
-  const startJourney = () => {
-    console.log("hit api for journey questions");
-  };
 
   const handleNoJourney = (text)=>{
     journeyRef.current.textContent = text;
@@ -76,7 +71,7 @@ function ChatHistory({
   };
 
   console.log("messages", messages);
-  console.log("DataMessage me data he", dataMessage);
+  // console.log("DataMessage me data he", dataMessage);
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
@@ -154,7 +149,7 @@ function ChatHistory({
                         <div className="flex flex-col">
                           {/* <p className="w-full mt-2">{message[0].text}</p> */}
 
-                          {console.log("data message :", dataMessage)}
+                          {/* {console.log("data message :", dataMessage)} */}
 
                           {message.is_journey &&
                             message.is_journey &&
@@ -172,7 +167,7 @@ function ChatHistory({
                                     onClick={() => handleQuestionClick(message.is_journey.question_list[0])}
                                   >
                                     {
-                                      modalLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> 
+                                      modalLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20, color:"white" }} spin />} /> 
                                       :
                                       'Yes'
                                     }

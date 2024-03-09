@@ -80,7 +80,7 @@ export const ChatProvider = ({ children }) => {
 
   // console.log("data comes from response in mainUI2",messages[1]);
   // console.log("Image URL:", messages[1]?.list[0]?.image);
-  // console.log("messages:", messages);
+  console.log("MESSAGES:", messages);
   // console.log("message:", message);
 
 // newly added 
