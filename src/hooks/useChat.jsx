@@ -27,15 +27,7 @@ export const ChatProvider = ({ children }) => {
       const result = await response.json();
       console.log("result by useChat",result);
       
-      
-      if(result.is_journey.journey_avalible == 1){
-        console.log("ye journey question he",result.is_journey.journey_avalible)
-      }
-      if(result.is_journey.journey_avalible == 0){
-        console.log("ye journey question he",result.is_journey.journey_avalible)
-      }
-      
-      
+      // result.is_journey.journey_avalible
       
       if(result.data.length > 1){
         setCurrentIndex(0);
@@ -44,10 +36,13 @@ export const ChatProvider = ({ children }) => {
         setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list} ]);
       }
       else{
-        const myData = selectLanguage === 'en' ? {...result.data} : {...result.translate};
-        // console.log(myData)
-        setMessages( prevmsg=> [ ...prevmsg, myData[0] ]);
+        const myData = selectLanguage === 'en' ? [{...result.data, is_journey: result.is_journey }] : {...result.translate, is_journey: result.is_journey };
+        console.log(myData, 'inner data')
+        setMessages( prevmsg=> [ ...prevmsg, myData[0]]);
       }
+
+
+
       setMessage(result);
       setLoading(false);
       // setMicOn(false);

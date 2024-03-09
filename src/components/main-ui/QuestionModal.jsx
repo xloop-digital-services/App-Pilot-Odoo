@@ -44,6 +44,10 @@ const QuestionModal = ({
   stepDescriptions,
   images,
 }) => {
+
+
+  console.log(stepDescriptions, 'modal description')
+
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
   const [messages, setMessages] = useState([]);

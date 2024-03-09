@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import sender from "../../assets/send-2.svg";
 import userImg from "../../assets/user.png";
 import bflLogo from "../../assets/bfl-logo.png";
@@ -7,12 +7,19 @@ import avatarLogo from "../../assets/avatar.png";
 import ChatIcon from "../../assets/chat-frame.png";
 import mainPic from "../../assets/mainPic.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LoadingOutlined } from "@ant-design/icons";
 import {
   faForward,
   faMicrophone,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Image } from "antd";
+import { Image, Spin } from "antd";
+import QuestionModal from "./QuestionModal";
+import { fetchJournies } from "./sideBar";
+
+
+let stepDescriptions = null;
+let images = null;
 
 function ChatHistory({
   inputRef,
@@ -29,8 +36,43 @@ function ChatHistory({
   dataMessage,
   currentIndex,
 }) {
+
+  const journeyRef = useRef();
+  const journeyRefDiv = useRef();
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
+
+
+
   const startJourney = () => {
     console.log("hit api for journey questions");
+  };
+
+  const handleNoJourney = (text)=>{
+    journeyRef.current.textContent = text;
+    journeyRefDiv.current.style.display = 'none';
+  }
+
+
+  const handleQuestionClick = async (question) => {
+    setModalLoading(true);
+
+    const result = await fetchJournies(question);
+    
+    console.log("Question response data", result);
+
+    console.log(result.top_results, ' result data')
+
+    stepDescriptions = result.top_results.steps.map((step) => step.Step);
+    images = result.top_results.steps.map((step) => step.Image_URL);
+
+    setSelectedQuestion(question);
+    setModalLoading(false);
+    // journeyRefDiv.current.style.display = 'none';
+  };
+
+  const closeModal = () => {
+    setSelectedQuestion(null);
   };
 
   console.log("messages", messages);
@@ -70,7 +112,7 @@ function ChatHistory({
                         </div>
                       </div>
 
-                      {message.type === "list" ? (
+                      {/* {message.type === "list" ? (
                         <div>
                           {message.list.map((msg, index) => {
                             return (
@@ -108,31 +150,40 @@ function ChatHistory({
                             </button>
                           )}
                         </div>
-                      ) : (
+                      ) : */}
                         <div className="flex flex-col">
-                          <p className="w-full mt-2">{message.text}</p>
+                          {/* <p className="w-full mt-2">{message[0].text}</p> */}
 
                           {console.log("data message :", dataMessage)}
 
-                          {dataMessage &&
-                            dataMessage.is_journey &&
-                            dataMessage.is_journey.journey_avalible == 1 && (
+                          {message.is_journey &&
+                            message.is_journey &&
+                            message.is_journey.journey_avalible == 1 ? (
                               <div>
                                 {/* REPLY CHAT BUTTON START */}
-                                <div className="flex flex-row mt-3 -mb-3">
-                                  <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
+                                <p ref={journeyRef}  className="w-full mt-2">Do you want see journey?</p> 
+                                <div className="flex flex-row mt-3 -mb-3" ref={journeyRefDiv} >
+                                  <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4" 
+                                    onClick={()=> handleNoJourney(message[0].text)}>
                                     No
                                   </button>
                                   <button
                                     className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
-                                    onClick={() => startJourney()}
+                                    onClick={() => handleQuestionClick(message.is_journey.question_list[0])}
                                   >
-                                    Yes
+                                    {
+                                      modalLoading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} /> 
+                                      :
+                                      'Yes'
+                                    }
                                   </button>
                                 </div>
                                 {/* REPLY CHAT BUTTON END */}
                               </div>
-                            )}
+                            )
+                            :
+                            <p className="w-full mt-2">{message[0].text}</p> 
+                            }
 
                           {message.image && (
                             <div className=" w-[60%] h-[100%] mb-3 mt-4">
@@ -144,7 +195,6 @@ function ChatHistory({
                             </div>
                           )}
                         </div>
-                      )}
                     </div>
                   )}
                 </div>
@@ -160,6 +210,32 @@ function ChatHistory({
             </div>
           )}
         </div>
+        {
+          selectedQuestion && (
+            <QuestionModal
+                selectedQuestion={selectedQuestion}
+                closeModal={closeModal}
+                stepDescriptions={stepDescriptions}
+                images={images}
+                // modalLoading={modalLoading}
+                // loading={loading}
+                // chat={chat}
+                // activeStep={activeStep}
+                // inputRef={input}
+                // sendMessage={sendMessage}
+                // micStart={micStart}
+                // micOn={micOn}
+                // loading={loading}
+                // setMicOn={setMicOn}
+                // setMicStart={setMicStart}
+                // startStopHandle={startStopHandle}
+                // startStopRecording={startStopRecording}
+                // messages={messages}
+                handleNextClick={handleNextClick}
+                currentIndex={currentIndex}
+              />
+          )
+        }
 
         {/* SEND INPUT BOX IN MAIN PAGE */}
 

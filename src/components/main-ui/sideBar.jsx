@@ -55,49 +55,48 @@ const questions = [
 let stepDescriptions = null;
 let images = null;
 
+
+//modal fetch function
+export const fetchJournies = async (question)=>{
+  const response = await fetch(
+    `${backendUrl}/get_step_response/?user_input=${encodeURIComponent(question)}`,
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method : 'POST'
+    }
+  );
+  return response.json();
+}
+
 function SideBar() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  // const [activeStep, setActiveStep] = useState(0);
 
   const [micStart, setMicStart] = useState(false);
-  // const [currentIndex, setCurrentIndex] = useState(0);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const [modalLoading, setModalLoading] = useState(false);
   const input = useRef();
   const {
-    // chat,
     currentIndex,
     selectLanguage,
-    // setSelectLanguage,
     setCurrentIndex,
-    // loading,
-    // setLoading,
-    // micOn,
-    // setMicOn,
-    // cameraZoomed,
-    // setCameraZoomed,
-    // message,
-    // messages,
   } = useChat();
-  // const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
-  // const { modalMessages: messages, modalLoading: loading } = useChatModal();
+  
 
   const handleQuestionClick = async (question) => {
     setModalLoading(true);
 
-    const response = await fetch(
-      `${backendUrl}/query_response/${encodeURIComponent(
-        question
-      )}/${selectLanguage}`
-    );
-    const result = await response.json();
+    const result = await fetchJournies(question);
+    
     console.log("Question response data", result);
 
-    stepDescriptions = result.data.map((step) => step.step);
-    images = result.data.map((step) => step.image);
+    console.log(result.top_results, ' result data')
+
+    stepDescriptions = result.top_results.steps.map((step) => step.Step);
+    images = result.top_results.steps.map((step) => step.Image_URL);
 
     setSelectedQuestion(question);
-    // console.log(JSON.stringify(stepDescriptions));
     setModalLoading(false);
   };
 
