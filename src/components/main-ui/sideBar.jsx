@@ -9,26 +9,12 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 const backendUrl = "http://13.233.132.194:8000";
 
-const questions = [
-  {
-    question: "How to view e-statement?",
-  },
-  {
-    question: "How to apply for loan?",
-  },
-  {
-    question: "How to apply for BNPL?",
-  },
-  {
-    question: "What is Alfa app?",
-  },
-];
-
 let stepDescriptions = null;
 let images = null;
 
-function SideBar() {
+function SideBar({questions}) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+
   // const [activeStep, setActiveStep] = useState(0);
 
   const [micStart, setMicStart] = useState(false);
@@ -51,8 +37,7 @@ function SideBar() {
     // message,
     // messages,
   } = useChat();
-  // const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
-  // const { modalMessages: messages, modalLoading: loading } = useChatModal();
+
 
   const handleQuestionClick = async (question) => {
     setModalLoading(true);
@@ -77,33 +62,6 @@ function SideBar() {
     setSelectedQuestion(null);
   };
 
-  // const sendMessage = (value = undefined) => {
-  //   console.log("click sendMSG sidebar", value);
-  //   const text = input.current.value.length > 0 ? input.current.value : value;
-  //   console.log(text);
-  //   // setIsMuted(true)
-
-  //   if (!text) {
-  //     return;
-  //   }
-
-  //   if (micOn) {
-  //     setMicOn(false);
-  //     setMicStart(false);
-  //     setStartStopRecording("stop");
-  //   }
-
-  //   if (!loading) {
-  //     chat(text);
-  //     input.current.value = "";
-  //   }
-  // };
-
-  // const startStopHandle = (value) => {
-  //   setStartStopRecording(value);
-  //   setMicOn(!micOn);
-  //   setMicStart(!micStart);
-  // };
 
   const handleNextClick = (length) => {
     console.log(length);
@@ -111,23 +69,9 @@ function SideBar() {
       setCurrentIndex(currentIndex + 1);
     }
   };
-  // const toggleVolume = () => {
-  //   if (!isMuted) {
-  //     unmuteAudio();
-  //   } else {
-  //     muteAudio();
-  //   }
-  // };
 
-  // if (modalLoading) {
-  //   console.log("modal is active");
-  // }
-
-  // if (!modalLoading) {
-  //   console.log("modal is not active after getting response");
-  // }
   return (
-    <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl ">
+    <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-auto" style={{height:"420px"}}>
       <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
         {" "}
         Frequently Asked journeys{" "}
@@ -187,9 +131,6 @@ function SideBar() {
           </p>
         </div>
       ))}
-
-      {/* {console.log("activeStep", activeStep)} */}
-      {/* {console.log("chatting messagee", messages)} */}
     </div>
   );
 }
