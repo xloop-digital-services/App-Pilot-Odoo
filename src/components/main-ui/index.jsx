@@ -2,16 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import ChatHistory from "./chat-history";
 import SideBar from "./sideBar";
 import Logo from "../../assets/logo.png";
-import bflLogo from "../../assets/bfl-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
-import { Select, MenuItem } from "@mui/material";
 
 function MainUi() {
-  // const [currentIndex, setCurrentIndex] = useState(0);
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const input = useRef();
@@ -24,8 +21,6 @@ function MainUi() {
     loading,
     micOn,
     setMicOn,
-    cameraZoomed,
-    setCameraZoomed,
     message,
     messages,
   } = useChat();
@@ -100,7 +95,7 @@ function MainUi() {
   const sendMessage = (value = undefined) => {
     // console.log("click sendMSG index", value);
     const text = input.current.value.length > 0 ? input.current.value : value;
-    console.log("given text : ",text);
+    console.log("given text : ", text);
     // setIsMuted(true)
 
     if (!text) {
@@ -139,19 +134,11 @@ function MainUi() {
 
   const toggleVolume = () => {
     if (!isMuted) {
-      //   console.log('Unmuting audio...');
       unmuteAudio();
     } else {
-      //   console.log('Muting audio...');
       muteAudio();
-      // setIsMuted(false);
     }
   };
-
-  // Function to handle option click
-  // const handleOptionClick = (option) => {
-  //   setSelectedOption(option);
-  // };
 
   const [bankingOptions, setBankingOptions] = useState([
     { label: "Islamic Banking", isOpen: false },
@@ -182,11 +169,6 @@ function MainUi() {
               alt="logo"
               className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
             />
-            {/* <img
-              src={bflLogo}
-              alt="logo"
-              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
-            /> */}
             <h3 className="text-h-color lg:text-[2.106rem]  font-[600]">
               App Pilot
             </h3>
@@ -312,10 +294,7 @@ function MainUi() {
 
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
-          <div 
-          className=" hidden lg:block" 
-         
-          >
+          <div className=" hidden lg:block">
             <SideBar sendMessage={sendMessage} />
           </div>
 
@@ -328,11 +307,10 @@ function MainUi() {
               loading={loading}
               setMicOn={setMicOn}
               setMicStart={setMicStart}
+              handleNextClick={handleNextClick}
               startStopHandle={startStopHandle}
               startStopRecording={startStopRecording}
               messages={messages}
-              dataMessage={message}
-              handleNextClick={handleNextClick}
               currentIndex={currentIndex}
             />
           </div>

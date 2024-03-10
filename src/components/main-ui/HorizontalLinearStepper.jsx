@@ -4,8 +4,6 @@ import Step from "@mui/material/Step";
 import Box from "@mui/material/Box";
 import StepLabel from "@mui/material/StepLabel";
 
-// const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
-
 const CustomStepIcon = ({ index, active, completed, onClick }) => {
   const handleClick = () => {
     onClick(index);
@@ -37,8 +35,6 @@ const CustomStepIcon = ({ index, active, completed, onClick }) => {
 export default function HorizontalLinearStepper({
   activeStep,
   onChangeStep,
-  // completedSteps,
-  // setActiveStep,
   steps,
 }) {
   const handleStepClick = (step) => {
