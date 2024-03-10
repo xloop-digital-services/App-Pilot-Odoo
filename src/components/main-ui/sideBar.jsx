@@ -11,18 +11,6 @@ const backendUrl = "http://13.233.132.194:8000";
 
 
 const questions = [
-  // {
-  //   question: "How to view e-statement?",
-  // },
-  // {
-  //   question: "How to apply for loan?",
-  // },
-  // {
-  //   question: "How to apply for BNPL?",
-  // },
-  // {
-  //   question: "What is Alfa app?",
-  // },
   {
     question: "How to view eStatement?",
   },
@@ -154,7 +142,7 @@ function SideBar() {
   //   console.log("modal is not active after getting response");
   // }
   return (
-    <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl ">
+    <div className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl  ">
       <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
         {" "}
         Frequently Asked journeys{" "}
@@ -197,9 +185,10 @@ function SideBar() {
         )
       )}
 
+<div className="max-h-[335px] overflow-y-auto sideBarQuestion" >
       {questions.map((question, index) => (
         <div
-          className="bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px]"
+          className="bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 mr-2 gap-4 rounded-3xl w-[480px] ] "
           key={index}
         >
           <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
@@ -214,7 +203,7 @@ function SideBar() {
           </p>
         </div>
       ))}
-
+</div>
       {/* {console.log("activeStep", activeStep)} */}
       {/* {console.log("chatting messagee", messages)} */}
     </div>
