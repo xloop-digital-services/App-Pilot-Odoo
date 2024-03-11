@@ -32,7 +32,6 @@ function ChatHistory({
   messages,
   currentIndex,
 }) {
-
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
   const journeyRef = useRef();
@@ -62,8 +61,6 @@ function ChatHistory({
     setModalLoading(false);
     // journeyRefDiv.current.style.display = 'none';
   };
-  
-  
 
   const closeModal = () => {
     setSelectedQuestion(null);
@@ -95,7 +92,7 @@ function ChatHistory({
                   {message.sender === "user" ? (
                     <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
                       <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#9B9B9B] rounded-full flex items-center justify-center">
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#ebebeb] rounded-full flex items-center justify-center">
                           <img
                             src={bflLogo}
                             alt="sender image"
@@ -134,11 +131,12 @@ function ChatHistory({
                               </button>
                               <button
                                 className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
-                                onClick={() =>{
+                                onClick={() => {
                                   toggleVolumeWhenModalOpen();
-                                  handleQuestionClick(message.is_journey.question_list[0]);
-                                }
-                                }
+                                  handleQuestionClick(
+                                    message.is_journey.question_list[0]
+                                  );
+                                }}
                               >
                                 {modalLoading ? (
                                   <Spin
@@ -199,9 +197,16 @@ function ChatHistory({
         {/* SEND INPUT BOX IN MAIN PAGE */}
 
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
+          {loading && (
+            <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
+              <Spin
+                indicator={<LoadingOutlined style={{ fontSize: 38 }} spin />}
+              />
+            </div>
+          )}
           <input
             ref={inputRef}
-            placeholder="Ask or search anything"
+            placeholder={loading ? "" : "Ask or search anything"}
             className="w-full bg-[#F3F3F3] text-btn-color rounded-3xl p-1 focus:outline-none"
             onKeyDown={(e) => {
               if (e.key === "Enter") {

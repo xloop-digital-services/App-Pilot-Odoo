@@ -1,8 +1,9 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Modal, Spin } from "antd";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
 import bflLogo from "../../assets/bfl-logo.png";
-// import avatar from "../../assets/avatar.png";
+// import { Modal, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faForward,
@@ -55,6 +56,7 @@ const QuestionModal = ({
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const [micOn, setMicOn] = useState(false);
+  const [inputDisabled, setInputDisabled] = useState(false);
 
   useEffect(() => {
     // console.log(messages)
@@ -136,7 +138,6 @@ const QuestionModal = ({
     return skipped.has(step);
   };
 
-
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -178,7 +179,8 @@ const QuestionModal = ({
     const input = inputRef.current.value;
     console.log("click sendMSG modal");
     setLoading(true);
-  
+    setInputDisabled(true); // Disable input box while loading
+
     if (input) {
       // Set micOn to false if it is true
       if (micOn) {
@@ -186,17 +188,17 @@ const QuestionModal = ({
         setMicStart(false);
         setStartStopRecording("stop");
       }
-  
+
       setMessages([...messages, { text: input, sender: "user" }]);
       inputRef.current.value = "";
-  
+
       try {
         const response = await fetch(
           `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
         );
         const result = await response.json();
         console.log("response in modal", result);
-  
+
         const myData =
           "en" === "en" ? { ...result.data } : { ...result.translate };
         console.log("only ai data", myData);
@@ -206,6 +208,7 @@ const QuestionModal = ({
         // Handle errors if necessary
       } finally {
         setLoading(false);
+        setInputDisabled(false); // Re-enable input box after loading
       }
     }
   };
@@ -215,7 +218,6 @@ const QuestionModal = ({
     setMicOn(!micOn);
     setMicStart(!micStart);
   };
-  
 
   return (
     <Modal
@@ -227,6 +229,7 @@ const QuestionModal = ({
       width={"704px"}
       style={{ top: "40px" }}
     >
+      <div className="modal-content">
       <div className="bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-7 ml-3  w-[650px] h-[400px] flex justify-center items-center mt-7">
         <div className="bg-[#ffffff] rounded-2xl border border-1 border-[#f0f0f0] p-5 flex items-center justify-center flex-col h-[364px]  w-[600px] mt-8">
           <HorizontalLinearStepper
@@ -315,126 +318,145 @@ const QuestionModal = ({
             Ask Me
           </p>
           <hr class="w-[593px] border border-1 border-[#f0f0f0] mt-3 "></hr>
-
-          {/* list of messages */}
-          <div className="overflow-y-auto lg:h-[62%] h-[77%] ">
-            {messages.length > 0 ? (
-              messages?.map((message, index) => {
-                return (
-                  <div key={index}>
-                    {/* USER MSG */}
-                    {message.sender === "user" ? (
-                      <div className="flex flex-row -mt-1">
-                        <div className="ml-4 mt-4 bg-[#ebebeb] rounded-full h-10 w-10 flex flex-row items-center justify-center">
-                          <img src={bflLogo} alt="logo" className="w-6 h-6" />
-                        </div>
-                        <p className="mt-6 ml-4 font-inter font-semibold text-base leading-[157%] text-black">
-                          {message.text}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] flex flex-row overflow-y-auto">
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center mt-2">
-                            <img src={avatarLogo} alt="chat avatar image" />
-                          </div>
-                        </div>
-
-                        {message.type === "list" ? (
-                          <div>
-                            {message.list.map((msg, index) => {
-                              return (
-                                index <= currentIndex && (
-                                  <div key={index}>
-                                    <p className="w-full flex items-center py-2">
-                                      {msg.step}
-                                    </p>
-                                    {msg.image && (
-                                      <div className=" w-[60%] h-[100%] mb-3 mt-4">
-                                        <Image
-                                          width={"50%"}
-                                          src={`data:image/png;base64, ${msg.image}`}
-                                          alt={"result image"}
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
-                                )
-                              );
-                            })}
-                            {message.list.length - 1 <= currentIndex ? null : (
-                              <button
-                                className="text-white bg-btn-color rounded-full font-semibold px-2.5 py-1.5 mt-1.5"
-                                onClick={() =>
-                                  handleNextClick(message.list.length)
-                                }
-                              >
-                                Next step
-                                <FontAwesomeIcon
-                                  icon={faForward}
-                                  size="1x"
-                                  className="ml-4 "
-                                />
-                              </button>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex flex-col">
-                            <p className="text-[#2C2A2B] font-inter text-sm font-light mt-3 ml-3">
+          {/* FIRST MOVE LOADER THEN SHOW RESPONSE REPLY BY BOT  */}
+          {/* {loading && (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <Spin
+                indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />}
+              />
+            </div>
+          )} */}
+          {/* {!loading && ( */}
+            <>
+              {/* list of messages */}
+              <div className="overflow-y-auto lg:h-[62%] h-[77%] ">
+                {messages.length > 0 ? (
+                  messages?.map((message, index) => {
+                    return (
+                      <div key={index}>
+                        {/* USER MSG */}
+                        {message.sender === "user" ? (
+                          <div className="flex flex-row -mt-1">
+                            <div className="ml-4 mt-4 bg-[#ebebeb] rounded-full h-10 w-10 flex flex-row items-center justify-center">
+                              <img
+                                src={bflLogo}
+                                alt="logo"
+                                className="w-6 h-6"
+                              />
+                            </div>
+                            <p className="mt-6 ml-4 font-inter font-semibold text-base leading-[157%] text-black">
                               {message.text}
                             </p>
+                          </div>
+                        ) : (
+                          <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] flex flex-row overflow-y-auto">
+                            <div>
+                              <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center mt-2">
+                                <img src={avatarLogo} alt="chat avatar image" />
+                              </div>
+                            </div>
 
-                            {/* REPLY CHAT BUTTON START */}
-                            {/* <div className="flex flex-row mt-3 -mb-3">
-                              <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4">
-                                No
-                              </button>
-                              <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
-                                Yesll
-                              </button>
-                            </div> */}
-                            {/* REPLY CHAT BUTTON END */}
+                            {message.type === "list" ? (
+                              <div>
+                                {message.list.map((msg, index) => {
+                                  return (
+                                    index <= currentIndex && (
+                                      <div key={index}>
+                                        <p className="w-full flex items-center py-2">
+                                          {msg.step}
+                                        </p>
+                                        {msg.image && (
+                                          <div className=" w-[60%] h-[100%] mb-3 mt-4">
+                                            <Image
+                                              width={"50%"}
+                                              src={`data:image/png;base64, ${msg.image}`}
+                                              alt={"result image"}
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    )
+                                  );
+                                })}
+                                {message.list.length - 1 <=
+                                currentIndex ? null : (
+                                  <button
+                                    className="text-white bg-btn-color rounded-full font-semibold px-2.5 py-1.5 mt-1.5"
+                                    onClick={() =>
+                                      handleNextClick(message.list.length)
+                                    }
+                                  >
+                                    Next step
+                                    <FontAwesomeIcon
+                                      icon={faForward}
+                                      size="1x"
+                                      className="ml-4 "
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="flex flex-col">
+                                <p className="text-[#2C2A2B] font-inter text-sm font-light mt-3 ml-3">
+                                  {message.text}
+                                </p>
 
-                            {message.image && (
-                              <div className=" w-[60%] h-[100%] mb-3 mt-4 ">
-                                <Image
-                                  width={"50%"}
-                                  src={bg}
-                                  alt={`data:image/png;base64, ${message.image}`}
-                                />
+                                {message.image && (
+                                  <div className=" w-[60%] h-[100%] mb-3 mt-4 ">
+                                    <Image
+                                      width={"50%"}
+                                      src={bg}
+                                      alt={`data:image/png;base64, ${message.image}`}
+                                    />
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
                         )}
                       </div>
-                    )}
+                    );
+                  })
+                ) : (
+                  <div className="flex justify-center items-center h-full">
+                    <img
+                      src={mainPic}
+                      alt="chat icon"
+                      className="sm:w-[60%] sm:h-[100%] p-0 "
+                    />
                   </div>
-                );
-              })
-            ) : (
-              <div className="flex justify-center items-center h-full">
-                <img
-                  src={mainPic}
-                  alt="chat icon"
-                  className="sm:w-[60%] sm:h-[100%] p-0 "
-                />
+                )}
               </div>
-            )}
-          </div>
+            </>
+          {/* )} */}
 
           {/* SEND INPUT BOX IN MAIN PAGE */}
 
-          <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-4 absolute ml-4  w-[560px] h-[60px] m-4 mt-1">
+          <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-4 ml-4  w-[560px] h-[60px] m-4 mt-1  absolute bottom-7 ">
+            
+            {loading && (
+    <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} />
+    </div>
+  )}
             <input
               ref={inputRef}
-              placeholder="Ask or search anything"
-              className="w-full bg-[#F3F3F3] text-btn-color rounded-3xl p-1 focus:outline-none"
+              placeholder={loading ? "" : "Ask or search anything"}
+              className="w-full bg-[#F3F3F3]  text-btn-color rounded-3xl p-1 focus:outline-none"
+              disabled={inputDisabled} // Disable input box when loading
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   sendMessage();
                 }
               }}
             />
+
 
             <div className="flex gap-4">
               {micStart ? (
@@ -444,7 +466,7 @@ const QuestionModal = ({
                   // disabled={micOn}
                   onClick={() => startStopHandle(!startStopRecording)}
                   className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold`}
-                    // loading || micOn ? "cursor-not-allowed opacity-30" : ""
+                  // loading || micOn ? "cursor-not-allowed opacity-30" : ""
                 >
                   <FontAwesomeIcon icon={faMicrophone} />
                 </button>
@@ -478,7 +500,8 @@ const QuestionModal = ({
           {/* SEND INPUT BOX IN MAIN PAGE */}
         </div>
       </div>
-      {console.log("all msg by modal",messages)}
+      {/* {console.log("all msg by modal", messages)} */}
+      </div>
     </Modal>
   );
 };

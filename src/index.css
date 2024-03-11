@@ -22,6 +22,33 @@
 }
 
 
+/* .modal-input-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #F3F3F3;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); 
+} */
+
+
+/* 
+.sideBarQuestion::-webkit-scrollbar {
+  width: thin;
+}
+
+.sideBarQuestion::-webkit-scrollbar-thumb {
+  background-color: #ffd2d2;
+}
+
+.sideBarQuestion::-webkit-scrollbar-track { 
+  background-color: #fff;  
+} */
+
+
+
 /* 
 body {
   margin: 0;
