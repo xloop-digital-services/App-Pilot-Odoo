@@ -86,21 +86,37 @@ function SideBar({questions}) {
   } = useChat();
 
 
+  // const handleQuestionClick = async (question) => {
+  //   setModalLoading(true);
+  //   const result = await fetchJournies(question);
+
+  //   // console.log("Question response data", result);
+  //   // console.log(result.top_results, ' result data');
+
+  //   stepDescriptions = result.top_results.steps.map((step) => step.Step);
+  //   images = result.top_results.steps.map((step) => step.Image_URL);
+  //   setSelectedQuestion(question);
+  //   setModalLoading(false);
+  // };
   const handleQuestionClick = async (question) => {
+    if (specialQuestions.includes(question)) {
+      setShowModal(true);
+      setModalContent(question);
+      setModalLoading(false);
+      return;
+    }
+    else{
     setModalLoading(true);
     const result = await fetchJournies(question);
-
-    // console.log("Question response data", result);
-    // console.log(result.top_results, ' result data');
-
     stepDescriptions = result.top_results.steps.map((step) => step.Step);
     images = result.top_results.steps.map((step) => step.Image_URL);
     setSelectedQuestion(question);
-    setModalLoading(false);
+    setModalLoading(false);}
   };
 
   const closeModal = () => {
     setSelectedQuestion(null);
+    setShowModal(false);
   };
 
 
