@@ -11,6 +11,17 @@
   width: 100vw;
   height: 100vh;
 }
+
+.ant-modal .ant-modal-content {
+  background-color: #ebf2ff;
+  /* height: 990px; */
+}
+
+.overflow-y-auto {
+  height: calc(100% - 60px); /* Adjust height according to your input box height */
+}
+
+
 /* 
 body {
   margin: 0;
