@@ -13,6 +13,7 @@ import {
 import { Image, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
 import { fetchJournies } from "./sideBar";
+import { useMuteContext } from "../Avatar2";
 
 let stepDescriptions = null;
 let images = null;
@@ -31,6 +32,9 @@ function ChatHistory({
   messages,
   currentIndex,
 }) {
+
+  const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
+
   const journeyRef = useRef();
   const journeyRefDiv = useRef();
   const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -39,6 +43,7 @@ function ChatHistory({
   const handleNoJourney = (text) => {
     journeyRef.current.textContent = text;
     journeyRefDiv.current.style.display = "none";
+    unmuteAudio();
   };
 
   const handleQuestionClick = async (question) => {
@@ -57,12 +62,21 @@ function ChatHistory({
     setModalLoading(false);
     // journeyRefDiv.current.style.display = 'none';
   };
+  
+  
 
   const closeModal = () => {
     setSelectedQuestion(null);
   };
 
-  console.log("messages", messages);
+  const toggleVolumeWhenModalOpen = () => {
+    if (!isMuted) {
+      unmuteAudio();
+    } else {
+      muteAudio();
+    }
+  };
+  // console.log("messages", messages);
   // console.log("DataMessage me data he", dataMessage);
   return (
     <>
@@ -120,10 +134,10 @@ function ChatHistory({
                               </button>
                               <button
                                 className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
-                                onClick={() =>
-                                  handleQuestionClick(
-                                    message.is_journey.question_list[0]
-                                  )
+                                onClick={() =>{
+                                  toggleVolumeWhenModalOpen();
+                                  handleQuestionClick(message.is_journey.question_list[0]);
+                                }
                                 }
                               >
                                 {modalLoading ? (
