@@ -12,6 +12,23 @@ const backendUrl = "http://13.233.132.194:8000";
 let stepDescriptions = null;
 let images = null;
 
+//modal fetch function from simple chat
+export const fetchJournies = async (question) => {
+  const response = await fetch(
+    `${backendUrl}/get_step_response/?user_input=${encodeURIComponent(
+      question
+    )}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    }
+  );
+  return response.json();
+};
+
+
 function SideBar({questions}) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showModal, setShowModal] = useState(false); // New state
@@ -71,35 +88,19 @@ function SideBar({questions}) {
 
   const handleQuestionClick = async (question) => {
     setModalLoading(true);
+    const result = await fetchJournies(question);
 
-    if (specialQuestions.includes(question)) {
-      setShowModal(true);
-      setModalLoading(false);
-      setModalContent(question);
-      return;
-    }
-    else{
+    // console.log("Question response data", result);
+    // console.log(result.top_results, ' result data');
 
-    const response = await fetch(
-      `${backendUrl}/query_response/${encodeURIComponent(
-        question
-      )}/${selectLanguage}`
-    );
-    const result = await response.json();
-    console.log("Question response data", result);
-
-    stepDescriptions = result.data.map((step) => step.step);
-    images = result.data.map((step) => step.image);
-
+    stepDescriptions = result.top_results.steps.map((step) => step.Step);
+    images = result.top_results.steps.map((step) => step.Image_URL);
     setSelectedQuestion(question);
-    // console.log(JSON.stringify(stepDescriptions));
-    setModalLoading(false);}
+    setModalLoading(false);
   };
 
   const closeModal = () => {
-    setSelectedQuestion(null);  
-    setShowModal(false);
-    setFeatures("");
+    setSelectedQuestion(null);
   };
 
 

@@ -19,33 +19,43 @@ export const ChatProvider = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const chat = async (message) => {
-    setMessages([ ...messages, { text: message, sender: 'user' } ]);
-    console.log("message given to chat func",message)
-    console.log("data comes from response in mainUI",messages);
+    setMessages([...messages, { text: message, sender: "user" }]);
+    console.log("message given to chat func", message);
     setLoading(true);
-    try{
-      const response = await fetch(`${backendUrl}/query_response/${encodeURIComponent(message)}/${selectLanguage}`);
+    try {
+      const response = await fetch(
+        `${backendUrl}/query_response/${encodeURIComponent(
+          message
+        )}/${selectLanguage}`
+      );
       const result = await response.json();
-      console.log("result by useChat",result);
-  
-      if(result.data.length > 1){
-        setCurrentIndex(0);
-        const list = selectLanguage === 'en' ? [...result.data] : [...result.translate]
+      console.log("result by useChat", result);
 
-        setMessages( prevmsg=> [ ...prevmsg, { type: 'list', list} ]);
+      if (result.data.length > 1) {
+        setCurrentIndex(0);
+        const list =
+          selectLanguage === "en" ? [...result.data] : [...result.translate];
+
+        setMessages((prevmsg) => [...prevmsg, { type: "list", list }]);
+      } else {
+        const myData =
+          selectLanguage === "en"
+            ? [{ ...result.data, is_journey: result.is_journey }]
+            : [{ ...result.translate, is_journey: result.is_journey }];
+        console.log(myData, "inner data");
+        setMessages((prevmsg) => [...prevmsg, myData[0]]);
       }
-      else{
-        const myData = selectLanguage === 'en' ? {...result.data} : {...result.translate};
-        // console.log(myData)
-        setMessages( prevmsg=> [ ...prevmsg, myData[0] ]);
-      }
+
       setMessage(result);
       setLoading(false);
       // setMicOn(false);
-    }
-    catch(err){
-      console.log("errOr",err)
-      setMessages(prev=> [ ...prev, { text: 'Please check your network.', sender: 'receiver' } ]);
+      console.log("data comes from response in mainUI", messages);
+    } catch (err) {
+      console.log("errOr", err);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Please check your network.", sender: "receiver" },
+      ]);
       setLoading(false);
     }
 
@@ -53,7 +63,7 @@ export const ChatProvider = ({ children }) => {
     //   setMessages( prevmsg=> [ ...prevmsg, { text: 'Sorry! We are under development...', sender: 'receiver' } ]);
     //   setLoading(false);
     // }, 2000)
-    
+
     // const resp = (await data.json()).messages;
     // setMessages((messages) => [...messages, ...resp]);
     // setLoading(false);
