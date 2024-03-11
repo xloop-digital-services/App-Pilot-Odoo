@@ -1,32 +1,49 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { Modal, Spin } from "antd";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
 import bflLogo from "../../assets/bfl-logo.png";
+// import avatar from "../../assets/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faForward,
   faMicrophone,
   faMicrophoneSlash,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
 import sender from "../../assets/send-2.svg";
+// import userImg from "../../assets/user.png";
 import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatar.png";
+// import ChatIcon from "../../assets/chat-frame.png";
 import mainPic from "../../assets/mainPic.svg";
 import { Image } from "antd";
+// import Box from "@mui/material/Box";
+// import Button from "@mui/material/Button";
+// import Typography from "@mui/material/Typography";
+
+// const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
 const backendUrl = "http://13.233.132.194:8000";
 
 const QuestionModal = ({
   selectedQuestion,
   closeModal,
+  // inputRef,
+  // sendMessage,
   handleNextClick,
+  // loading,
+  // micOn,
+  // setMicOn,
+  // micStart,
+  // setMicStart,
+  // startStopHandle,
+  // startStopRecording,
+  // messages,
   currentIndex,
   stepDescriptions,
   images,
 }) => {
-  console.log(stepDescriptions, "modal description");
-
   const [activeStep, setActiveStep] = useState(0);
   const description = stepDescriptions[activeStep];
   const [messages, setMessages] = useState([]);
@@ -109,12 +126,16 @@ const QuestionModal = ({
     setActiveStep(step);
   };
 
+  // Define completed steps based on some logic (e.g., user's progress)
+  const completedSteps = []; // Example: Steps 1 and 2 are completed
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
+
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -130,11 +151,34 @@ const QuestionModal = ({
     setSkipped(newSkipped);
   };
 
+  // const sendMessage = async () => {
+  //   const input = inputRef.current.value;
+  //   console.log("click sendMSG modal")
+  //   setLoading(true)
+
+  //   if (input) {
+  //     setMessages([...messages, { text: input, sender: "user" }]);
+  //     inputRef.current.value = "";
+
+  //     const response = await fetch(
+  //       `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
+  //     );
+  //     const result = await response.json();
+  //     console.log("response in modal",result);
+
+  //     const myData =
+  //       "en" === "en" ? { ...result.data } : { ...result.translate };
+  //     console.log("only ai data",myData);
+  //     setMessages((prevmsg) => [...prevmsg, myData[0]]);
+  //     setLoading(false);
+  //   }
+  // };
+
   const sendMessage = async () => {
     const input = inputRef.current.value;
     console.log("click sendMSG modal");
     setLoading(true);
-
+  
     if (input) {
       // Set micOn to false if it is true
       if (micOn) {
@@ -142,17 +186,17 @@ const QuestionModal = ({
         setMicStart(false);
         setStartStopRecording("stop");
       }
-
+  
       setMessages([...messages, { text: input, sender: "user" }]);
       inputRef.current.value = "";
-
+  
       try {
         const response = await fetch(
           `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
         );
         const result = await response.json();
         console.log("response in modal", result);
-
+  
         const myData =
           "en" === "en" ? { ...result.data } : { ...result.translate };
         console.log("only ai data", myData);
@@ -171,11 +215,12 @@ const QuestionModal = ({
     setMicOn(!micOn);
     setMicStart(!micStart);
   };
+  
 
   return (
     <Modal
       title={<h1 className="bg-[#ebf2ff] mt-2">{selectedQuestion}</h1>}
-      open={true}
+      visible={true}
       onCancel={closeModal}
       footer={null}
       wrapClassName="modal-wrapper"
@@ -187,6 +232,8 @@ const QuestionModal = ({
           <HorizontalLinearStepper
             activeStep={activeStep}
             onChangeStep={handleStepChange}
+            // completedSteps={completedSteps}
+            // setActiveStep={setActiveStep}
             steps={stepDescriptions}
           />
           <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[350px]">
@@ -205,9 +252,27 @@ const QuestionModal = ({
 
             <div className="flex items-center justify-center flex-col mt-1">
               {/* mid content here */}
-              <Image width={"16%"} src={snap} alt={"step image"} />
+              <Image
+                width={"16%"}
+                // height={"175px"}
+                src={snap}
+                alt={"step image"}
+              />
             </div>
           </div>
+
+          {/* {activeStep === stepDescriptions.length - 1 ? (
+            <div className="flex justify-center w-[500px] -mt-5 -mb-3">
+              <div>
+                <button
+                  className="w-[110px] rounded-3xl py-2 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
+                  onClick={handleReset}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          ) : ( */}
           <React.Fragment>
             <div className="flex flex-row -mt-5 -mb-3">
               <button
@@ -234,10 +299,13 @@ const QuestionModal = ({
                 // Disable the button on the last step
                 disabled={activeStep === stepDescriptions.length - 1}
               >
+                {/* {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"} */}
                 Next
+                {/* {console.log("active state at 0", activeStep)} */}
               </button>
             </div>
           </React.Fragment>
+          {/* )} */}
         </div>
       </div>
 
@@ -265,7 +333,7 @@ const QuestionModal = ({
                         </p>
                       </div>
                     ) : (
-                      <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] overflow-y-auto flex flex-row">
+                      <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] flex flex-row">
                         <div>
                           <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center mt-2">
                             <img src={avatarLogo} alt="chat avatar image" />
@@ -322,7 +390,7 @@ const QuestionModal = ({
                                 No
                               </button>
                               <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]">
-                                Yes
+                                Yesll
                               </button>
                             </div> */}
                             {/* REPLY CHAT BUTTON END */}
@@ -376,7 +444,7 @@ const QuestionModal = ({
                   // disabled={micOn}
                   onClick={() => startStopHandle(!startStopRecording)}
                   className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold`}
-                  // loading || micOn ? "cursor-not-allowed opacity-30" : ""
+                    // loading || micOn ? "cursor-not-allowed opacity-30" : ""
                 >
                   <FontAwesomeIcon icon={faMicrophone} />
                 </button>
@@ -410,7 +478,7 @@ const QuestionModal = ({
           {/* SEND INPUT BOX IN MAIN PAGE */}
         </div>
       </div>
-      {console.log("all msg by modal", messages)}
+      {console.log("all msg by modal",messages)}
     </Modal>
   );
 };

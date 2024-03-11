@@ -20,13 +20,6 @@
 .overflow-y-auto {
   height: calc(100% - 60px); /* Adjust height according to your input box height */
 }
-.sideBarQuestion::-webkit-scrollbar {
-  width: thin; 
-}
-.sideBarQuestion::-webkit-scrollbar-thumb {
-  background-color: #FFD2D2;
-}
-
 
 
 /* 

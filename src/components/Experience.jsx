@@ -22,13 +22,8 @@ const Dots = (props) => {
     if (loading) {
       const interval = setInterval(() => {
         setLoadingText(
-          <FontAwesomeIcon
-            icon={faCommentDots}
-            bounce
-            size="2xl"
-            style={{ color: "#DA2D27" }}
-          />
-        );
+          <FontAwesomeIcon icon={faCommentDots} bounce size='2xl'
+          style={{ color: "#DA2D27",}} />)
       }, 800);
       return () => clearInterval(interval);
     } else {
@@ -40,7 +35,9 @@ const Dots = (props) => {
   return (
     <group {...props}>
       {/* <Text fontSize={0.3} anchorX={"left"} anchorY={"bottom"}> */}
-      <Html>{loadingText}</Html>
+      <Html>
+        {loadingText}
+      </Html>
       {/* </Text> */}
     </group>
   );
@@ -58,6 +55,7 @@ export const Experience = () => {
 
   // }, []);
 
+
   useEffect(() => {
     const handleResize = () => {
       // Adjust the target values based on screen size
@@ -72,11 +70,11 @@ export const Experience = () => {
     handleResize();
 
     // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Clean up the event listener on component unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [myControl]);
 
@@ -87,6 +85,7 @@ export const Experience = () => {
   //     cameraControls.current.setLookAt(0, 2.2, 5, 0, 1.0, 0, true);
   //   }
   // }, [cameraZoomed]);
+
 
   return (
     <>
@@ -100,7 +99,7 @@ export const Experience = () => {
 
       {/* <Avatar /> */}
 
-      <Avatar2 position={[-0.7, -2.3, 2]} />
+<Avatar2 position={[-0.7, -2.3, 2]} />
 
       <ContactShadows opacity={0.7} />
     </>
