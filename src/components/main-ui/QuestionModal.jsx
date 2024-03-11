@@ -333,7 +333,7 @@ const QuestionModal = ({
                         </p>
                       </div>
                     ) : (
-                      <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] flex flex-row">
+                      <div className="bg-[#faf0f0]  rounded-2xl  p-4 ml-4 mt-3  w-[560px] h-[90px] flex flex-row overflow-y-auto">
                         <div>
                           <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center mt-2">
                             <img src={avatarLogo} alt="chat avatar image" />
