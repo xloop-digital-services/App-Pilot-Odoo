@@ -117,6 +117,7 @@ function SideBar({questions}) {
   const closeModal = () => {
     setSelectedQuestion(null);
     setShowModal(false);
+    
   };
 
 
