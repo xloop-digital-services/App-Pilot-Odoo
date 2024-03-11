@@ -324,8 +324,8 @@ function MainUi() {
             { question: "Who can approve rates above the minimum rate of return on Royal Profit deposits for deposits above PKR 5 Million?" }
         ],
         "Term Deposit": [
+          { question: "What is ALFALAH TERM DEPOSIT?" },
             { question: "Who can place deposits in this ALFALAH TERM DEPOSIT?" },
-            { question: "What is ALFALAH TERM DEPOSIT?" },
             { question: "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?" }
         ],
         "Alfalah at Work": [
@@ -399,12 +399,12 @@ function MainUi() {
         ],
         "Islamic Saving Account": [
           { question: "What is SAVING ACCOUNT FALAH BUSINESS ACCOUNT?" },
-          { question: "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?" },
           { question: "What is ALFALAH ASAAN REMITTANCE SAVINGS ACCOUNT?" },
           { question: "What is the eligibility criteria for ALFALAH ASAAN SAVINGS ACCOUNT?" }
         ],
         "Islamic Term Deposit": [
           { question: "What are the different terms in ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" },
+          { question: "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?" },
           { question: "What is the minimum investment required for ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" }
         ],
         "Islamic Roshan Digital Account (FOR NRPS)": [
@@ -444,7 +444,7 @@ function MainUi() {
         ],
         "Debit Card": [
           { question: "What are different variants of DEBIT CARD?" },
-          { question: "What are the documentation required for Alfalah Platinum DEBIT CARD?" },
+          // { question: "What are the documentation required for Alfalah Platinum DEBIT CARD?" },
           { question: "What is the minimum limit for all DEBIT CARD?" }
         ],
         "Islamic":[
