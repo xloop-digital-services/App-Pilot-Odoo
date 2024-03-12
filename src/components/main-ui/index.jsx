@@ -60,10 +60,6 @@ function MainUi() {
       question: "How to apply for BNPL?",
       openModal:true
     },
-    {
-      question: "What is Alfa app?",
-      openModal:true
-    },
   ]);
   const input = useRef();
   const {
