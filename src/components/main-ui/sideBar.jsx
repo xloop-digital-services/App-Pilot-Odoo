@@ -5,6 +5,7 @@ import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
 import { Modal, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 // import { useChatModal } from "../../hooks/useChatModal";
 
 const backendUrl = "http://13.233.132.194:8000";
@@ -41,6 +42,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick }) {
   // const [currentIndex, setCurrentIndex] = useState(0);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const [modalLoading, setModalLoading] = useState(false);
+ 
   const input = useRef();
   const {
     // chat,
@@ -50,6 +52,8 @@ function SideBar({ questions, specialQuestions, handleQuestionClick }) {
     setCurrentIndex,
     modalContent,
     setModalContent,
+    myContent,
+    setMyContent
     // loading,
     // setLoading,
     // micOn,
@@ -74,11 +78,11 @@ function SideBar({ questions, specialQuestions, handleQuestionClick }) {
   // };
   handleQuestionClick = async (question) => {
     if (specialQuestions.includes(question)) {
-      setShowModal(true);
       setModalContent(question);
-      setModalLoading(false);
+      setModalLoading(false)
       return;
     } else {
+      setMyContent(false)
       setModalLoading(true);
       const result = await fetchJournies(question);
       stepDescriptions = result.top_results.steps.map((step) => step.Step);
@@ -156,317 +160,17 @@ function SideBar({ questions, specialQuestions, handleQuestionClick }) {
         )
       )}
 
-      {/* <Modal
-        width="40%"
-        visible={showModal}
-        onCancel={closeModal}
-        footer={null}
-      >
-        {
-  modalContent === "Alfalah Kamyab Karobar Account" ||
-  modalContent === "Alfalah PKR Current Account" ||
-  modalContent === "Alfalah Basic Banking Account" ||
-  modalContent === "Alfalah Asaan Remittance Current Account" ||
-  modalContent === "Alfalah FCY Current Account" ||
-  modalContent === "Alfalah Asaan Current Account" ||
-  modalContent === "Alfalah Kashtkaar Current Account" ? (
-    <div
-      style={{ display: "flex", flexDirection: "column", gap: "40px" }}
-    >
-      <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("")}
-        >
-          Product Features{" "}
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("")}
-        >
-          {" "}
-          Target Market{" "}
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("")}
-        >
-          {" "}
-          Eligibility Criteria{" "}
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("")}
-        >
-          {" "}
-          Associated Charges{" "}
-        </button>
-      </div>
-      {features && (
-        <div style={{ fontSize: "14px" }}>
-          {features.split(/[.?]/).map((part, index) => (
-            <div key={index}>{part.trim()}</div>
-          ))}
-        </div>
-      )}
-    </div>
-  ):(<p></p>)
-}
-
-{modalContent === "Alfalah Care Account" ||
- modalContent === "Alfalah Royal Profit Account" ||
- modalContent === "Alfalah Kifayat Account" ||
- modalContent === "Alfalah PLS Savings Account" ||
- modalContent === "Alfalah Asaan Remittance Savings Account" ||
- modalContent === "Alfalah FCY Saving account" ||
- modalContent === "Alfalah FCY Monthly Savings Account" ||
- modalContent === "Alfalah Asaan Savings Account" ? (
-    <div
-      style={{ display: "flex", flexDirection: "column", gap: "40px" }}
-    >
-      <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Product Features")}
-        >
-          Product Features
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Target Market")}
-        >
-          Target Market
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Eligibility Criteria")}
-        >
-          Eligibility Criteria
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Associated Charges")}
-        >
-          Associated Charges
-        </button>
-      </div>
-      {features && (
-        <div style={{ fontSize: "14px" }}>
-          {features.split(/[.?]/).map((part, index) => (
-            <div key={index}>{part.trim()}</div>
-          ))}
-        </div>
-      )}
-    </div>
-) : (
-    <p></p>
-)}
-
-{modalContent === "Alfalah Term Deposit" ||
- modalContent === "Alfalah Mahana Amdan Term Deposit Account" ||
- modalContent === "Alfalah Floating Term Deposit" ||
- modalContent === "Alfalah FCY Term Deposit" ||
- modalContent === "Alfalah Care Senior Citizen Mahana Amdan Account" ? (
-    <div
-      style={{ display: "flex", flexDirection: "column", gap: "40px" }}
-    >
-      <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Product Features")}
-        >
-          Product Features
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Target Market")}
-        >
-          Target Market
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Eligibility Criteria")}
-        >
-          Eligibility Criteria
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Associated Charges")}
-        >
-          Associated Charges
-        </button>
-      </div>
-      {features && (
-        <div style={{ fontSize: "14px" }}>
-          {features.split(/[.?]/).map((part, index) => (
-            <div key={index}>{part.trim()}</div>
-          ))}
-        </div>
-      )}
-    </div>
-) : (
-    <p></p>
-)}
-
-{modalContent === "Alfalah Islamic Foreign Currency Current Account" ||
- modalContent === "Alfalah Islamic Asaan Current Account" ||
- modalContent === "Alfalah Islamic Current Account" ||
- modalContent === "Alfalah Basic Banking account" ||
- modalContent === "Alfalah Islamic Business Way Deposit and Payroll Remunerative Current Account" ||
- modalContent === "Alfalah Islamic Asaan Remittance Current Account" ? (
-    <div
-      style={{ display: "flex", flexDirection: "column", gap: "40px" }}
-    >
-      <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Product Features")}
-        >
-          Product Features
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Target Market")}
-        >
-          Target Market
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Eligibility Criteria")}
-        >
-          Eligibility Criteria
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Associated Charges")}
-        >
-          Associated Charges
-        </button>
-      </div>
-      {features && (
-        <div style={{ fontSize: "14px" }}>
-          {features.split(/[.?]/).map((part, index) => (
-            <div key={index}>{part.trim()}</div>
-          ))}
-        </div>
-      )}
-    </div>
-) : (
-    <p></p>
-)}
-
-{modalContent === "Falah Business Account" ||
- modalContent === "Alfalah Islamic Foreign Currency Savings Account" ||
- modalContent === "Falah Mahana Amdani Account" ||
- modalContent === "Alfalah Islamic Musharakah Savings Account" ||
- modalContent === "Falah Classic Savings Account" ||
- modalContent === "Alfalah Islamic Profex Saving Account" ||
- modalContent === "Falah Senior Citizens Savings Account" ||
- modalContent === "Alfalah Islamic Asaan Remittance Savings Account" ||
- modalContent === "Alfalah Islamic Asaan Saving Account" ? (
-    <div
-      style={{ display: "flex", flexDirection: "column", gap: "40px" }}
-    >
-      <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Product Features")}
-        >
-          Product Features
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Target Market")}
-        >
-          Target Market
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Eligibility Criteria")}
-        >
-          Eligibility Criteria
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Associated Charges")}
-        >
-          Associated Charges
-        </button>
-      </div>
-      {features && (
-        <div style={{ fontSize: "14px" }}>
-          {features.split(/[.?]/).map((part, index) => (
-            <div key={index}>{part.trim()}</div>
-          ))}
-        </div>
-      )}
-    </div>
-) : (
-    <p></p>
-)}
-
-{modalContent === "Alfalah Islamic Foreign Currency Term Deposit" ||
- modalContent === "Alfalah Islamic Premium Term Deposit- Monthly" ||
- modalContent === "Alfalah Islamic Premium Term Deposit – Bullet Maturity" ||
- modalContent === "Falah Mahana Munafa Term Deposit" ||
- modalContent === "Falah Term Deposit" ||
- modalContent === "Alfalah Islamic Recurring Value Deposit" ||
- modalContent === "Falah 3 Year Term Deposit (Monthly Income Certificate)" ||
- modalContent === "Falah Senior Citizens Term Deposit" ||
- modalContent === "Target Saving Deposit" ? (
-    <div
-      style={{ display: "flex", flexDirection: "column", gap: "40px" }}
-    >
-      <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Product Features")}
-        >
-          Product Features
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Target Market")}
-        >
-          Target Market
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Eligibility Criteria")}
-        >
-          Eligibility Criteria
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setFeatures("Associated Charges")}
-        >
-          Associated Charges
-        </button>
-      </div>
-      {features && (
-        <div style={{ fontSize: "14px" }}>
-          {features.split(/[.?]/).map((part, index) => (
-            <div key={index}>{part.trim()}</div>
-          ))}
-        </div>
-      )}
-    </div>
-) : (
-    <p></p>
-)}
-        
-      </Modal> */}
 
       {questions.map((question, index) => (
-        <div
-          className="bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px]"
-          key={index}
-        >
+         <div
+         className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${selectedQuestion === question.question ? 'border border-red' : ''}`}
+         key={index}
+       >
           <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
             <img src={QuestionMark} alt="logo" />
           </div>
           <p
-            className="text-[#2C2A2B] text-[12px] cursor-pointer"
+            className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
             onClick={() => handleQuestionClick(question.question)}
           >
             {question.question}

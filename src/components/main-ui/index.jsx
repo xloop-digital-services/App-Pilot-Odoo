@@ -113,6 +113,8 @@ function MainUi() {
     setCameraZoomed,
     message,
     messages,
+    modalContent,
+    setModalContent,
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -628,7 +630,7 @@ function MainUi() {
                   className={`text-lg font-semibold cursor-pointer ${
                     option.isOpen ? "text-[#ee1d23]" : ""
                   }`}
-                  onClick={() => toggleDropdown(index)}
+                  onClick={() => {toggleDropdown(index); setModalContent("");}}
                 >
                   {option.label}
                   <FontAwesomeIcon

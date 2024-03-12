@@ -10,11 +10,19 @@ import {
   faMicrophone,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Image, Modal, Spin } from "antd";
+import { Button, Image, Modal, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
 import { fetchJournies } from "./sideBar";
 import { useMuteContext } from "../Avatar2";
 import { useChat } from "../../hooks/useChat";
+import prodf from "../../assets/card01.png";
+import targmed from "../../assets/card02.png";
+import eligibile from "../../assets/card03.png";
+import charges from "../../assets/card04.png";
+
+
+
+
 
 let stepDescriptions = null;
 let images = null;
@@ -33,16 +41,18 @@ function ChatHistory({
   messages,
   currentIndex,
   specialQuestions,
-handleQuestionClick
+  handleQuestionClick,
 }) {
 
-  const { modalContent, setModalContent} = useChat();
-  const [myContent, setMyContent] = useState(false);
-  
+  const { modalContent, setModalContent,myContent, setMyContent} = useChat();
+  // const [myContent, setMyContent] = useState(false);
+  console.log(modalContent)
+
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
       setMyContent(true);
-      console.log(myContent); 
+      console.log(modalContent)
+      
     }
   }, [modalContent]);
 
@@ -59,8 +69,25 @@ handleQuestionClick
     unmuteAudio();
   };
 
-    
+  const handleProductFeatures = () => {
+    setMyContent(false);
+    sendMessage(`What are the product features of ${modalContent}?`) 
+   }
 
+   const handleTargetMarket = () => {
+    setMyContent(false);
+    sendMessage(`What is the target market of ${modalContent}?`);
+   }
+
+   const handleEligibilityCriteria = () => {
+    setMyContent(false);
+    sendMessage(`What is the eligibility criteria of ${modalContent}?`);
+   }
+
+   const handleAssociatedCharges = () => {
+    setMyContent(false);
+    sendMessage(`What is the associated charges of ${modalContent}?`);
+   }
 
   handleQuestionClick = async (question) => {
     setModalLoading(true);
@@ -77,7 +104,7 @@ handleQuestionClick
     setSelectedQuestion(question);
     setModalLoading(false);
   };
-  
+
   // handleQuestionClick = async (question) => {
   // };
   const closeModal = () => {
@@ -92,6 +119,30 @@ handleQuestionClick
     }
   };
 
+  const buttons = [
+    {
+      label: "Product Features",
+      onClick: handleProductFeatures,
+      image: prodf
+    },
+    {
+      label: "Target Market",
+      onClick: handleTargetMarket,
+      image: targmed
+    },
+    {
+      label: "Eligibility Criteria",
+      onClick: handleEligibilityCriteria,
+      image: eligibile
+    },
+    {
+      label: "Associated Charges",
+      onClick: handleAssociatedCharges,
+      image: charges
+    }
+  ];
+  
+
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
@@ -99,9 +150,29 @@ handleQuestionClick
           Ask me
         </h1>
 
-        {myContent && <div style={{display:"flex", gap:"40px", justifyContent:"center"}}><button onClick={()=> sendMessage(`What are the product features of ${modalContent}`)}>Product Features</button><button>Target Market</button><button>Eligibility Criteria</button><button>Associated Charges</button></div>}
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
+        {myContent && (
+  <div>
+    <div>
+      <h1 className="text-xl mt-5">Please select any option for {modalContent}.</h1>
+    </div>
+    <div style={{ display: "flex", gap: "40px", justifyContent: "center"}}>
+      {buttons.map((button, index) => (
+        <button
+          key={index}
+          className="h-[100%] mt-10 flex items-center rounded-xl w-[33%]"
+          onClick={button.onClick}
+          style={{ boxShadow: "0 0 15px 5px rgba(255, 0, 0, 0.09)" }}
+        >
+          <Image src={button.image} className="mr-2" height={80} />
+          <span className="ml-5">{button.label}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+)}
+
           {messages.length > 0 ? (
             messages?.map((message, index) => {
               return (
@@ -114,16 +185,14 @@ handleQuestionClick
                           <img
                             src={bflLogo}
                             alt="sender image"
-                            className="w-9 h-9"/>
+                            className="w-9 h-9"
+                          />
                         </div>
                       </div>
                       <p className="w-full flex items-center">{message.text}</p>
-                      
                     </div>
-                    
                   ) : (
                     <div className="flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl ">
-                      
                       <div>
                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                           <img src={avatarLogo} alt="chat avatar image" />
@@ -151,11 +220,12 @@ handleQuestionClick
                               </button>
                               <button
                                 className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
-                                onClick={() =>{
+                                onClick={() => {
                                   toggleVolumeWhenModalOpen();
-                                  handleQuestionClick(message.is_journey.question_list[0]);
-                                }
-                                }
+                                  handleQuestionClick(
+                                    message.is_journey.question_list[0]
+                                  );
+                                }}
                               >
                                 {modalLoading ? (
                                   <Spin
@@ -173,10 +243,10 @@ handleQuestionClick
                             </div>
                             {/* REPLY CHAT BUTTON END */}
                           </div>
-                        ) : (
+                        ) : (<div>
                           <p className="w-full mt-2">{message[0].text}</p>
+                          </div>
                         )}
-
                         {message.image && (
                           <div className=" w-[60%] h-[100%] mb-3 mt-4">
                             <Image
@@ -185,10 +255,12 @@ handleQuestionClick
                               alt={`data:image/png;base64, ${message.image}`}
                             />
                           </div>
+                          
                         )}
                       </div>
                     </div>
                   )}
+                  
                 </div>
               );
             })
@@ -199,6 +271,7 @@ handleQuestionClick
                 alt="chat icon"
                 className="sm:w-[60%] sm:h-[100%]"
               />
+              
             </div>
           )}
         </div>
