@@ -28,37 +28,72 @@ export const fetchJournies = async (question) => {
   return response.json();
 };
 
-function SideBar({ questions }) {
+function SideBar({ questions,sendMessage }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showModal, setShowModal] = useState(false); // New state
   const [modalContent, setModalContent] = useState("");
   const [features, setFeatures] = useState(""); // State to store modal content
   const [specialQuestions] = useState([
+    // "What is ALFALAH KAMYAB KAROBAR ACCOUNT?",
+    // "Who can benefit from Alfalah Kamyab Karobar Account?",
+    // "Can a personal account be used for business transactions?",
+    // "What is the minimum & maximum balance requirement to open this ALFALAH PKR CURRENT ACCOUNT?",
+    // "Who can open this ALFALAH CARE ACCOUNT?",
+    // "Who can approve rates above the minimum rate of return on Royal Profit deposits for deposits above PKR 5 Million?",
+    // "Who can place deposits in this ALFALAH TERM DEPOSIT?",
+    // "What is ALFALAH TERM DEPOSIT?",
+    // "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?",
+    // "What is ALFALAH ISLAMIC FOREIGN CURRENCY CURRENT ACCOUNT?",
+    // "What is SAVING ACCOUNT FALAH BUSINESS ACCOUNT?",
+    // "What is ALFALAH ASAAN REMITTANCE SAVINGS ACCOUNT?",
+    // "What is the eligibility criteria for ALFALAH ASAAN SAVINGS ACCOUNT?",
+    // "What are the different terms in ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?",
+    // "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?",
+    // "What is the minimum investment required for ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?",
+    // "What are different variants of CREDIT CARD?",
+    // "What are the documentation required for Alfalah Platinum credit cards?",
+    // "What is the minimum limit for all credit cards?",
+    // "How much loan facility can I avail for Alfalah Auto Loan?",
+    // "What is the period of the Alfalah Auto Loan?",
+    // "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?",
+    // "What are different variants of DEBIT CARD?",
+    // "What are the documentation required for Alfalah Platinum DEBIT CARD?",
+    // "What is the minimum limit for all DEBIT CARD?",
+
+
     "What is ALFALAH KAMYAB KAROBAR ACCOUNT?",
-    "Who can benefit from Alfalah Kamyab Karobar Account?",
+    "Who can benefit from Alfalah Kamyab Karobar Account?" ,
     "Can a personal account be used for business transactions?",
     "What is the minimum & maximum balance requirement to open this ALFALAH PKR CURRENT ACCOUNT?",
+
     "Who can open this ALFALAH CARE ACCOUNT?",
     "Who can approve rates above the minimum rate of return on Royal Profit deposits for deposits above PKR 5 Million?",
-    "Who can place deposits in this ALFALAH TERM DEPOSIT?",
+
     "What is ALFALAH TERM DEPOSIT?",
-    "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?",
+    "Who can place deposits in this ALFALAH TERM DEPOSIT?",
+    "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?" ,
+
     "What is ALFALAH ISLAMIC FOREIGN CURRENCY CURRENT ACCOUNT?",
+    "What is a Foreign Currency Business Value Account?",
+    "Who is eligible to open a Foreign Currency Business Value Account?",
+
     "What is SAVING ACCOUNT FALAH BUSINESS ACCOUNT?",
     "What is ALFALAH ASAAN REMITTANCE SAVINGS ACCOUNT?",
     "What is the eligibility criteria for ALFALAH ASAAN SAVINGS ACCOUNT?",
-    "What are the different terms in ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?",
-    "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?",
-    "What is the minimum investment required for ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?",
+
+    "What are the different terms in ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" ,
+    "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?" ,
+    "What is the minimum investment required for ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" ,
+
     "What are different variants of CREDIT CARD?",
     "What are the documentation required for Alfalah Platinum credit cards?",
-    "What is the minimum limit for all credit cards?",
+    "What is the minimum limit for all credit cards?" ,
+
     "How much loan facility can I avail for Alfalah Auto Loan?",
-    "What is the period of the Alfalah Auto Loan?",
+    "What is the period of the Alfalah Auto Loan?" ,
     "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?",
-    "What are different variants of DEBIT CARD?",
-    "What are the documentation required for Alfalah Platinum DEBIT CARD?",
-    "What is the minimum limit for all DEBIT CARD?",
+
+
   ]);
 
   // const [activeStep, setActiveStep] = useState(0);
@@ -84,33 +119,36 @@ function SideBar({ questions }) {
     // messages,
   } = useChat();
 
-  // const handleQuestionClick = async (question) => {
-  //   setModalLoading(true);
-  //   const result = await fetchJournies(question);
-
-  //   // console.log("Question response data", result);
-  //   // console.log(result.top_results, ' result data');
-
-  //   stepDescriptions = result.top_results.steps.map((step) => step.Step);
-  //   images = result.top_results.steps.map((step) => step.Image_URL);
-  //   setSelectedQuestion(question);
-  //   setModalLoading(false);
-  // };
   const handleQuestionClick = async (question) => {
-    if (specialQuestions.includes(question)) {
-      setShowModal(true);
-      setModalContent(question);
-      setModalLoading(false);
-      return;
-    } else {
-      setModalLoading(true);
-      const result = await fetchJournies(question);
-      stepDescriptions = result.top_results.steps.map((step) => step.Step);
-      images = result.top_results.steps.map((step) => step.Image_URL);
-      setSelectedQuestion(question);
-      setModalLoading(false);
-    }
+    setModalLoading(true);
+    const result = await fetchJournies(question);
+
+    // console.log("Question response data", result);
+    // console.log(result.top_results, ' result data');
+
+    stepDescriptions = result.top_results.steps.map((step) => step.Step);
+    images = result.top_results.steps.map((step) => step.Image_URL);
+    setSelectedQuestion(question);
+    setModalLoading(false);
   };
+
+
+  // const handleQuestionClick = async (question) => {
+  //   if (!specialQuestions.includes(question)) {
+  //     setShowModal(true);
+  //     setModalContent(question);
+  //     setModalLoading(false);
+  //     return;
+  //   } else {
+  //     setModalLoading(true);
+  //     const result = await fetchJournies(question);
+  //     console.log("results gain by sideBarr", result)
+  //     stepDescriptions = result.top_results.steps.map((step) => step.Step);
+  //     images = result.top_results.steps.map((step) => step.Image_URL);
+  //     setSelectedQuestion(question);
+  //     setModalLoading(false);
+  //   }
+  // };
 
   const closeModal = () => {
     setSelectedQuestion(null);
@@ -1313,7 +1351,7 @@ function SideBar({ questions }) {
                 {" "}
                 POS Transactions{" "}
               </button>
-              <button
+              <button 
                 style={{
                   border: "1px solid white",
                   borderRadius: "10px",
@@ -1341,7 +1379,7 @@ function SideBar({ questions }) {
             )}
           </div>
         )}
-      </Modal>
+      </Modal>  
 
       <div className="max-h-[335px] overflow-y-auto overflow-x-hidden sideBarQuestion">
         {questions.map((question, index) => (
@@ -1354,8 +1392,9 @@ function SideBar({ questions }) {
             </div>
             <p
               className="text-[#2C2A2B] text-[12px] cursor-pointer"
-              // onClick={(e)=> sendMessage(e.target.textContent)}
-              onClick={() => handleQuestionClick(question.question)}
+             
+              onClick={(e)=> question.openModal ? handleQuestionClick(question.question):sendMessage(question.question)}
+              // onClick={() => handleQuestionClick(question.question)}
             >
               {question.question}
             </p>

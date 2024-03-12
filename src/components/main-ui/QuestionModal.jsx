@@ -56,7 +56,7 @@ const QuestionModal = ({
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const [micOn, setMicOn] = useState(false);
-  const [inputDisabled, setInputDisabled] = useState(false);
+  
 
   useEffect(() => {
     // console.log(messages)
@@ -179,7 +179,6 @@ const QuestionModal = ({
     const input = inputRef.current.value;
     console.log("click sendMSG modal");
     setLoading(true);
-    setInputDisabled(true); // Disable input box while loading
 
     if (input) {
       // Set micOn to false if it is true
@@ -208,7 +207,6 @@ const QuestionModal = ({
         // Handle errors if necessary
       } finally {
         setLoading(false);
-        setInputDisabled(false); // Re-enable input box after loading
       }
     }
   };
@@ -442,14 +440,16 @@ const QuestionModal = ({
             
             {loading && (
     <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
-      <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} />
+      {/* <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} /> */}
+      <Spin/>
     </div>
   )}
             <input
               ref={inputRef}
               placeholder={loading ? "" : "Ask or search anything"}
               className="w-full bg-[#F3F3F3]  text-btn-color rounded-3xl p-1 focus:outline-none"
-              disabled={inputDisabled} // Disable input box when loading
+             
+              disabled={loading}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   sendMessage();

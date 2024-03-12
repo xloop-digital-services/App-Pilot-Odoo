@@ -17,40 +17,52 @@ function MainUi() {
   const [questions, setQuestions] = useState([
     {
       question: "How to load a mobile package via a banking app?",
+      openModal:true
     },
     {
       question:
         "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        openModal:true
     },
     {
       question: "How to register for Bank Alfalah App?",
+      openModal:true
     },
     {
       question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+      openModal:true
     },
     {
       question: "How to create Alfa Savings Account?",
+      openModal:true
     },
     {
       question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
+      openModal:true
     },
     {
       question: "How to activate a credit card?",
+      openModal:true
     },
     {
       question: "How to activate Debit Card via WhatsApp?",
+      openModal:true
     },
     {
       question: "How to view e-statement?",
+      openModal:true
     },
     {
       question: "How to apply for a loan?",
+      openModal:true
     },
     {
       question: "How to apply for BNPL?",
+      openModal:true
     },
     {
       question: "What is Alfa app?",
+      openModal:true
     },
   ]);
   const input = useRef();
@@ -307,26 +319,26 @@ function MainUi() {
           { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
       ],
         "Process": [
-            { question: "What are the different types of Current Accounts?" },
-            { question: "What are the different types of Saving Accounts?" },
-            { question: "What are the account related deliverables?" },
-            { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
+            { question: "What are the different types of Current Accounts?"},
+            { question: "What are the different types of Saving Accounts?"},
+            { question: "What are the account related deliverables?"},
+            { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?"}
         ],
         
         "Current account": [
-            { question: "What is ALFALAH KAMYAB KAROBAR ACCOUNT?" },
-            { question: "Who can benefit from Alfalah Kamyab Karobar Account?" },
-            { question: "Can a personal account be used for business transactions?" },
-            { question: "What is the minimum & maximum balance requirement to open this ALFALAH PKR CURRENT ACCOUNT?" }
+            { question: "What is ALFALAH KAMYAB KAROBAR ACCOUNT?", openModal: false},
+            { question: "Who can benefit from Alfalah Kamyab Karobar Account?" ,openModal: false},
+            { question: "Can a personal account be used for business transactions?" ,openModal: false},
+            { question: "What is the minimum & maximum balance requirement to open this ALFALAH PKR CURRENT ACCOUNT?",openModal: false}
         ],
         "Saving account": [
-            { question: "Who can open this ALFALAH CARE ACCOUNT?" },
-            { question: "Who can approve rates above the minimum rate of return on Royal Profit deposits for deposits above PKR 5 Million?" }
+            { question: "Who can open this ALFALAH CARE ACCOUNT?" ,openModal: false},
+            { question: "Who can approve rates above the minimum rate of return on Royal Profit deposits for deposits above PKR 5 Million?" ,openModal: false}
         ],
         "Term Deposit": [
-          { question: "What is ALFALAH TERM DEPOSIT?" },
-            { question: "Who can place deposits in this ALFALAH TERM DEPOSIT?" },
-            { question: "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?" }
+          { question: "What is ALFALAH TERM DEPOSIT?",openModal: false },
+            { question: "Who can place deposits in this ALFALAH TERM DEPOSIT?" ,openModal: false},
+            { question: "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?" ,openModal: false}
         ],
         "Alfalah at Work": [
             { question: "What are the product features of ALFALAH AT WORK?" },
@@ -393,19 +405,19 @@ function MainUi() {
           { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
         ],
         "Islamic Current Account": [
-          { question: "What is ALFALAH ISLAMIC FOREIGN CURRENCY CURRENT ACCOUNT?" },
-          { question: "What is a Foreign Currency Business Value Account?" },
-          { question: "Who is eligible to open a Foreign Currency Business Value Account?" }
+          { question: "What is ALFALAH ISLAMIC FOREIGN CURRENCY CURRENT ACCOUNT?" ,openModal: false},
+          { question: "What is a Foreign Currency Business Value Account?" ,openModal: false},
+          { question: "Who is eligible to open a Foreign Currency Business Value Account?" ,openModal: false}
         ],
         "Islamic Saving Account": [
-          { question: "What is SAVING ACCOUNT FALAH BUSINESS ACCOUNT?" },
-          { question: "What is ALFALAH ASAAN REMITTANCE SAVINGS ACCOUNT?" },
-          { question: "What is the eligibility criteria for ALFALAH ASAAN SAVINGS ACCOUNT?" }
+          { question: "What is SAVING ACCOUNT FALAH BUSINESS ACCOUNT?" ,openModal: false},
+          { question: "What is ALFALAH ASAAN REMITTANCE SAVINGS ACCOUNT?" ,openModal: false},
+          { question: "What is the eligibility criteria for ALFALAH ASAAN SAVINGS ACCOUNT?" ,openModal: false}
         ],
         "Islamic Term Deposit": [
-          { question: "What are the different terms in ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" },
-          { question: "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?" },
-          { question: "What is the minimum investment required for ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" }
+          { question: "What are the different terms in ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" ,openModal: false},
+          { question: "What is the nature of product for ALFALAH ISLAMIC PREMIUM TERM DEPOSIT- MONTHLY?" ,openModal: false},
+          { question: "What is the minimum investment required for ALFALAH ISLAMIC FOREIGN CURRENCY TERM DEPOSIT?" ,openModal: false}
         ],
         "Islamic Roshan Digital Account (FOR NRPS)": [
           { question: "What is Roshan Digital Account?" },
@@ -433,14 +445,14 @@ function MainUi() {
           { question: "What is the minimum limit for all DEBIT CARD?" }
         ],
         "Credit Card": [
-          { question: "What are different variants of CREDIT CARD?" },
-          { question: "What are the documentation required for Alfalah Platinum credit cards?" },
-          { question: "What is the minimum limit for all credit cards?" }
+          { question: "What are different variants of CREDIT CARD?",openModal: false },
+          { question: "What are the documentation required for Alfalah Platinum credit cards?",openModal: false },
+          { question: "What is the minimum limit for all credit cards?" ,openModal: false}
         ],
         "Auto Loan": [
-          { question: "How much loan facility can I avail for Alfalah Auto Loan?" },
-          { question: "What is the period of the Alfalah Auto Loan?" },
-          { question: "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?" }
+          { question: "How much loan facility can I avail for Alfalah Auto Loan?",openModal: false},
+          { question: "What is the period of the Alfalah Auto Loan?" ,openModal: false},
+          { question: "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?",openModal: false}
         ],
         "Debit Card": [
           { question: "What are different variants of DEBIT CARD?" },
@@ -484,187 +496,10 @@ function MainUi() {
 
     const selectedQuestions = questionsMap[option] || [];
     setQuestions(selectedQuestions);
+
+  
 }
 
-  // const ConventionalQuestions = [
-  //   {
-  //     "PREMIER - CONVENTIONAL / PREMIER BANKING": [
-  //       {
-  //         question: "Can a Pehchaan Premier accountholder get Premier Visa Signature Debit Card?"
-  //       },
-  //       {
-  //         question: "What is the procedure of upgrading a regular account to Premier?"
-  //       },
-  //       {
-  //         question: "Will the Premier customer automatically get upgraded Debit Card and Cheque book after getting the account tagged to Premier?"
-  //       },
-  //       {
-  //         question: "What is the qualification criteria for existing Premier client?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "ALFALAH PREMIER CARD": [
-  //       {
-  //         question: "What are the product features of ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What is the eligibility criteria for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What is the ATM Withdrawal limit & Fund Transfer Limit for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What are the documentation required for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What are the product features of ALFALAH PREMIER VISA PLATINUM DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What is the eligibility criteria for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What is the ATM Withdrawal limit & Fund Transfer Limit for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?"
-  //       },
-  //       {
-  //         question: "What are the documentation required for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?"
-  //       }
-  //     ]
-  //   },
-
-  //   {
-  //     "ALFALAH ORBIT REWARDS": [
-  //       {
-  //         question: "What is Alfalah Orbit Rewards?"
-  //       },
-  //       {
-  //         question: "What are Orbits?"
-  //       },
-  //       {
-  //         question: "Which customers are eligible for Alfalah Orbit Rewards?"
-  //       },
-  //       {
-  //         question: "How do I enroll for Alfalah Orbit Rewards?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "CUSTOMER ONBOARDING": [
-  //       {
-  //         question: "What are the different types of Current Accounts?"
-  //       },
-  //       {
-  //         question: "What are the different types of Saving Accounts?"
-  //       },
-  //       {
-  //         question: "What are the account related deliverables?"
-  //       },
-  //       {
-  //         question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "CURRENT ACCOUNT": [
-  //       {
-  //         question: "What is ALFALAH KAMYAB KAROBAR ACCOUNT?"
-  //       },
-  //       {
-  //         question: "Who can benefit from Alfalah Kamyab Karobar Account?"
-  //       },
-  //       {
-  //         question: "Can a personal account be used for business transactions?"
-  //       },
-  //       {
-  //         question: "What is the minimum & maximum balance requirement to open this ALFALAH PKR CURRENT ACCOUNT?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "SAVING ACCOUNT": [
-  //       {
-  //         question: "Who can open this ALFALAH CARE ACCOUNT?"
-  //       },
-  //       {
-  //         question: "Who can approve rates above the minimum rate of return on Royal Profit deposits for deposits above PKR 5 Million?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "TERM DEPOSIT": [
-  //       {
-  //         question: "Who can place deposits in this ALFALAH TERM DEPOSIT?"
-  //       },
-  //       {
-  //         question: "What is ALFALAH TERM DEPOSIT?"
-  //       },
-  //       {
-  //         question: "How often will the profit be credited in ALFALAH MAHANA AMDAN TERM DEPOSIT ACCOUNT?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "ALFALAH AT WORK": [
-  //       {
-  //         question: "What are the product features of ALFALAH AT WORK?"
-  //       },
-  //       {
-  //         question: "What is the eligibility criteria for ALFALAH AT WORK?"
-  //       },
-  //       {
-  //         question: "What is ALFALAH AT WORK?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "ROSHAN DIGITAL ACCOUNT (FOR NRPS)": [
-  //       {
-  //         question: "What are the product features of Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?"
-  //       },
-  //       {
-  //         question: "What is the eligibility criteria for Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?"
-  //       },
-  //       {
-  //         question: "What is Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?"
-  //       },
-  //       {
-  //         question: "What is the account type and which currencies are available in the Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "CONVENTIONAL BANKING / DEPOSITS / ALFALAH RAPID": [
-  //       {
-  //         question: "What are the product features of Conventional banking ALFALAH RAPID?"
-  //       },
-  //       {
-  //         question: "What is the eligibility criteria for Conventional banking ALFALAH RAPID?"
-  //       },
-  //       {
-  //         question: "What is Conventional banking ALFALAH RAPID?"
-  //       },
-  //       {
-  //         question: "What services can be availed through Conventional banking Alfalah RAPID?"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "ASAAN ROSHAN DIGITAL ACCOUNT": [
-  //       {
-  //         question: "What are the product features of Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?"
-  //       },
-  //       {
-  //         question: "What is the eligibility criteria for Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?"
-  //       },
-  //       {
-  //         question: "What is Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?"
-  //       },
-  //       {
-  //         question: "How different or simple is Conventional banking Alfalah Asaan Roshan Digital Account opening process?"
-  //       }
-  //     ]
-  //   }
-  // ]
 
   return (
     <>

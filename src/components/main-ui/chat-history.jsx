@@ -15,6 +15,7 @@ import QuestionModal from "./QuestionModal";
 import { fetchJournies } from "./sideBar";
 import { useMuteContext } from "../Avatar2";
 
+
 let stepDescriptions = null;
 let images = null;
 
@@ -113,6 +114,7 @@ function ChatHistory({
                         {message.is_journey &&
                         message.is_journey &&
                         message.is_journey.journey_avalible == 1 ? (
+                         
                           <div>
                             {/* REPLY CHAT BUTTON START */}
                             <p ref={journeyRef} className="w-full mt-2">
@@ -133,6 +135,7 @@ function ChatHistory({
                                 className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
                                 onClick={() => {
                                   toggleVolumeWhenModalOpen();
+                              
                                   handleQuestionClick(
                                     message.is_journey.question_list[0]
                                   );
@@ -199,15 +202,18 @@ function ChatHistory({
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
           {loading && (
             <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
-              <Spin
-                indicator={<LoadingOutlined style={{ fontSize: 38 }} spin />}
-              />
+              {/* <Spin indicator={<LoadingOutlined style={{ fontSize: 38 }} spin />}/> */}
+              <Spin/>
             </div>
+          //   <div className="example">
+          //   <Spin/>
+          // </div>
           )}
           <input
             ref={inputRef}
             placeholder={loading ? "" : "Ask or search anything"}
             className="w-full bg-[#F3F3F3] text-btn-color rounded-3xl p-1 focus:outline-none"
+            disabled={loading}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 sendMessage();
@@ -230,7 +236,6 @@ function ChatHistory({
             ) : (
               <button
                 id="voice-typing-button"
-                // disabled={micOn}
                 onClick={() => {
                   setMicOn((prev) => !prev);
                   setMicStart(!micStart);
@@ -244,7 +249,7 @@ function ChatHistory({
               </button>
             )}
             <button
-              // disabled={micOn}
+            
               onClick={() => sendMessage()}
               className={`text-white bg-btn-color w-[37px] h-[37px] flex items-center justify-center rounded-full font-semibold first-letter 
                         ${loading ? "cursor-not-allowed opacity-30" : ""}
