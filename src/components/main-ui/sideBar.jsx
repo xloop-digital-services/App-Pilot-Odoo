@@ -28,10 +28,10 @@ export const fetchJournies = async (question) => {
   return response.json();
 };
 
-function SideBar({ questions, specialQuestions }) {
+function SideBar({ questions, specialQuestions, handleQuestionClick }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showModal, setShowModal] = useState(false); // New state
-  const [modalContent, setModalContent] = useState("");
+  // const [modalContent, setModalContent] = useState("");
   const [features, setFeatures] = useState(""); // State to store modal content
   
 
@@ -48,6 +48,8 @@ function SideBar({ questions, specialQuestions }) {
     selectLanguage,
     // setSelectLanguage,
     setCurrentIndex,
+    modalContent,
+    setModalContent,
     // loading,
     // setLoading,
     // micOn,
@@ -70,7 +72,7 @@ function SideBar({ questions, specialQuestions }) {
   //   setSelectedQuestion(question);
   //   setModalLoading(false);
   // };
-  const handleQuestionClick = async (question) => {
+  handleQuestionClick = async (question) => {
     if (specialQuestions.includes(question)) {
       setShowModal(true);
       setModalContent(question);
@@ -154,7 +156,7 @@ function SideBar({ questions, specialQuestions }) {
         )
       )}
 
-      <Modal
+      {/* <Modal
         width="40%"
         visible={showModal}
         onCancel={closeModal}
@@ -453,7 +455,7 @@ function SideBar({ questions, specialQuestions }) {
     <p></p>
 )}
         
-      </Modal>
+      </Modal> */}
 
       {questions.map((question, index) => (
         <div

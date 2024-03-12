@@ -116,6 +116,9 @@ function MainUi() {
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
+  const handleQuestionClick = async (question) => {
+  };
+  
   useEffect(() => {
 
     
@@ -223,19 +226,12 @@ function MainUi() {
 
   const toggleVolume = () => {
     if (!isMuted) {
-      //   console.log('Unmuting audio...');
       unmuteAudio();
     } else {
-      //   console.log('Muting audio...');
       muteAudio();
-      // setIsMuted(false);
     }
   };
 
-  // Function to handle option click
-  // const handleOptionClick = (option) => {
-  //   setSelectedOption(option);
-  // };
 
   const toggleDropdown = (index) => {
     setBankingOptions((prevOptions) =>
@@ -711,7 +707,7 @@ function MainUi() {
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
           <div className=" hidden lg:block">
-            <SideBar sendMessage={sendMessage} questions={questions} specialQuestions={specialQuestions} />
+            <SideBar sendMessage={sendMessage} questions={questions} specialQuestions={specialQuestions} handleQuestionClick={handleQuestionClick} />
           </div>
 
           <div className="  lg:w-[100%] w-full">
@@ -729,6 +725,7 @@ function MainUi() {
               messages={messages}
               handleNextClick={handleNextClick}
               currentIndex={currentIndex}
+              handleQuestionClick={handleQuestionClick}
             />
           </div>
         </div>

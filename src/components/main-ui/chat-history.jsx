@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import sender from "../../assets/send-2.svg";
 import bflLogo from "../../assets/bfl-logo.png";
 import bg from "../../assets/bg.jpg";
@@ -10,10 +10,11 @@ import {
   faMicrophone,
   faMicrophoneSlash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Image, Spin } from "antd";
+import { Image, Modal, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
 import { fetchJournies } from "./sideBar";
 import { useMuteContext } from "../Avatar2";
+import { useChat } from "../../hooks/useChat";
 
 let stepDescriptions = null;
 let images = null;
@@ -31,8 +32,19 @@ function ChatHistory({
   startStopRecording,
   messages,
   currentIndex,
-  specialQuestions
+  specialQuestions,
+handleQuestionClick
 }) {
+
+  const { modalContent, setModalContent} = useChat();
+  const [myContent, setMyContent] = useState(false);
+  
+  useEffect(() => {
+    if (specialQuestions.includes(modalContent)) {
+      setMyContent(true);
+      console.log(myContent); 
+    }
+  }, [modalContent]);
 
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -47,7 +59,10 @@ function ChatHistory({
     unmuteAudio();
   };
 
-  const handleQuestionClick = async (question) => {
+    
+
+
+  handleQuestionClick = async (question) => {
     setModalLoading(true);
 
     const result = await fetchJournies(question);
@@ -63,8 +78,8 @@ function ChatHistory({
     setModalLoading(false);
   };
   
-  
-
+  // handleQuestionClick = async (question) => {
+  // };
   const closeModal = () => {
     setSelectedQuestion(null);
   };
@@ -76,8 +91,7 @@ function ChatHistory({
       muteAudio();
     }
   };
-  // console.log("messages", messages);
-  // console.log("DataMessage me data he", dataMessage);
+
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
@@ -85,6 +99,7 @@ function ChatHistory({
           Ask me
         </h1>
 
+        {myContent && <div style={{display:"flex", gap:"40px", justifyContent:"center"}}><button onClick={()=> sendMessage(`What are the product features of ${modalContent}`)}>Product Features</button><button>Target Market</button><button>Eligibility Criteria</button><button>Associated Charges</button></div>}
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
           {messages.length > 0 ? (
@@ -249,7 +264,6 @@ function ChatHistory({
             </button>
           </div>
         </div>
-
       </div>
     </>
   );

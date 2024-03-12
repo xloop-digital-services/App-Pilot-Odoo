@@ -17,6 +17,7 @@ export const ChatProvider = ({ children }) => {
   const [micOn, setMicOn] = useState(false);
   const [animation, setAnimation] = useState('Idle');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalContent, setModalContent] = useState("");
 
   const chat = async (message) => {
     setMessages([...messages, { text: message, sender: "user" }]);
@@ -104,7 +105,9 @@ export const ChatProvider = ({ children }) => {
         setCameraZoomed,
         messages,
         animation,
-        setAnimation
+        setAnimation,
+        modalContent,
+        setModalContent,
       }}
     >
       {children}
