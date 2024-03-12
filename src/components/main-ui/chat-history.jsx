@@ -31,6 +31,7 @@ function ChatHistory({
   startStopRecording,
   messages,
   currentIndex,
+  specialQuestions
 }) {
 
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
@@ -60,7 +61,6 @@ function ChatHistory({
 
     setSelectedQuestion(question);
     setModalLoading(false);
-    // journeyRefDiv.current.style.display = 'none';
   };
   
   
@@ -99,14 +99,16 @@ function ChatHistory({
                           <img
                             src={bflLogo}
                             alt="sender image"
-                            className="w-9 h-9"
-                          />
+                            className="w-9 h-9"/>
                         </div>
                       </div>
                       <p className="w-full flex items-center">{message.text}</p>
+                      
                     </div>
+                    
                   ) : (
                     <div className="flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl ">
+                      
                       <div>
                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                           <img src={avatarLogo} alt="chat avatar image" />
@@ -234,12 +236,10 @@ function ChatHistory({
                     ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}
                     `}
               >
-                {/* MicrophoneIcon integrated into the button */}
                 <FontAwesomeIcon icon={faMicrophoneSlash} />
               </button>
             )}
             <button
-              // disabled={micOn}
               onClick={() => sendMessage()}
               className={`text-white bg-btn-color w-[37px] h-[37px] flex items-center justify-center rounded-full font-semibold first-letter 
                         ${loading ? "cursor-not-allowed opacity-30" : ""}
@@ -250,7 +250,6 @@ function ChatHistory({
           </div>
         </div>
 
-        {/* SEND INPUT BOX IN MAIN PAGE */}
       </div>
     </>
   );

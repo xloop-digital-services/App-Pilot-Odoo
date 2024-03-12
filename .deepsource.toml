@@ -5,4 +5,4 @@ name = "javascript"
 
   [analyzers.meta]
   plugins = ["react"]
-  environment = ["vitest"]
+  environment = ["vitest"]    // journeyRefDiv.current.style.display = 'none';
