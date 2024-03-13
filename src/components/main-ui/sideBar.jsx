@@ -155,7 +155,7 @@ function SideBar({
       ) : (
         <div></div>
       )}
-<div className="max-h-[335px] pr-3 overflow-y-auto  sideBarQuestion">
+<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
       {questions.map((question, index) => (
         <div
           className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
