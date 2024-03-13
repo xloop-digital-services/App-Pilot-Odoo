@@ -133,6 +133,7 @@ function MainUi() {
 
   const handleQuestionClick = async (question) => {
   };
+  const dropdownRef = useRef(null);
   
   useEffect(() => {
 
@@ -247,6 +248,7 @@ function MainUi() {
     }
   };
 
+  
 
   const toggleDropdown = (index) => {
     setBankingOptions((prevOptions) =>
@@ -258,6 +260,22 @@ function MainUi() {
     );
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Clicked outside the dropdown, close all dropdowns
+        setBankingOptions(prevOptions =>
+          prevOptions.map(option => ({ ...option, isOpen: false }))
+        );
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   const [bankingOptions, setBankingOptions] = useState([
     {
       label: "Conventional Banking",
@@ -428,24 +446,14 @@ function MainUi() {
       ],
       "Alfalah Islamic Premier Card":[
         { question: "What are the product features of ALFALAH ISLAMIC PREMIER CARD?"},
-        {question:"What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?"},
-        {question: "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?"},
         { question: "What is the eligibility criteria for ISLAMIC PREMIER Account?"},
           { question: "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?"}
       ],
       "Complimentary Takaful Coverage":[
-        { question: "What are the product features of ALFALAH ISLAMIC PREMIER CARD?"},
         {question:"What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?"},
-        {question: "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?"},
-        { question: "What is the eligibility criteria for ISLAMIC PREMIER Account?"},
-          { question: "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?"}
       ],
       "Zindagi Premier Takaful Savings (Vitality) Plan":[
-        { question: "What are the product features of ALFALAH ISLAMIC PREMIER CARD?"},
-        {question:"What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?"},
         {question: "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?"},
-        { question: "What is the eligibility criteria for ISLAMIC PREMIER Account?"},
-          { question: "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?"}
       ],
       "Customer OnBoarding": [
         { question: "What are the different types of Bank Alfalah Islamic Banking Current Accounts?" },
@@ -631,7 +639,7 @@ function MainUi() {
 
         {/* Banking Options */}
         <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 w-full items-center h-[80px] mb-7 flex justify-center">
-          <div className="flex flex-row space-x-20 mt-8">
+          <div className="flex flex-row space-x-20 mt-8" ref={dropdownRef}>
             {bankingOptions.map((option, index) => (
               <div
                 key={index}
@@ -658,7 +666,7 @@ function MainUi() {
                   <div className="absolute top-full left-0 mt-3 bg-white rounded-lg shadow-lg p-4 w-[500%] h-[1000%] flex overflow-y-scroll">
                     
                     <ul className="w-1/3 p-2">
-                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer" onClick={()=> handleOptionSelection(option.firstHeading)}>
+                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer">
                         {option.firstHeading}
                       </li>
                       {option.options.map((list, listIndex) => (
@@ -677,7 +685,7 @@ function MainUi() {
                     </ul>
 
                     <ul className="w-1/3 p-2">
-                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer" onClick={()=> handleOptionSelection(option.secondHeading)}>
+                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer" >
                         {option.secondHeading}
                       </li>
                       {option.secondOptions.map((list, listIndex) => (

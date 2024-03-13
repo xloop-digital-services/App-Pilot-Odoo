@@ -145,6 +145,11 @@ function ChatHistory({
     },
   ];
 
+  const navigateToDefaultPath = () => {
+    window.location.href = '/';
+  };
+
+
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
@@ -263,7 +268,7 @@ function ChatHistory({
                               myQuest === modalContent && (
                                 <div className="flex gap-6 justify-center p-4">
                                   <button
-                                    className="rounded-lg bg-[#dcdcdc] p-1"
+                                    className="rounded-xl bg-[#dcdcdc] p-1"
                                     onClick={() => {
                                       setMyContent(true);
                                       setMessages([]);
@@ -273,9 +278,8 @@ function ChatHistory({
                                   </button>
                                   <button
                                     className="rounded-lg bg-[#dcdcdc] p-1"
-                                    onClick={() => {
-                                      <App />;
-                                    }}
+                                    onClick={navigateToDefaultPath
+                                    }
                                   >
                                     End Journey
                                   </button>
