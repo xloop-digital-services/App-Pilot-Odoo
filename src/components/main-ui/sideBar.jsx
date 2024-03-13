@@ -100,17 +100,9 @@ function SideBar({
     }
   };
 
-  const buttonStyle = {
-    border: "1px solid white",
-    borderRadius: "10px",
-    padding: "4px",
-    backgroundColor: "#b30f13",
-    color: "white",
-    fontSize: "20px",
-  };
   return (
     <div
-      className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl "
+      className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-hidden"
       style={{ height: "420px" }}
     >
       <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
@@ -163,7 +155,7 @@ function SideBar({
       ) : (
         <div></div>
       )}
-<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden sideBarQuestion">
+<div className="max-h-[335px] pr-3 overflow-y-auto  sideBarQuestion">
       {questions.map((question, index) => (
         <div
           className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
