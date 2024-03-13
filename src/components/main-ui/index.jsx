@@ -20,40 +20,40 @@ function MainUi() {
   const [questions, setQuestions] = useState([
     {
       question: "How to load a mobile package via a banking app?",
-      openModal:true
+      openModal: true,
     },
     {
       question:
         "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
-        openModal:true
+      openModal: true,
     },
     {
       question: "How to register for Bank Alfalah App?",
-      openModal:true
+      openModal: true,
     },
     {
       question: "How to Open Bank Alfalah Roshan Digital Account Online?",
-      openModal:true
+      openModal: true,
     },
     {
       question: "How to create Alfa Savings Account?",
-      openModal:true
+      openModal: true,
     },
     {
       question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
-      openModal:true
+      openModal: true,
     },
     {
       question: "How to activate a credit card?",
-      openModal:true
+      openModal: true,
     },
     {
       question: "How to activate Debit Card via WhatsApp?",
-      openModal:true
+      openModal: true,
     },
     {
       question: "How to view e-statement?",
-      openModal:true
+      openModal: true,
     },
   ]);
   const [specialQuestions] = useState([
@@ -123,13 +123,10 @@ function MainUi() {
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
-  const handleQuestionClick = async (question) => {
-  };
+  const handleQuestionClick = async (question) => {};
   const dropdownRef = useRef(null);
-  
-  useEffect(() => {
 
-    
+  useEffect(() => {
     // console.log(messages)
     let recognition;
 
@@ -240,8 +237,6 @@ function MainUi() {
     }
   };
 
-  
-
   const toggleDropdown = (index) => {
     setBankingOptions((prevOptions) =>
       prevOptions.map((option, i) =>
@@ -256,8 +251,8 @@ function MainUi() {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         // Clicked outside the dropdown, close all dropdowns
-        setBankingOptions(prevOptions =>
-          prevOptions.map(option => ({ ...option, isOpen: false }))
+        setBankingOptions((prevOptions) =>
+          prevOptions.map((option) => ({ ...option, isOpen: false }))
         );
       }
     };
@@ -303,9 +298,7 @@ function MainUi() {
         ],
       ],
       secondHeading: "Customer OnBoarding",
-      secondOptions: [
-        ["Documentation"],
-      ],
+      secondOptions: [["Documentation"]],
       thirdHeading: "Deposits",
       thirdOptions: [
         [
@@ -322,20 +315,10 @@ function MainUi() {
       label: "Consumer Banking",
       isOpen: false,
       firstHeading: "Conventional",
-      options: [
-        [
-          "Credit Card",
-          "Auto Loan",
-          "Debit Card",
-        ],
-      ],
+      options: [["Credit Card", "Auto Loan", "Debit Card"]],
       secondHeading: "Islamic",
       secondOptions: [
-        [
-          "Car Ijarah",
-          "Home Musharaka",
-          "Islamic Roshan Apni Car",
-        ],
+        ["Car Ijarah", "Home Musharaka", "Islamic Roshan Apni Car"],
       ],
       thirdHeading: "",
       thirdOptions: [],
@@ -344,229 +327,475 @@ function MainUi() {
 
   function handleOptionSelection(option) {
     const questionsMap = {
-        "Premier Banking": [
-            { question: "Can a Pehchaan Premier accountholder get Premier Visa Signature Debit Card?" },
-            { question: "What is the procedure of upgrading a regular account to Premier?" },
-            { question: "Will the Premier customer automatically get upgraded Debit Card and Cheque book after getting the account tagged to Premier?" },
-            { question: "What is the qualification criteria for existing Premier client?" }
-        ],
-        "Alfalah Premier Cards": [
-            { question: "What are the product features of ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?" },
-            { question: "What is the eligibility criteria for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?" },
-            { question: "What is the ATM Withdrawal limit & Fund Transfer Limit for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?" },
-            { question: "What are the documentation required for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?" },
-            { question: "What are the product features of ALFALAH PREMIER VISA PLATINUM DEBIT CARD?" },
-            { question: "What is the eligibility criteria for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?" },
-            { question: "What is the ATM Withdrawal limit & Fund Transfer Limit for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?" },
-            { question: "What are the documentation required for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?" }
-        ],
-        "Alfalah Orbit Rewards": [
-            { question: "What is Alfalah Orbit Rewards?" },
-            { question: "What are Orbits?" },
-            { question: "Which customers are eligible for Alfalah Orbit Rewards?" },
-            { question: "How do I enroll for Alfalah Orbit Rewards?" }
-        ],
-        "Customer Onboarding": [
-          { question: "What are the different types of Current Accounts?" },
-          { question: "What are the different types of Saving Accounts?" },
-          { question: "What are the account related deliverables?" },
-          { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
+      "Premier Banking": [
+        {
+          question:
+            "Can a Pehchaan Premier accountholder get Premier Visa Signature Debit Card?",
+        },
+        {
+          question:
+            "What is the procedure of upgrading a regular account to Premier?",
+        },
+        {
+          question:
+            "Will the Premier customer automatically get upgraded Debit Card and Cheque book after getting the account tagged to Premier?",
+        },
+        {
+          question:
+            "What is the qualification criteria for existing Premier client?",
+        },
       ],
-        "Process": [
-            { question: "What are the different types of Current Accounts?" },
-            { question: "What are the different types of Saving Accounts?" },
-            { question: "What are the account related deliverables?" },
-            { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
-        ],
-        
-        "Current account": [
-          { question: "Alfalah Kamyab Karobar Account", openModal:true },
-          { question: "Alfalah PKR Current Account",openModal:true },
-          { question: "Alfalah Basic Banking Account",openModal:true },
-          { question: "Alfalah Asaan Remittance Current Account",openModal:true },
-          { question: "Alfalah FCY Current Account",openModal:true },
-          { question: "Alfalah Asaan Current Account",openModal:true },
-          { question: "Alfalah Kashtkaar Current Account",openModal:true }
-          ],
-          "Saving account": [
-            { question: "Alfalah Care Account",openModal:true },
-            { question: "Alfalah Royal Profit Account",openModal:true },
-            { question: "Alfalah Kifayat Account",openModal:true },
-            { question: "Alfalah PLS Savings Account",openModal:true },
-            { question: "Alfalah Asaan Remittance Savings Account",openModal:true },
-            { question: "Alfalah FCY Saving account",openModal:true },
-            { question: "Alfalah FCY Monthly Savings Account",openModal:true },
-            { question: "Alfalah Asaan Savings Account",openModal:true }
-            ],
-            "Term Deposit": [
-              { question: "Alfalah Term Deposit",openModal:true },
-              { question: "Alfalah Mahana Amdan Term Deposit Account",openModal:true },
-              { question: "Alfalah Floating Term Deposit",openModal:true },
-              { question: "Alfalah FCY Term Deposit",openModal:true },
-              { question: "Alfalah Care Senior Citizen Mahana Amdan Account",openModal:true }
-              ],
-        "Alfalah at Work": [
-            { question: "What are the product features of ALFALAH AT WORK?" },
-            { question: "What is the eligibility criteria for ALFALAH AT WORK?" },
-            { question: "What is ALFALAH AT WORK?" }
-        ],
-        "Roshan Digital Account (for NRPs)": [
-            { question: "What are the product features of Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?" },
-            { question: "What is the eligibility criteria for Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?" },
-            { question: "What is Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?" },
-            { question: "What is the account type and which currencies are available in the Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?" }
-        ],
-        "Alfalah RAPID": [
-            { question: "What are the product features of Conventional banking ALFALAH RAPID?" },
-            { question: "What is the eligibility criteria for Conventional banking ALFALAH RAPID?" },
-            { question: "What is Conventional banking ALFALAH RAPID?" },
-            { question: "What services can be availed through Conventional banking Alfalah RAPID?" }
-        ],
-        "Asaan Roshan Digital Account": [
-            { question: "What are the product features of Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?" },
-            { question: "What is the eligibility criteria for Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?" },
-            { question: "What is Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?" },
-            { question: "How different or simple is Conventional banking Alfalah Asaan Roshan Digital Account opening process?" }
-        ],
+      "Alfalah Premier Cards": [
+        {
+          question:
+            "What are the product features of ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?",
+        },
+        {
+          question:
+            "What is the ATM Withdrawal limit & Fund Transfer Limit for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?",
+        },
+        {
+          question:
+            "What are the documentation required for ALFALAH PREMIER VISA SIGNATURE DEBIT CARD?",
+        },
+        {
+          question:
+            "What are the product features of ALFALAH PREMIER VISA PLATINUM DEBIT CARD?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?",
+        },
+        {
+          question:
+            "What is the ATM Withdrawal limit & Fund Transfer Limit for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?",
+        },
+        {
+          question:
+            "What are the documentation required for ALFALAH PREMIER VISA PLATINUM DEBIT CARD?",
+        },
+      ],
+      "Alfalah Orbit Rewards": [
+        { question: "What is Alfalah Orbit Rewards?" },
+        { question: "What are Orbits?" },
+        { question: "Which customers are eligible for Alfalah Orbit Rewards?" },
+        { question: "How do I enroll for Alfalah Orbit Rewards?" },
+      ],
+      "Customer Onboarding": [
+        { question: "What are the different types of Current Accounts?" },
+        { question: "What are the different types of Saving Accounts?" },
+        { question: "What are the account related deliverables?" },
+        {
+          question:
+            "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?",
+        },
+      ],
+      Process: [
+        { question: "What are the different types of Current Accounts?" },
+        { question: "What are the different types of Saving Accounts?" },
+        { question: "What are the account related deliverables?" },
+        {
+          question:
+            "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?",
+        },
+      ],
 
-      "Islamic Premier":[
-        { question: "What are the product features of ALFALAH ISLAMIC PREMIER CARD?"},
-        {question:"What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?"},
-        {question: "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?"},
-        { question: "What is the eligibility criteria for ISLAMIC PREMIER Account?"},
-          { question: "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?"}
+      "Current account": [
+        { question: "Alfalah Kamyab Karobar Account", openModal: true },
+        { question: "Alfalah PKR Current Account", openModal: true },
+        { question: "Alfalah Basic Banking Account", openModal: true },
+        {
+          question: "Alfalah Asaan Remittance Current Account",
+          openModal: true,
+        },
+        { question: "Alfalah FCY Current Account", openModal: true },
+        { question: "Alfalah Asaan Current Account", openModal: true },
+        { question: "Alfalah Kashtkaar Current Account", openModal: true },
       ],
-      "Alfalah Islamic Premier Card":[
-        { question: "What are the product features of ALFALAH ISLAMIC PREMIER CARD?"},
-        { question: "What is the eligibility criteria for ISLAMIC PREMIER Account?"},
-          { question: "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?"}
+      "Saving account": [
+        { question: "Alfalah Care Account", openModal: true },
+        { question: "Alfalah Royal Profit Account", openModal: true },
+        { question: "Alfalah Kifayat Account", openModal: true },
+        { question: "Alfalah PLS Savings Account", openModal: true },
+        {
+          question: "Alfalah Asaan Remittance Savings Account",
+          openModal: true,
+        },
+        { question: "Alfalah FCY Saving account", openModal: true },
+        { question: "Alfalah FCY Monthly Savings Account", openModal: true },
+        { question: "Alfalah Asaan Savings Account", openModal: true },
       ],
-      "Complimentary Takaful Coverage":[
-        {question:"What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?"},
+      "Term Deposit": [
+        { question: "Alfalah Term Deposit", openModal: true },
+        {
+          question: "Alfalah Mahana Amdan Term Deposit Account",
+          openModal: true,
+        },
+        { question: "Alfalah Floating Term Deposit", openModal: true },
+        { question: "Alfalah FCY Term Deposit", openModal: true },
+        {
+          question: "Alfalah Care Senior Citizen Mahana Amdan Account",
+          openModal: true,
+        },
       ],
-      "Zindagi Premier Takaful Savings (Vitality) Plan":[
-        {question: "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?"},
+      "Alfalah at Work": [
+        { question: "What are the product features of ALFALAH AT WORK?" },
+        { question: "What is the eligibility criteria for ALFALAH AT WORK?" },
+        { question: "What is ALFALAH AT WORK?" },
+      ],
+      "Roshan Digital Account (for NRPs)": [
+        {
+          question:
+            "What are the product features of Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?",
+        },
+        {
+          question:
+            "What is Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?",
+        },
+        {
+          question:
+            "What is the account type and which currencies are available in the Conventional banking ROSHAN DIGITAL ACCOUNT (FOR NRPS)?",
+        },
+      ],
+      "Alfalah RAPID": [
+        {
+          question:
+            "What are the product features of Conventional banking ALFALAH RAPID?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for Conventional banking ALFALAH RAPID?",
+        },
+        { question: "What is Conventional banking ALFALAH RAPID?" },
+        {
+          question:
+            "What services can be availed through Conventional banking Alfalah RAPID?",
+        },
+      ],
+      "Asaan Roshan Digital Account": [
+        {
+          question:
+            "What are the product features of Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?",
+        },
+        {
+          question:
+            "What is Conventional banking ASAAN ROSHAN DIGITAL ACCOUNT?",
+        },
+        {
+          question:
+            "How different or simple is Conventional banking Alfalah Asaan Roshan Digital Account opening process?",
+        },
+      ],
+
+      "Islamic Premier": [
+        {
+          question:
+            "What are the product features of ALFALAH ISLAMIC PREMIER CARD?",
+        },
+        {
+          question:
+            "What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?",
+        },
+        {
+          question:
+            "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for ISLAMIC PREMIER Account?",
+        },
+        {
+          question:
+            "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?",
+        },
+      ],
+      "Alfalah Islamic Premier Card": [
+        {
+          question:
+            "What are the product features of ALFALAH ISLAMIC PREMIER CARD?",
+        },
+        {
+          question:
+            "What is the eligibility criteria for ISLAMIC PREMIER Account?",
+        },
+        {
+          question:
+            "What are the eligibility criteria for ALFALAH ISLAMIC PREMIER CARD?",
+        },
+      ],
+      "Complimentary Takaful Coverage": [
+        {
+          question:
+            "What is the Claim Amount limits for Accidental Death and Permanent Disability Takaful in ISLAMIC BANKING COMPLIMENTARY TAKAFUL COVERAGE?",
+        },
+      ],
+      "Zindagi Premier Takaful Savings (Vitality) Plan": [
+        {
+          question:
+            "What are the product features for ZINDAGI PREMIER TAKAFUL SAVINGS (VITALITY) PLAN?",
+        },
       ],
       "Customer OnBoarding": [
-        { question: "What are the different types of Bank Alfalah Islamic Banking Current Accounts?" },
-        { question: "What are the different types of Bank Alfalah Islamic Banking Saving Accounts?" },
-        { question: "What are the account related deliverables for Bank Alfalah Islamic Banking?" },
-        { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
+        {
+          question:
+            "What are the different types of Bank Alfalah Islamic Banking Current Accounts?",
+        },
+        {
+          question:
+            "What are the different types of Bank Alfalah Islamic Banking Saving Accounts?",
+        },
+        {
+          question:
+            "What are the account related deliverables for Bank Alfalah Islamic Banking?",
+        },
+        {
+          question:
+            "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?",
+        },
       ],
-        "Documentation": [
-          { question: "What are the different types of Bank Alfalah Islamic Banking Current Accounts?" },
-          { question: "What are the different types of Bank Alfalah Islamic Banking Saving Accounts?" },
-          { question: "What are the account related deliverables for Bank Alfalah Islamic Banking?" },
-          { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
-        ],
-        "Islamic Current Account": [
-          { question: "Alfalah Islamic Foreign Currency Current Account",openModal:true },
-          { question: "Alfalah Islamic Asaan Current Account",openModal:true },
-          { question: "Alfalah Islamic Current Account",openModal:true },
-          { question: "Alfalah Basic Banking account",openModal:true },
-          { question: "Alfalah Islamic Business Way Deposit and Payroll Remunerative Current Account",openModal:true },
-          { question: "Alfalah Islamic Asaan Remittance Current Account",openModal:true }
-          ],
-          "Islamic Saving Account": [
-            { question: "Falah Business Account" },
-            { question: "Alfalah Islamic Foreign Currency Savings Account",openModal:true },
-            { question: "Falah Mahana Amdani Account",openModal:true },
-            { question: "Alfalah Islamic Musharakah Savings Account",openModal:true },
-            { question: "Falah Classic Savings Account",openModal:true },
-            { question: "Alfalah Islamic Profex Saving Account",openModal:true },
-            { question: "Falah Senior Citizens Savings Account",openModal:true },
-            { question: "Alfalah Islamic Asaan Remittance Savings Account",openModal:true },
-            { question: "Alfalah Islamic Asaan Saving Account",openModal:true }
-            ],
-            "Islamic Term Deposit": [
-              { question: "Alfalah Islamic Foreign Currency Term Deposit",openModal:true },
-              { question: "Alfalah Islamic Premium Term Deposit- Monthly",openModal:true },
-              { question: "Alfalah Islamic Premium Term Deposit – Bullet Maturity",openModal:true },
-              { question: "Falah Mahana Munafa Term Deposit",openModal:true },
-              { question: "Falah Term Deposit",openModal:true },
-              { question: "Alfalah Islamic Recurring Value Deposit",openModal:true },
-              { question: "Falah 3 Year Term Deposit (Monthly Income Certificate)",openModal:true },
-              { question: "Falah Senior Citizens Term Deposit",openModal:true },
-              { question: "Target Saving Deposit",openModal:true }
-              ],
-        "Islamic Roshan Digital Account (FOR NRPS)": [
-          { question: "What is Roshan Digital Account?" },
-          { question: "How can individuals apply for Roshan Digital Accounts?" },
-          { question: "What is the account type and currencies available in Roshan Digital Account?" },
-          { question: "What is a Mudarabah-based account and why is Bank Alfalah Islamic’s Roshan Digital Savings Account, a Mudarabah-based account?" }
-        ],
-        "Asaan Roshan Digital Account(for Islamic)": [
-          { question: "What is an Alfalah Asaan Islamic Roshan Digital Account?" },
-          { question: "What are the product features of Alfalah Asaan Islamic Roshan Digital Account?" },
-          { question: "How different or simple is Alfalah Asaan Islamic Roshan Digital Account opening process?" }
-        ],
-        "Islamic Roshan Digital Business Account": [
-          { question: "What are the documentation required for ISLAMIC ROSHAN DIGITAL BUSINESS ACCOUNT?" }
-        ],
-        "Conventional":[
-          { question: "What are different variants of CREDIT CARD?" },
-          { question: "What are the documentation required for Alfalah Platinum credit cards?" },
-          { question: "What is the minimum limit for all credit cards?" },
-          { question: "How much loan facility can I avail for Alfalah Auto Loan?" },
-          { question: "What is the period of the Alfalah Auto Loan?" },
-          { question: "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?" },
-          { question: "What are different variants of DEBIT CARD?" },
-          { question: "What are the documentation required for Alfalah Platinum DEBIT CARD?" },
-          { question: "What is the minimum limit for all DEBIT CARD?" }
-        ],
-        "Credit Card": [
-          { question: "What are different variants of CREDIT CARD?" },
-          { question: "What are the documentation required for Alfalah Platinum credit cards?" },
-          { question: "What is the minimum limit for all credit cards?" }
-        ],
-        "Auto Loan": [
-          { question: "How much loan facility can I avail for Alfalah Auto Loan?" },
-          { question: "What is the period of the Alfalah Auto Loan?" },
-          { question: "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?" }
-        ],
-        "Debit Card": [
-          { question: "What are different variants of DEBIT CARD?" },
-          // { question: "What are the documentation required for Alfalah Platinum DEBIT CARD?" },
-          { question: "What is the minimum limit for all DEBIT CARD?" }
-        ],
-        "Islamic":[
-          { question: "What is Alfalah Car Ijarah?" },
-          { question: "How is Alfalah Car Ijarah interest free?" },
-          { question: "What is the Takaful arrangement in Alfalah Car Ijarah?" },
-          { question: "What is Takaful or Islamic Insurance?" },
-          { question: "What are the different segments for HOME MUSHARAKA?" },
-          { question: "What should be property age for the HOME MUSHARAKA?" },
-          { question: "What is the Maximum financing for Category 1 in HOME MUSHARAKA?" },
-          { question: "What are the documentation required for HOME MUSHARAKA if I am a Salaried Person?" },
-          { question: "What are the different product types for ISLAMIC ROSHAN APNI CAR?" },
-          { question: "What are the eligibility criteria for ISLAMIC ROSHAN APNI CAR?" },
-          { question: "What are the documentation required for ISLAMIC ROSHAN APNI CAR?" },
-          { question: "What is the registration process for ISLAMIC ROSHAN APNI CAR?" }
-
-        ],
-        "Car Ijarah": [
-          { question: "What is Alfalah Car Ijarah?" },
-          { question: "How is Alfalah Car Ijarah interest free?" },
-          { question: "What is the Takaful arrangement in Alfalah Car Ijarah?" },
-          { question: "What is Takaful or Islamic Insurance?" }
-        ],
-        "Home Musharaka": [
-          { question: "What are the different segments for HOME MUSHARAKA?" },
-          { question: "What should be property age for the HOME MUSHARAKA?" },
-          { question: "What is the Maximum financing for Category 1 in HOME MUSHARAKA?" },
-          { question: "What are the documentation required for HOME MUSHARAKA if I am a Salaried Person?" }
-        ],
-        "Islamic Roshan Apni Car": [
-          { question: "What are the different product types for ISLAMIC ROSHAN APNI CAR?" },
-          { question: "What are the eligibility criteria for ISLAMIC ROSHAN APNI CAR?" },
-          { question: "What are the documentation required for ISLAMIC ROSHAN APNI CAR?" },
-          { question: "What is the registration process for ISLAMIC ROSHAN APNI CAR?" }
-        ]
+      Documentation: [
+        {
+          question:
+            "What are the different types of Bank Alfalah Islamic Banking Current Accounts?",
+        },
+        {
+          question:
+            "What are the different types of Bank Alfalah Islamic Banking Saving Accounts?",
+        },
+        {
+          question:
+            "What are the account related deliverables for Bank Alfalah Islamic Banking?",
+        },
+        {
+          question:
+            "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?",
+        },
+      ],
+      "Islamic Current Account": [
+        {
+          question: "Alfalah Islamic Foreign Currency Current Account",
+          openModal: true,
+        },
+        { question: "Alfalah Islamic Asaan Current Account", openModal: true },
+        { question: "Alfalah Islamic Current Account", openModal: true },
+        { question: "Alfalah Basic Banking account", openModal: true },
+        {
+          question:
+            "Alfalah Islamic Business Way Deposit and Payroll Remunerative Current Account",
+          openModal: true,
+        },
+        {
+          question: "Alfalah Islamic Asaan Remittance Current Account",
+          openModal: true,
+        },
+      ],
+      "Islamic Saving Account": [
+        { question: "Falah Business Account" },
+        {
+          question: "Alfalah Islamic Foreign Currency Savings Account",
+          openModal: true,
+        },
+        { question: "Falah Mahana Amdani Account", openModal: true },
+        {
+          question: "Alfalah Islamic Musharakah Savings Account",
+          openModal: true,
+        },
+        { question: "Falah Classic Savings Account", openModal: true },
+        { question: "Alfalah Islamic Profex Saving Account", openModal: true },
+        { question: "Falah Senior Citizens Savings Account", openModal: true },
+        {
+          question: "Alfalah Islamic Asaan Remittance Savings Account",
+          openModal: true,
+        },
+        { question: "Alfalah Islamic Asaan Saving Account", openModal: true },
+      ],
+      "Islamic Term Deposit": [
+        {
+          question: "Alfalah Islamic Foreign Currency Term Deposit",
+          openModal: true,
+        },
+        {
+          question: "Alfalah Islamic Premium Term Deposit- Monthly",
+          openModal: true,
+        },
+        {
+          question: "Alfalah Islamic Premium Term Deposit – Bullet Maturity",
+          openModal: true,
+        },
+        { question: "Falah Mahana Munafa Term Deposit", openModal: true },
+        { question: "Falah Term Deposit", openModal: true },
+        {
+          question: "Alfalah Islamic Recurring Value Deposit",
+          openModal: true,
+        },
+        {
+          question: "Falah 3 Year Term Deposit (Monthly Income Certificate)",
+          openModal: true,
+        },
+        { question: "Falah Senior Citizens Term Deposit", openModal: true },
+        { question: "Target Saving Deposit", openModal: true },
+      ],
+      "Islamic Roshan Digital Account (FOR NRPS)": [
+        { question: "What is Roshan Digital Account?" },
+        { question: "How can individuals apply for Roshan Digital Accounts?" },
+        {
+          question:
+            "What is the account type and currencies available in Roshan Digital Account?",
+        },
+        {
+          question:
+            "What is a Mudarabah-based account and why is Bank Alfalah Islamic’s Roshan Digital Savings Account, a Mudarabah-based account?",
+        },
+      ],
+      "Asaan Roshan Digital Account(for Islamic)": [
+        {
+          question: "What is an Alfalah Asaan Islamic Roshan Digital Account?",
+        },
+        {
+          question:
+            "What are the product features of Alfalah Asaan Islamic Roshan Digital Account?",
+        },
+        {
+          question:
+            "How different or simple is Alfalah Asaan Islamic Roshan Digital Account opening process?",
+        },
+      ],
+      "Islamic Roshan Digital Business Account": [
+        {
+          question:
+            "What are the documentation required for ISLAMIC ROSHAN DIGITAL BUSINESS ACCOUNT?",
+        },
+      ],
+      Conventional: [
+        { question: "What are different variants of CREDIT CARD?" },
+        {
+          question:
+            "What are the documentation required for Alfalah Platinum credit cards?",
+        },
+        { question: "What is the minimum limit for all credit cards?" },
+        {
+          question: "How much loan facility can I avail for Alfalah Auto Loan?",
+        },
+        { question: "What is the period of the Alfalah Auto Loan?" },
+        {
+          question:
+            "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?",
+        },
+        { question: "What are different variants of DEBIT CARD?" },
+        {
+          question:
+            "What are the documentation required for Alfalah Platinum DEBIT CARD?",
+        },
+        { question: "What is the minimum limit for all DEBIT CARD?" },
+      ],
+      "Credit Card": [
+        { question: "What are different variants of CREDIT CARD?" },
+        {
+          question:
+            "What are the documentation required for Alfalah Platinum credit cards?",
+        },
+        { question: "What is the minimum limit for all credit cards?" },
+      ],
+      "Auto Loan": [
+        {
+          question: "How much loan facility can I avail for Alfalah Auto Loan?",
+        },
+        { question: "What is the period of the Alfalah Auto Loan?" },
+        {
+          question:
+            "How is Alfalah Auto Loan different from other financing schemes available in Pakistan?",
+        },
+      ],
+      "Debit Card": [
+        { question: "What are different variants of DEBIT CARD?" },
+        // { question: "What are the documentation required for Alfalah Platinum DEBIT CARD?" },
+        { question: "What is the minimum limit for all DEBIT CARD?" },
+      ],
+      Islamic: [
+        { question: "What is Alfalah Car Ijarah?" },
+        { question: "How is Alfalah Car Ijarah interest free?" },
+        { question: "What is the Takaful arrangement in Alfalah Car Ijarah?" },
+        { question: "What is Takaful or Islamic Insurance?" },
+        { question: "What are the different segments for HOME MUSHARAKA?" },
+        { question: "What should be property age for the HOME MUSHARAKA?" },
+        {
+          question:
+            "What is the Maximum financing for Category 1 in HOME MUSHARAKA?",
+        },
+        {
+          question:
+            "What are the documentation required for HOME MUSHARAKA if I am a Salaried Person?",
+        },
+        {
+          question:
+            "What are the different product types for ISLAMIC ROSHAN APNI CAR?",
+        },
+        {
+          question:
+            "What are the eligibility criteria for ISLAMIC ROSHAN APNI CAR?",
+        },
+        {
+          question:
+            "What are the documentation required for ISLAMIC ROSHAN APNI CAR?",
+        },
+        {
+          question:
+            "What is the registration process for ISLAMIC ROSHAN APNI CAR?",
+        },
+      ],
+      "Car Ijarah": [
+        { question: "What is Alfalah Car Ijarah?" },
+        { question: "How is Alfalah Car Ijarah interest free?" },
+        { question: "What is the Takaful arrangement in Alfalah Car Ijarah?" },
+        { question: "What is Takaful or Islamic Insurance?" },
+      ],
+      "Home Musharaka": [
+        { question: "What are the different segments for HOME MUSHARAKA?" },
+        { question: "What should be property age for the HOME MUSHARAKA?" },
+        {
+          question:
+            "What is the Maximum financing for Category 1 in HOME MUSHARAKA?",
+        },
+        {
+          question:
+            "What are the documentation required for HOME MUSHARAKA if I am a Salaried Person?",
+        },
+      ],
+      "Islamic Roshan Apni Car": [
+        {
+          question:
+            "What are the different product types for ISLAMIC ROSHAN APNI CAR?",
+        },
+        {
+          question:
+            "What are the eligibility criteria for ISLAMIC ROSHAN APNI CAR?",
+        },
+        {
+          question:
+            "What are the documentation required for ISLAMIC ROSHAN APNI CAR?",
+        },
+        {
+          question:
+            "What is the registration process for ISLAMIC ROSHAN APNI CAR?",
+        },
+      ],
     };
 
     const selectedQuestions = questionsMap[option] || [];
     setQuestions(selectedQuestions);
-}
+  }
 
   // ]
 
@@ -643,7 +872,11 @@ function MainUi() {
                   className={`text-lg font-semibold cursor-pointer ${
                     option.isOpen ? "text-[#ee1d23]" : ""
                   }`}
-                  onClick={() => {toggleDropdown(index); setModalContent(""); setMyContent(false);}}
+                  onClick={() => {
+                    toggleDropdown(index);
+                    setModalContent("");
+                    setMyContent(false);
+                  }}
                 >
                   {option.label}
                   <FontAwesomeIcon
@@ -656,7 +889,6 @@ function MainUi() {
 
                 {option.isOpen && (
                   <div className="absolute top-full left-0 mt-3 bg-white rounded-lg shadow-lg p-4 w-[500%] h-[1000%] flex overflow-y-scroll">
-                    
                     <ul className="w-1/3 p-2">
                       <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer">
                         {option.firstHeading}
@@ -665,7 +897,11 @@ function MainUi() {
                         <ul key={listIndex}>
                           {list.map((item, itemIndex) => (
                             <li
-                            onClick={()=> {handleOptionSelection(item); setNavAddrSmall(item); setNavAddr(option.label);}}
+                              onClick={() => {
+                                handleOptionSelection(item);
+                                setNavAddrSmall(item);
+                                setNavAddr(option.label);
+                              }}
                               key={itemIndex}
                               className="mb-4 rounded-md hover:bg-[#f8a5a7] hover:text-[red] p-2 cursor-pointer"
                             >
@@ -677,14 +913,18 @@ function MainUi() {
                     </ul>
 
                     <ul className="w-1/3 p-2">
-                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer" >
+                      <li className="mb-4 text-[#ff5555] font-inter font-semibold text-lg cursor-pointer">
                         {option.secondHeading}
                       </li>
                       {option.secondOptions.map((list, listIndex) => (
                         <ul key={listIndex}>
                           {list.map((item, itemIndex) => (
                             <li
-                            onClick={()=> {handleOptionSelection(item); setNavAddrSmall(item); setNavAddr(option.label);}}
+                              onClick={() => {
+                                handleOptionSelection(item);
+                                setNavAddrSmall(item);
+                                setNavAddr(option.label);
+                              }}
                               key={itemIndex}
                               className="mb-4 rounded-md hover:bg-[#f8a5a7] hover:text-[red] p-2 cursor-pointer"
                             >
@@ -702,7 +942,11 @@ function MainUi() {
                         <ul key={listIndex}>
                           {list.map((item, itemIndex) => (
                             <li
-                            onClick={()=> {handleOptionSelection(item); setNavAddrSmall(item); setNavAddr(option.label);}}
+                              onClick={() => {
+                                handleOptionSelection(item);
+                                setNavAddrSmall(item);
+                                setNavAddr(option.label);
+                              }}
                               key={itemIndex}
                               className="mb-4 rounded-md hover:bg-[#f8a5a7] hover:text-[red] p-2 cursor-pointer"
                             >
@@ -722,12 +966,20 @@ function MainUi() {
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
           <div className=" hidden lg:block">
-            <SideBar sendMessage={sendMessage} questions={questions} specialQuestions={specialQuestions} handleQuestionClick={handleQuestionClick} navAddr={navAddr} navAddrSmall={navAddrSmall}/>
+            <SideBar
+              sendMessage={sendMessage}
+              questions={questions}
+              specialQuestions={specialQuestions}
+              handleQuestionClick={handleQuestionClick}
+              navAddr={navAddr}
+              navAddrSmall={navAddrSmall}
+              
+            />
           </div>
 
           <div className="  lg:w-[100%] w-full">
             <ChatHistory
-            specialQuestions={specialQuestions}
+              specialQuestions={specialQuestions}
               inputRef={input}
               sendMessage={sendMessage}
               micStart={micStart}
@@ -741,6 +993,9 @@ function MainUi() {
               handleNextClick={handleNextClick}
               currentIndex={currentIndex}
               handleQuestionClick={handleQuestionClick}
+              setQuestions={setQuestions}
+              setNavAddr={setNavAddr}
+              setNavAddrSmall={setNavAddrSmall}
             />
           </div>
         </div>
