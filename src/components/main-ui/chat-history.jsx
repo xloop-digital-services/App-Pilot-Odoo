@@ -20,6 +20,7 @@ import targmed from "../../assets/card02.png";
 import eligibile from "../../assets/card03.png";
 import charges from "../../assets/card04.png";
 import App from "../../App";
+import { stopAudio } from "../AudioService";
 
 let stepDescriptions = null;
 let images = null;
@@ -39,6 +40,9 @@ function ChatHistory({
   currentIndex,
   specialQuestions,
   handleQuestionClick,
+  setQuestions,
+  setNavAddr,
+  setNavAddrSmall,
 }) {
   const {
     modalContent,
@@ -146,7 +150,51 @@ function ChatHistory({
   ];
 
   const navigateToDefaultPath = () => {
-    window.location.href = '/';
+    const defaultQuestions = [
+      {
+        question: "How to load a mobile package via a banking app?",
+        openModal: true
+      },
+      {
+        question: "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        openModal: true
+      },
+      {
+        question: "How to register for Bank Alfalah App?",
+        openModal: true
+      },
+      {
+        question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+        openModal: true
+      },
+      {
+        question: "How to create Alfa Savings Account?",
+        openModal: true
+      },
+      {
+        question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
+        openModal: true
+      },
+      {
+        question: "How to activate a credit card?",
+        openModal: true
+      },
+      {
+        question: "How to activate Debit Card via WhatsApp?",
+        openModal: true
+      },
+      {
+        question: "How to view e-statement?",
+        openModal: true
+      },
+    ];
+
+    setQuestions(defaultQuestions);
+    setMessages([]);
+    setMyContent(false);
+    setNavAddr("");
+    setNavAddrSmall("");
+    stopAudio();
   };
 
 
