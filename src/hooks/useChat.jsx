@@ -111,6 +111,7 @@ export const ChatProvider = ({ children }) => {
         setModalContent,
         myContent,
         setMyContent,
+        setMessages
       }}
     >
       {children}

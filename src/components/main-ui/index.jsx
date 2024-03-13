@@ -14,6 +14,9 @@ function MainUi() {
   // const [currentIndex, setCurrentIndex] = useState(0);
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
+  const [navAddr, setNavAddr] = useState("");
+  const [navAddrSmall, setNavAddrSmall] = useState("");
+  const [showAddr, setShowAddr] = useState(false);
   const [questions, setQuestions] = useState([
     {
       question: "How to load a mobile package via a banking app?",
@@ -662,7 +665,7 @@ function MainUi() {
                         <ul key={listIndex}>
                           {list.map((item, itemIndex) => (
                             <li
-                            onClick={()=> handleOptionSelection(item)}
+                            onClick={()=> {handleOptionSelection(item); setNavAddrSmall(item); setNavAddr(option.label);}}
                               key={itemIndex}
                               className="mb-4 rounded-md hover:bg-[#f8a5a7] hover:text-[red] p-2 cursor-pointer"
                             >
@@ -681,7 +684,7 @@ function MainUi() {
                         <ul key={listIndex}>
                           {list.map((item, itemIndex) => (
                             <li
-                            onClick={()=> handleOptionSelection(item)}
+                            onClick={()=> {handleOptionSelection(item); setNavAddrSmall(item); setNavAddr(option.label);}}
                               key={itemIndex}
                               className="mb-4 rounded-md hover:bg-[#f8a5a7] hover:text-[red] p-2 cursor-pointer"
                             >
@@ -699,7 +702,7 @@ function MainUi() {
                         <ul key={listIndex}>
                           {list.map((item, itemIndex) => (
                             <li
-                            onClick={()=> handleOptionSelection(item)}
+                            onClick={()=> {handleOptionSelection(item); setNavAddrSmall(item); setNavAddr(option.label);}}
                               key={itemIndex}
                               className="mb-4 rounded-md hover:bg-[#f8a5a7] hover:text-[red] p-2 cursor-pointer"
                             >
@@ -719,7 +722,7 @@ function MainUi() {
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
           <div className=" hidden lg:block">
-            <SideBar sendMessage={sendMessage} questions={questions} specialQuestions={specialQuestions} handleQuestionClick={handleQuestionClick} />
+            <SideBar sendMessage={sendMessage} questions={questions} specialQuestions={specialQuestions} handleQuestionClick={handleQuestionClick} navAddr={navAddr} navAddrSmall={navAddrSmall}/>
           </div>
 
           <div className="  lg:w-[100%] w-full">

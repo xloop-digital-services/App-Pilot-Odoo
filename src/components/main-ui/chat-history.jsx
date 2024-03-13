@@ -19,10 +19,7 @@ import prodf from "../../assets/card01.png";
 import targmed from "../../assets/card02.png";
 import eligibile from "../../assets/card03.png";
 import charges from "../../assets/card04.png";
-
-
-
-
+import App from "../../App";
 
 let stepDescriptions = null;
 let images = null;
@@ -43,16 +40,22 @@ function ChatHistory({
   specialQuestions,
   handleQuestionClick,
 }) {
-
-  const { modalContent, setModalContent,myContent, setMyContent} = useChat();
+  const {
+    modalContent,
+    setModalContent,
+    myContent,
+    setMyContent,
+    setMessages,
+  } = useChat();
   // const [myContent, setMyContent] = useState(false);
-  console.log(modalContent)
+  console.log(modalContent);
+  const [myQuest, setMyQuest] = useState([]);
 
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
       setMyContent(true);
-      console.log(modalContent)
-      
+      setMyQuest(modalContent);
+      console.log(modalContent);
     }
   }, [modalContent]);
 
@@ -71,26 +74,26 @@ function ChatHistory({
 
   const handleProductFeatures = () => {
     setMyContent(false);
-    sendMessage(`What are the product features of ${modalContent}?`) 
-   }
+    sendMessage(`What are the product features of ${modalContent}?`);
+  };
 
-   const handleTargetMarket = () => {
+  const handleTargetMarket = () => {
     setMyContent(false);
     sendMessage(`What is the target market of ${modalContent}?`);
-   }
+  };
 
-   const handleEligibilityCriteria = () => {
+  const handleEligibilityCriteria = () => {
     setMyContent(false);
     sendMessage(`What is the eligibility criteria of ${modalContent}?`);
-   }
+  };
 
-   const handleAssociatedCharges = () => {
+  const handleAssociatedCharges = () => {
     setMyContent(false);
     sendMessage(`What is the associated charges of ${modalContent}?`);
-   }
+  };
 
   handleQuestionClick = async (question) => {
-    setModalLoading(true  );
+    setModalLoading(true);
 
     const result = await fetchJournies(question);
 
@@ -123,25 +126,24 @@ function ChatHistory({
     {
       label: "Product Features",
       onClick: handleProductFeatures,
-      image: prodf
+      image: prodf,
     },
     {
       label: "Target Market",
       onClick: handleTargetMarket,
-      image: targmed
+      image: targmed,
     },
     {
       label: "Eligibility Criteria",
       onClick: handleEligibilityCriteria,
-      image: eligibile
+      image: eligibile,
     },
     {
       label: "Associated Charges",
       onClick: handleAssociatedCharges,
-      image: charges
-    }
+      image: charges,
+    },
   ];
-  
 
   return (
     <>
@@ -152,29 +154,39 @@ function ChatHistory({
 
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
-        {myContent && !loading && (
-  <div>
-    <div>
-      <h1 className="text-xl mt-5">Please select any option for {modalContent}.</h1>
-    </div>
-    <div style={{ display: "flex", gap: "40px", justifyContent: "center"}}>
-      {buttons.map((button, index) => (
-        <button
-          key={index}
-          className="h-[100%] mt-10 flex items-center rounded-xl w-[33%]"
-          onClick={button.onClick}
-          style={{ boxShadow: "0 0 15px 5px rgba(255, 0, 0, 0.09)" }}
-        >
-          <Image src={button.image} className="mr-2" height={80} />
-          <span className="ml-5">{button.label}</span>
-        </button>
-      ))}
-    </div>
-  </div>
-)}
+          {myContent && !loading && (
+            <div>
+              <div>
+                <h1 className="text-xl mt-5">
+                  Please select any option for {modalContent}.
+                </h1>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "40px",
+                  justifyContent: "center",
+                }}
+              >
+                {buttons.map((button, index) => (
+                  <button
+                    key={index}
+                    className="h-[100%] mt-10 flex items-center rounded-xl w-[33%]"
+                    onClick={button.onClick}
+                    style={{ boxShadow: "0 0 15px 5px rgba(255, 0, 0, 0.09)" }}
+                  >
+                    <Image src={button.image} className="mr-2" height={80} />
+                    <span className="ml-5">{button.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {messages.length > 0 ? (
             messages?.map((message, index) => {
+              const isLastMessage = index === messages.length - 1;
+              const lastTextMessage = messages[messages.length - 1].text;
               return (
                 <div key={index}>
                   {/* USER MSG */}
@@ -243,8 +255,32 @@ function ChatHistory({
                             </div>
                             {/* REPLY CHAT BUTTON END */}
                           </div>
-                        ) : (<div>
-                          <p className="w-full mt-2">{message[0].text}</p>
+                        ) : (
+                          <div>
+                            <p className="w-full mt-2">{message[0].text}</p>
+                            {isLastMessage &&
+                              !myContent &&
+                              myQuest === modalContent && (
+                                <div className="flex gap-6 justify-center p-4">
+                                  <button
+                                    className="rounded-lg bg-[#dcdcdc] p-1"
+                                    onClick={() => {
+                                      setMyContent(true);
+                                      setMessages([]);
+                                    }}
+                                  >
+                                    Do you want further information?
+                                  </button>
+                                  <button
+                                    className="rounded-lg bg-[#dcdcdc] p-1"
+                                    onClick={() => {
+                                      <App />;
+                                    }}
+                                  >
+                                    End Journey
+                                  </button>
+                                </div>
+                              )}
                           </div>
                         )}
                         {message.image && (
@@ -255,12 +291,10 @@ function ChatHistory({
                               alt={`data:image/png;base64, ${message.image}`}
                             />
                           </div>
-                          
                         )}
                       </div>
                     </div>
                   )}
-                  
                 </div>
               );
             })
@@ -271,7 +305,6 @@ function ChatHistory({
                 alt="chat icon"
                 className="sm:w-[60%] sm:h-[100%]"
               />
-              
             </div>
           )}
         </div>
@@ -289,13 +322,12 @@ function ChatHistory({
         {/* SEND INPUT BOX IN MAIN PAGE */}
 
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
-        {loading && (
+          {loading && (
             <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
-              <Spin/>
+              <Spin />
             </div>
-
           )}
-           <input
+          <input
             ref={inputRef}
             placeholder={loading ? "" : "Ask or search anything"}
             className="w-full bg-[#F3F3F3] text-btn-color rounded-3xl p-1 focus:outline-none"

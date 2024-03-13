@@ -29,11 +29,12 @@ export const fetchJournies = async (question) => {
   return response.json();
 };
 
-function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage }) {
+function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage, navAddrSmall, navAddr }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showModal, setShowModal] = useState(false); // New state
   // const [modalContent, setModalContent] = useState("");
   const [features, setFeatures] = useState(""); // State to store modal content
+
   
 
   // const [activeStep, setActiveStep] = useState(0);
@@ -69,6 +70,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
     if (specialQuestions.includes(question)) {
       setModalContent(question);
       setModalLoading(false)
+      setMyContent(true);
       return;
     } else {
       setMyContent(false)
@@ -149,6 +151,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
         )
       )}
 
+      {navAddr ? <div className="text-sm font-semibold text-center"> {navAddr} / {navAddrSmall}</div>: <div></div>}
 
       {questions.map((question, index) => (
          <div
