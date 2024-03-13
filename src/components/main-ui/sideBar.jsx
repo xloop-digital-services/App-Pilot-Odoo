@@ -29,12 +29,18 @@ export const fetchJournies = async (question) => {
   return response.json();
 };
 
-function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage }) {
+function SideBar({
+  questions,
+  specialQuestions,
+  handleQuestionClick,
+  sendMessage,
+  navAddrSmall,
+  navAddr,
+}) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showModal, setShowModal] = useState(false); // New state
   // const [modalContent, setModalContent] = useState("");
   const [features, setFeatures] = useState(""); // State to store modal content
-  
 
   // const [activeStep, setActiveStep] = useState(0);
 
@@ -42,7 +48,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
   // const [currentIndex, setCurrentIndex] = useState(0);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const [modalLoading, setModalLoading] = useState(false);
- 
+
   const input = useRef();
   const {
     // chat,
@@ -53,7 +59,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
     modalContent,
     setModalContent,
     myContent,
-    setMyContent
+    setMyContent,
     // loading,
     // setLoading,
     // micOn,
@@ -64,14 +70,14 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
     // messages,
   } = useChat();
 
-
   handleQuestionClick = async (question) => {
     if (specialQuestions.includes(question)) {
       setModalContent(question);
-      setModalLoading(false)
+      setModalLoading(false);
+      setMyContent(true);
       return;
     } else {
-      setMyContent(false)
+      setMyContent(false);
       setModalLoading(true);
       const result = await fetchJournies(question);
       stepDescriptions = result.top_results.steps.map((step) => step.Step);
@@ -101,7 +107,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
     backgroundColor: "#b30f13",
     color: "white",
     fontSize: "20px",
-};
+  };
   return (
     <div
       className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-scroll"
@@ -149,18 +155,32 @@ function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage
         )
       )}
 
+      {navAddr ? (
+        <div className="text-sm text-center">
+          {navAddr} /{" "}
+          <span className="text-sm font-semibold">{navAddrSmall}</span>
+        </div>
+      ) : (
+        <div></div>
+      )}
 
       {questions.map((question, index) => (
-         <div
-         className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${selectedQuestion === question.question ? 'border border-red' : ''}`}
-         key={index}
-       >
+        <div
+          className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
+            selectedQuestion === question.question ? "border border-red" : ""
+          }`}
+          key={index}
+        >
           <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
             <img src={QuestionMark} alt="logo" />
           </div>
           <p
             className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
-            onClick={()=> question.openModal ? handleQuestionClick(question.question):sendMessage(question.question)}
+            onClick={() =>
+              question.openModal
+                ? handleQuestionClick(question.question)
+                : sendMessage(question.question)
+            }
           >
             {question.question}
           </p>
