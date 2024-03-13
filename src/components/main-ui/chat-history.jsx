@@ -73,22 +73,22 @@ function ChatHistory({
   };
 
   const handleProductFeatures = () => {
-    setMyContent(false);
+    setMyContent(true);
     sendMessage(`What are the product features of ${modalContent}?`);
   };
 
   const handleTargetMarket = () => {
-    setMyContent(false);
+    setMyContent(true);
     sendMessage(`What is the target market of ${modalContent}?`);
   };
 
   const handleEligibilityCriteria = () => {
-    setMyContent(false);
+    setMyContent(true);
     sendMessage(`What is the eligibility criteria of ${modalContent}?`);
   };
 
   const handleAssociatedCharges = () => {
-    setMyContent(false);
+    setMyContent(true);
     sendMessage(`What is the associated charges of ${modalContent}?`);
   };
 
@@ -264,7 +264,7 @@ function ChatHistory({
                           <div>
                             <p className="w-full mt-2">{message[0].text}</p>
                             {isLastMessage &&
-                              !myContent &&
+                              myContent &&
                               myQuest === modalContent && (
                                 <div className="flex gap-6 justify-center p-4">
                                   <button

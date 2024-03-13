@@ -55,14 +55,6 @@ function MainUi() {
       question: "How to view e-statement?",
       openModal:true
     },
-    {
-      question: "How to apply for a loan?",
-      openModal:true
-    },
-    {
-      question: "How to apply for BNPL?",
-      openModal:true
-    },
   ]);
   const [specialQuestions] = useState([
     "Alfalah Kamyab Karobar Account",

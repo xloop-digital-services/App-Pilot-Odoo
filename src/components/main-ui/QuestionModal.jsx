@@ -231,14 +231,20 @@ const QuestionModal = ({
             <hr class="w-[556px] border border-1 border-[#ffc3c3] mt-1 -ml-4"></hr>
 
             <div className="flex items-center justify-center flex-col mt-1">
-              {/* mid content here */}
-              <Image
-                width={"16%"}
-                // height={"175px"}
-                src={snap}
-                alt={"step image"}
-              />
-            </div>
+                {/* mid content here */}
+                {/* <Image
+                  width={"16%"}
+                  // height={"175px"}
+                  src={snap}
+                  alt={"step image"}
+                /> */}
+                {/* Conditionally render the image */}
+                {snap ? (
+                  <Image width={"16%"} src={snap} alt={"step image"} />
+                ) : (
+                  <p className=" mt-10 bg-gray-200 font-semibold flex flex-row">No Image Available</p> // Adjust the height and width accordingly
+                )}
+              </div>
           </div>
 
           {/* {activeStep === stepDescriptions.length - 1 ? (
