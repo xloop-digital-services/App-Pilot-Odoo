@@ -90,7 +90,7 @@ function ChatHistory({
    }
 
   handleQuestionClick = async (question) => {
-    setModalLoading(true);
+    setModalLoading(true  );
 
     const result = await fetchJournies(question);
 
@@ -152,7 +152,7 @@ function ChatHistory({
 
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
-        {myContent && (
+        {myContent && !loading && (
   <div>
     <div>
       <h1 className="text-xl mt-5">Please select any option for {modalContent}.</h1>
@@ -289,10 +289,17 @@ function ChatHistory({
         {/* SEND INPUT BOX IN MAIN PAGE */}
 
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
-          <input
+        {loading && (
+            <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
+              <Spin/>
+            </div>
+
+          )}
+           <input
             ref={inputRef}
-            placeholder="Ask or search anything"
+            placeholder={loading ? "" : "Ask or search anything"}
             className="w-full bg-[#F3F3F3] text-btn-color rounded-3xl p-1 focus:outline-none"
+            disabled={loading}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 sendMessage();

@@ -29,7 +29,7 @@ export const fetchJournies = async (question) => {
   return response.json();
 };
 
-function SideBar({ questions, specialQuestions, handleQuestionClick }) {
+function SideBar({ questions, specialQuestions, handleQuestionClick, sendMessage }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showModal, setShowModal] = useState(false); // New state
   // const [modalContent, setModalContent] = useState("");
@@ -64,18 +64,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick }) {
     // messages,
   } = useChat();
 
-  // const handleQuestionClick = async (question) => {
-  //   setModalLoading(true);
-  //   const result = await fetchJournies(question);
 
-  //   // console.log("Question response data", result);
-  //   // console.log(result.top_results, ' result data');
-
-  //   stepDescriptions = result.top_results.steps.map((step) => step.Step);
-  //   images = result.top_results.steps.map((step) => step.Image_URL);
-  //   setSelectedQuestion(question);
-  //   setModalLoading(false);
-  // };
   handleQuestionClick = async (question) => {
     if (specialQuestions.includes(question)) {
       setModalContent(question);
@@ -171,7 +160,7 @@ function SideBar({ questions, specialQuestions, handleQuestionClick }) {
           </div>
           <p
             className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
-            onClick={() => handleQuestionClick(question.question)}
+            onClick={()=> question.openModal ? handleQuestionClick(question.question):sendMessage(question.question)}
           >
             {question.question}
           </p>

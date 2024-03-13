@@ -17,40 +17,48 @@ function MainUi() {
   const [questions, setQuestions] = useState([
     {
       question: "How to load a mobile package via a banking app?",
+      openModal:true
     },
     {
       question:
         "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        openModal:true
     },
     {
       question: "How to register for Bank Alfalah App?",
+      openModal:true
     },
     {
       question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+      openModal:true
     },
     {
       question: "How to create Alfa Savings Account?",
+      openModal:true
     },
     {
       question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
+      openModal:true
     },
     {
       question: "How to activate a credit card?",
+      openModal:true
     },
     {
       question: "How to activate Debit Card via WhatsApp?",
+      openModal:true
     },
     {
       question: "How to view e-statement?",
+      openModal:true
     },
     {
       question: "How to apply for a loan?",
+      openModal:true
     },
     {
       question: "How to apply for BNPL?",
-    },
-    {
-      question: "What is Alfa app?",
+      openModal:true
     },
   ]);
   const [specialQuestions] = useState([
@@ -359,30 +367,30 @@ function MainUi() {
         ],
         
         "Current account": [
-          { question: "Alfalah Kamyab Karobar Account" },
-          { question: "Alfalah PKR Current Account" },
-          { question: "Alfalah Basic Banking Account" },
-          { question: "Alfalah Asaan Remittance Current Account" },
-          { question: "Alfalah FCY Current Account" },
-          { question: "Alfalah Asaan Current Account" },
-          { question: "Alfalah Kashtkaar Current Account" }
+          { question: "Alfalah Kamyab Karobar Account", openModal:true },
+          { question: "Alfalah PKR Current Account",openModal:true },
+          { question: "Alfalah Basic Banking Account",openModal:true },
+          { question: "Alfalah Asaan Remittance Current Account",openModal:true },
+          { question: "Alfalah FCY Current Account",openModal:true },
+          { question: "Alfalah Asaan Current Account",openModal:true },
+          { question: "Alfalah Kashtkaar Current Account",openModal:true }
           ],
           "Saving account": [
-            { question: "Alfalah Care Account" },
-            { question: "Alfalah Royal Profit Account" },
-            { question: "Alfalah Kifayat Account" },
-            { question: "Alfalah PLS Savings Account" },
-            { question: "Alfalah Asaan Remittance Savings Account" },
-            { question: "Alfalah FCY Saving account" },
-            { question: "Alfalah FCY Monthly Savings Account" },
-            { question: "Alfalah Asaan Savings Account" }
+            { question: "Alfalah Care Account",openModal:true },
+            { question: "Alfalah Royal Profit Account",openModal:true },
+            { question: "Alfalah Kifayat Account",openModal:true },
+            { question: "Alfalah PLS Savings Account",openModal:true },
+            { question: "Alfalah Asaan Remittance Savings Account",openModal:true },
+            { question: "Alfalah FCY Saving account",openModal:true },
+            { question: "Alfalah FCY Monthly Savings Account",openModal:true },
+            { question: "Alfalah Asaan Savings Account",openModal:true }
             ],
             "Term Deposit": [
-              { question: "Alfalah Term Deposit" },
-              { question: "Alfalah Mahana Amdan Term Deposit Account" },
-              { question: "Alfalah Floating Term Deposit" },
-              { question: "Alfalah FCY Term Deposit" },
-              { question: "Alfalah Care Senior Citizen Mahana Amdan Account" }
+              { question: "Alfalah Term Deposit",openModal:true },
+              { question: "Alfalah Mahana Amdan Term Deposit Account",openModal:true },
+              { question: "Alfalah Floating Term Deposit",openModal:true },
+              { question: "Alfalah FCY Term Deposit",openModal:true },
+              { question: "Alfalah Care Senior Citizen Mahana Amdan Account",openModal:true }
               ],
         "Alfalah at Work": [
             { question: "What are the product features of ALFALAH AT WORK?" },
@@ -449,34 +457,34 @@ function MainUi() {
           { question: "What are the BASIC DOCUMENTATION REQUIRED FOR ACCOUNT OPENING for Salaried Accounts?" }
         ],
         "Islamic Current Account": [
-          { question: "Alfalah Islamic Foreign Currency Current Account" },
-          { question: "Alfalah Islamic Asaan Current Account" },
-          { question: "Alfalah Islamic Current Account" },
-          { question: "Alfalah Basic Banking account" },
-          { question: "Alfalah Islamic Business Way Deposit and Payroll Remunerative Current Account" },
-          { question: "Alfalah Islamic Asaan Remittance Current Account" }
+          { question: "Alfalah Islamic Foreign Currency Current Account",openModal:true },
+          { question: "Alfalah Islamic Asaan Current Account",openModal:true },
+          { question: "Alfalah Islamic Current Account",openModal:true },
+          { question: "Alfalah Basic Banking account",openModal:true },
+          { question: "Alfalah Islamic Business Way Deposit and Payroll Remunerative Current Account",openModal:true },
+          { question: "Alfalah Islamic Asaan Remittance Current Account",openModal:true }
           ],
           "Islamic Saving Account": [
             { question: "Falah Business Account" },
-            { question: "Alfalah Islamic Foreign Currency Savings Account" },
-            { question: "Falah Mahana Amdani Account" },
-            { question: "Alfalah Islamic Musharakah Savings Account" },
-            { question: "Falah Classic Savings Account" },
-            { question: "Alfalah Islamic Profex Saving Account" },
-            { question: "Falah Senior Citizens Savings Account" },
-            { question: "Alfalah Islamic Asaan Remittance Savings Account" },
-            { question: "Alfalah Islamic Asaan Saving Account" }
+            { question: "Alfalah Islamic Foreign Currency Savings Account",openModal:true },
+            { question: "Falah Mahana Amdani Account",openModal:true },
+            { question: "Alfalah Islamic Musharakah Savings Account",openModal:true },
+            { question: "Falah Classic Savings Account",openModal:true },
+            { question: "Alfalah Islamic Profex Saving Account",openModal:true },
+            { question: "Falah Senior Citizens Savings Account",openModal:true },
+            { question: "Alfalah Islamic Asaan Remittance Savings Account",openModal:true },
+            { question: "Alfalah Islamic Asaan Saving Account",openModal:true }
             ],
             "Islamic Term Deposit": [
-              { question: "Alfalah Islamic Foreign Currency Term Deposit" },
-              { question: "Alfalah Islamic Premium Term Deposit- Monthly" },
-              { question: "Alfalah Islamic Premium Term Deposit – Bullet Maturity" },
-              { question: "Falah Mahana Munafa Term Deposit" },
-              { question: "Falah Term Deposit" },
-              { question: "Alfalah Islamic Recurring Value Deposit" },
-              { question: "Falah 3 Year Term Deposit (Monthly Income Certificate)" },
-              { question: "Falah Senior Citizens Term Deposit" },
-              { question: "Target Saving Deposit" }
+              { question: "Alfalah Islamic Foreign Currency Term Deposit",openModal:true },
+              { question: "Alfalah Islamic Premium Term Deposit- Monthly",openModal:true },
+              { question: "Alfalah Islamic Premium Term Deposit – Bullet Maturity",openModal:true },
+              { question: "Falah Mahana Munafa Term Deposit",openModal:true },
+              { question: "Falah Term Deposit",openModal:true },
+              { question: "Alfalah Islamic Recurring Value Deposit",openModal:true },
+              { question: "Falah 3 Year Term Deposit (Monthly Income Certificate)",openModal:true },
+              { question: "Falah Senior Citizens Term Deposit",openModal:true },
+              { question: "Target Saving Deposit",openModal:true }
               ],
         "Islamic Roshan Digital Account (FOR NRPS)": [
           { question: "What is Roshan Digital Account?" },
