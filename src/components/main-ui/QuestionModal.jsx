@@ -220,9 +220,11 @@ const QuestionModal = ({
             {/* STEPPER SHOULD CHANGE THIS start */}
 
             <div className="flex flex-row  w-full">
+              <div>
               <p className="bg-[#ffc3c3] rounded-full h-10 w-10 flex items-center justify-center font-semibold -mt-1 -mt-1">
                 {activeStep + 1}
               </p>
+              </div>
               <p className="text-sm mt-2 ml-3">{description}</p>
             </div>
 
