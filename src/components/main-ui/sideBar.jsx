@@ -8,7 +8,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 // import { useChatModal } from "../../hooks/useChatModal";
 
-const backendUrl = "http://13.233.186.88:8000/";
+const backendUrl = "http://13.233.186.88:8000";
 
 let stepDescriptions = null;
 let images = null;

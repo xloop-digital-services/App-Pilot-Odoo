@@ -25,7 +25,7 @@ import { Image } from "antd";
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
-const backendUrl = "http://13.233.186.88:8000/";
+const backendUrl = "http://13.233.186.88:8000";
 
 const QuestionModal = ({
   selectedQuestion,
@@ -265,8 +265,8 @@ const QuestionModal = ({
               <div className="flex flex-row -mt-5 -mb-3">
                 <button
                   className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] mr-4 ${activeStep === 0
-                      ? "bg-white text-[#ee1d23]"
-                      : "bg-[#ee1d23] text-[#fff]"
+                    ? "bg-white text-[#ee1d23]"
+                    : "bg-[#ee1d23] text-[#fff]"
                     } ${activeStep === 0 && "disabled-button"}`}
                   onClick={handleBack}
                   disabled={activeStep < 1}
@@ -275,8 +275,8 @@ const QuestionModal = ({
                 </button>
                 <button
                   className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] ${activeStep === stepDescriptions.length - 1
-                      ? "bg-white text-[#ee1d23]"
-                      : "bg-[#ee1d23] text-[#fff]"
+                    ? "bg-white text-[#ee1d23]"
+                    : "bg-[#ee1d23] text-[#fff]"
                     } ${activeStep === stepDescriptions.length - 1 &&
                     "disabled-button"
                     }`}
