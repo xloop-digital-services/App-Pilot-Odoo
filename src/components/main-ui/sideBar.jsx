@@ -8,7 +8,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 // import { useChatModal } from "../../hooks/useChatModal";
 
-const backendUrl = "http://13.233.132.194:8000";
+const backendUrl = "http://13.233.186.88:8000/";
 
 let stepDescriptions = null;
 let images = null;
@@ -155,29 +155,28 @@ function SideBar({
       ) : (
         <div></div>
       )}
-<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
-      {questions.map((question, index) => (
-        <div
-          className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
-            selectedQuestion === question.question ? "border border-red" : ""
-          }`}
-          key={index}
-        >
-          <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
-            <img src={QuestionMark} alt="logo" />
-          </div>
-          <p
-            className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
-            onClick={() =>
-              question.openModal
-                ? handleQuestionClick(question.question)
-                : sendMessage(question.question)
-            }
+      <div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
+        {questions.map((question, index) => (
+          <div
+            className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${selectedQuestion === question.question ? "border border-red" : ""
+              }`}
+            key={index}
           >
-            {question.question}
-          </p>
-        </div>
-      ))}
+            <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
+              <img src={QuestionMark} alt="logo" />
+            </div>
+            <p
+              className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
+              onClick={() =>
+                question.openModal
+                  ? handleQuestionClick(question.question)
+                  : sendMessage(question.question)
+              }
+            >
+              {question.question}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );

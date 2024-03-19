@@ -25,7 +25,7 @@ import { Image } from "antd";
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
-const backendUrl = "http://13.233.132.194:8000";
+const backendUrl = "http://13.233.186.88:8000/";
 
 const QuestionModal = ({
   selectedQuestion,
@@ -56,7 +56,7 @@ const QuestionModal = ({
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
   const [micOn, setMicOn] = useState(false);
-  
+
 
   useEffect(() => {
     // console.log(messages)
@@ -207,32 +207,32 @@ const QuestionModal = ({
       style={{ top: "40px" }}
     >
       <div className="modal-content">
-      <div className="bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-7 ml-3  w-[650px] h-[400px] flex justify-center items-center mt-7">
-        <div className="bg-[#ffffff] rounded-2xl border border-1 border-[#f0f0f0] p-5 flex items-center justify-center flex-col h-[364px]  w-[600px] mt-8">
-          <HorizontalLinearStepper
-            activeStep={activeStep}
-            onChangeStep={handleStepChange}
-            // completedSteps={completedSteps}
-            // setActiveStep={setActiveStep}
-            steps={stepDescriptions}
-          />
-          <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[350px]">
-            {/* STEPPER SHOULD CHANGE THIS start */}
+        <div className="bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-7 ml-3  w-[650px] h-[400px] flex justify-center items-center mt-7">
+          <div className="bg-[#ffffff] rounded-2xl border border-1 border-[#f0f0f0] p-5 flex items-center justify-center flex-col h-[364px]  w-[600px] mt-8">
+            <HorizontalLinearStepper
+              activeStep={activeStep}
+              onChangeStep={handleStepChange}
+              // completedSteps={completedSteps}
+              // setActiveStep={setActiveStep}
+              steps={stepDescriptions}
+            />
+            <div className="bg-[#ffeded] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[350px]">
+              {/* STEPPER SHOULD CHANGE THIS start */}
 
-            <div className="flex flex-row  w-full">
-              <div>
-              <p className="bg-[#ffc3c3] rounded-full h-10 w-10 flex items-center justify-center font-semibold -mt-1 -mt-1">
-                {activeStep + 1}
-              </p>
+              <div className="flex flex-row  w-full">
+                <div>
+                  <p className="bg-[#ffc3c3] rounded-full h-10 w-10 flex items-center justify-center font-semibold -mt-1 -mt-1">
+                    {activeStep + 1}
+                  </p>
+                </div>
+                <p className="text-sm mt-2 ml-3">{description}</p>
               </div>
-              <p className="text-sm mt-2 ml-3">{description}</p>
-            </div>
 
-            {/* STEPPER SHOULD CHANGE THIS End */}
+              {/* STEPPER SHOULD CHANGE THIS End */}
 
-            <hr class="w-[556px] border border-1 border-[#ffc3c3] mt-1 -ml-4"></hr>
+              <hr class="w-[556px] border border-1 border-[#ffc3c3] mt-1 -ml-4"></hr>
 
-            <div className="flex items-center justify-center flex-col mt-1">
+              <div className="flex items-center justify-center flex-col mt-1">
                 {/* mid content here */}
                 {/* <Image
                   width={"16%"}
@@ -247,9 +247,9 @@ const QuestionModal = ({
                   <p className=" mt-10 bg-gray-200 font-semibold flex flex-row">No Image Available</p> // Adjust the height and width accordingly
                 )}
               </div>
-          </div>
+            </div>
 
-          {/* {activeStep === stepDescriptions.length - 1 ? (
+            {/* {activeStep === stepDescriptions.length - 1 ? (
             <div className="flex justify-center w-[500px] -mt-5 -mb-3">
               <div>
                 <button
@@ -261,50 +261,47 @@ const QuestionModal = ({
               </div>
             </div>
           ) : ( */}
-          <React.Fragment>
-            <div className="flex flex-row -mt-5 -mb-3">
-              <button
-                className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] mr-4 ${
-                  activeStep === 0
-                    ? "bg-white text-[#ee1d23]"
-                    : "bg-[#ee1d23] text-[#fff]"
-                } ${activeStep === 0 && "disabled-button"}`}
-                onClick={handleBack}
-                disabled={activeStep < 1}
-              >
-                Back
-              </button>
-              <button
-                className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] ${
-                  activeStep === stepDescriptions.length - 1
-                    ? "bg-white text-[#ee1d23]"
-                    : "bg-[#ee1d23] text-[#fff]"
-                } ${
-                  activeStep === stepDescriptions.length - 1 &&
-                  "disabled-button"
-                }`}
-                onClick={handleNext}
-                // Disable the button on the last step
-                disabled={activeStep === stepDescriptions.length - 1}
-              >
-                {/* {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"} */}
-                Next
-                {/* {console.log("active state at 0", activeStep)} */}
-              </button>
-            </div>
-          </React.Fragment>
-          {/* )} */}
+            <React.Fragment>
+              <div className="flex flex-row -mt-5 -mb-3">
+                <button
+                  className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] mr-4 ${activeStep === 0
+                      ? "bg-white text-[#ee1d23]"
+                      : "bg-[#ee1d23] text-[#fff]"
+                    } ${activeStep === 0 && "disabled-button"}`}
+                  onClick={handleBack}
+                  disabled={activeStep < 1}
+                >
+                  Back
+                </button>
+                <button
+                  className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] ${activeStep === stepDescriptions.length - 1
+                      ? "bg-white text-[#ee1d23]"
+                      : "bg-[#ee1d23] text-[#fff]"
+                    } ${activeStep === stepDescriptions.length - 1 &&
+                    "disabled-button"
+                    }`}
+                  onClick={handleNext}
+                  // Disable the button on the last step
+                  disabled={activeStep === stepDescriptions.length - 1}
+                >
+                  {/* {activeStep === stepDescriptions.length - 1 ? "Finish" : "Next"} */}
+                  Next
+                  {/* {console.log("active state at 0", activeStep)} */}
+                </button>
+              </div>
+            </React.Fragment>
+            {/* )} */}
+          </div>
         </div>
-      </div>
 
-      <div className="bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-7 ml-3  w-[650px] h-[350px] flex justify-center items-center mt-5">
-        <div className="bg-[#ffffff] rounded-2xl border border-1 border-[#f0f0f0] pt-4 h-[310px]  w-[100%] mt-8 overflow-hidden">
-          <p className="ml-5 text-black font-inter font-semibold text-lg leading-[157%]">
-            Ask Me
-          </p>
-          <hr class="w-[593px] border border-1 border-[#f0f0f0] mt-3 "></hr>
-          {/* FIRST MOVE LOADER THEN SHOW RESPONSE REPLY BY BOT  */}
-          {/* {loading && (
+        <div className="bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-7 ml-3  w-[650px] h-[350px] flex justify-center items-center mt-5">
+          <div className="bg-[#ffffff] rounded-2xl border border-1 border-[#f0f0f0] pt-4 h-[310px]  w-[100%] mt-8 overflow-hidden">
+            <p className="ml-5 text-black font-inter font-semibold text-lg leading-[157%]">
+              Ask Me
+            </p>
+            <hr class="w-[593px] border border-1 border-[#f0f0f0] mt-3 "></hr>
+            {/* FIRST MOVE LOADER THEN SHOW RESPONSE REPLY BY BOT  */}
+            {/* {loading && (
             <div
               style={{
                 textAlign: "center",
@@ -317,7 +314,7 @@ const QuestionModal = ({
               />
             </div>
           )} */}
-          {/* {!loading && ( */}
+            {/* {!loading && ( */}
             <>
               {/* list of messages */}
               <div className="overflow-y-auto lg:h-[62%] h-[77%] ">
@@ -370,7 +367,7 @@ const QuestionModal = ({
                                   );
                                 })}
                                 {message.list.length - 1 <=
-                                currentIndex ? null : (
+                                  currentIndex ? null : (
                                   <button
                                     className="text-white bg-btn-color rounded-full font-semibold px-2.5 py-1.5 mt-1.5"
                                     onClick={() =>
@@ -419,75 +416,75 @@ const QuestionModal = ({
                 )}
               </div>
             </>
-          {/* )} */}
+            {/* )} */}
 
-          {/* SEND INPUT BOX IN MAIN PAGE */}
+            {/* SEND INPUT BOX IN MAIN PAGE */}
 
-          <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-4 ml-4  w-[560px] h-[60px] m-4 mt-1  absolute bottom-7 ">
-            
-            {loading && (
-    <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
-      {/* <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} /> */}
-      <Spin/>
-    </div>
-  )}
-            <input
-              ref={inputRef}
-              placeholder={loading ? "" : "Ask or search anything"}
-              className="w-full bg-[#F3F3F3]  text-btn-color rounded-3xl p-1 focus:outline-none"
-             
-              disabled={loading}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  sendMessage();
-                }
-              }}
-            />
+            <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-4 ml-4  w-[560px] h-[60px] m-4 mt-1  absolute bottom-7 ">
 
-
-            <div className="flex gap-4">
-              {micStart ? (
-                // /* //stop the recording */
-                <button
-                  id="voice-stopSending-button"
-                  // disabled={micOn}
-                  onClick={() => startStopHandle(!startStopRecording)}
-                  className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold`}
-                  // loading || micOn ? "cursor-not-allowed opacity-30" : ""
-                >
-                  <FontAwesomeIcon icon={faMicrophone} />
-                </button>
-              ) : (
-                <button
-                  id="voice-sending-button"
-                  // disabled={micOn}
-                  onClick={() => {
-                    setMicOn((prev) => !prev);
-                    setMicStart(!micStart);
-                  }}
-                  className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold
-                    ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
-                >
-                  {/* MicrophoneIcon integrated into the button */}
-                  <FontAwesomeIcon icon={faMicrophoneSlash} />
-                </button>
+              {loading && (
+                <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">
+                  {/* <Spin indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />} /> */}
+                  <Spin />
+                </div>
               )}
-              <button
-                // disabled={micOn}
-                onClick={() => sendMessage()}
-                className={`text-white bg-btn-color w-[37px] h-[37px] flex items-center justify-center rounded-full font-semibold first-letter 
+              <input
+                ref={inputRef}
+                placeholder={loading ? "" : "Ask or search anything"}
+                className="w-full bg-[#F3F3F3]  text-btn-color rounded-3xl p-1 focus:outline-none"
+
+                disabled={loading}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    sendMessage();
+                  }
+                }}
+              />
+
+
+              <div className="flex gap-4">
+                {micStart ? (
+                  // /* //stop the recording */
+                  <button
+                    id="voice-stopSending-button"
+                    // disabled={micOn}
+                    onClick={() => startStopHandle(!startStopRecording)}
+                    className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold`}
+                  // loading || micOn ? "cursor-not-allowed opacity-30" : ""
+                  >
+                    <FontAwesomeIcon icon={faMicrophone} />
+                  </button>
+                ) : (
+                  <button
+                    id="voice-sending-button"
+                    // disabled={micOn}
+                    onClick={() => {
+                      setMicOn((prev) => !prev);
+                      setMicStart(!micStart);
+                    }}
+                    className={`text-white bg-btn-color w-[37px] h-[37px] rounded-full font-semibold
+                    ${loading || micOn ? "cursor-not-allowed opacity-30" : ""}`}
+                  >
+                    {/* MicrophoneIcon integrated into the button */}
+                    <FontAwesomeIcon icon={faMicrophoneSlash} />
+                  </button>
+                )}
+                <button
+                  // disabled={micOn}
+                  onClick={() => sendMessage()}
+                  className={`text-white bg-btn-color w-[37px] h-[37px] flex items-center justify-center rounded-full font-semibold first-letter 
                         ${loading ? "cursor-not-allowed opacity-30" : ""}
                     `}
-              >
-                <img src={sender} alt="sender btn" />
-              </button>
+                >
+                  <img src={sender} alt="sender btn" />
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* SEND INPUT BOX IN MAIN PAGE */}
+            {/* SEND INPUT BOX IN MAIN PAGE */}
+          </div>
         </div>
-      </div>
-      {/* {console.log("all msg by modal", messages)} */}
+        {/* {console.log("all msg by modal", messages)} */}
       </div>
     </Modal>
   );
