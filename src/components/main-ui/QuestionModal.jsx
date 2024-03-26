@@ -25,7 +25,7 @@ import { Image } from "antd";
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
-const backendUrl = "http://13.233.132.194:8000";
+const backendUrl = "http://43.205.98.215:8000";
 
 const QuestionModal = ({
   selectedQuestion,

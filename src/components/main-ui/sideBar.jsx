@@ -6,9 +6,10 @@ import { useMuteContext } from "../Avatar2";
 import { Modal, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { stopAudio } from "../AudioService";
 // import { useChatModal } from "../../hooks/useChatModal";
 
-const backendUrl = "http://13.233.132.194:8000";
+const backendUrl = "http://43.205.98.215:8000";
 
 let stepDescriptions = null;
 let images = null;
@@ -68,6 +69,7 @@ function SideBar({
     // setCameraZoomed,
     // message,
     // messages,
+    setMessages,
   } = useChat();
 
   handleQuestionClick = async (question) => {
@@ -75,6 +77,8 @@ function SideBar({
       setModalContent(question);
       setModalLoading(false);
       setMyContent(true);
+      setMessages([]);
+      stopAudio();
       return;
     } else {
       setMyContent(false);

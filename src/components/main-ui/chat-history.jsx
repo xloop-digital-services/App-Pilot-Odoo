@@ -320,6 +320,7 @@ function ChatHistory({
                                     onClick={() => {
                                       setMyContent(true);
                                       setMessages([]);
+                                      stopAudio();
                                     }}
                                   >
                                     Do you want further information?

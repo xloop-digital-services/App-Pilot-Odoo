@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 // const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
-const backendUrl = "http://13.233.132.194:8000";
+const backendUrl = "http://43.205.98.215:8000";
 
 const ChatContext = createContext();
 
