@@ -274,7 +274,7 @@ function ChatHistory({
                               journey ?
                             </p>
                             <div
-                              className="flex flex-row mt-3 -mb-3"
+                              className="flex flex-row mt-3 -mb-3 "
                               ref={journeyRefDiv}
                             >
                               <button
@@ -309,10 +309,10 @@ function ChatHistory({
                             {/* REPLY CHAT BUTTON END */}
                           </div>
                         ) : (
-                           <div className="relative">
+                          <div className="relative">
                             <p className="w-[100] mt-2 h-[100%]">{message[0].text}</p>
                             {isLastMessage &&
-                              myContent &&
+                              myContent===true &&
                               myQuest === modalContent && (
                                 <div className="flex gap-6 ml-60 items-center p-10 absolute">
                                   <button
@@ -320,6 +320,7 @@ function ChatHistory({
                                     onClick={() => {
                                       setMyContent(true);
                                       setMessages([]);
+                                      stopAudio();
                                     }}
                                   >
                                     Do you want further information?
