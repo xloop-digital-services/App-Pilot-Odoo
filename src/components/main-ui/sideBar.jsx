@@ -6,6 +6,7 @@ import { useMuteContext } from "../Avatar2";
 import { Modal, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { stopAudio } from "../AudioService";
 // import { useChatModal } from "../../hooks/useChatModal";
 
 const backendUrl = "http://43.205.98.215:8000";
@@ -68,6 +69,7 @@ function SideBar({
     // setCameraZoomed,
     // message,
     // messages,
+    setMessages,
   } = useChat();
 
   handleQuestionClick = async (question) => {
@@ -75,6 +77,8 @@ function SideBar({
       setModalContent(question);
       setModalLoading(false);
       setMyContent(true);
+      setMessages([]);
+      stopAudio();
       return;
     } else {
       setMyContent(false);
@@ -105,7 +109,7 @@ function SideBar({
       className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-hidden"
       style={{ height: "420px" }}
     >
-      <h1 className="text-center p-2.5 text-[20px] font-semibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
+      <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
         {" "}
         Frequently Asked journeys{" "}
       </h1>
@@ -155,28 +159,29 @@ function SideBar({
       ) : (
         <div></div>
       )}
-      <div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
-        {questions.map((question, index) => (
-          <div
-            className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${selectedQuestion === question.question ? "border border-red" : ""
-              }`}
-            key={index}
-          >
-            <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
-              <img src={QuestionMark} alt="logo" />
-            </div>
-            <p
-              className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
-              onClick={() =>
-                question.openModal
-                  ? handleQuestionClick(question.question)
-                  : sendMessage(question.question)
-              }
-            >
-              {question.question}
-            </p>
+<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
+      {questions.map((question, index) => (
+        <div
+          className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
+            selectedQuestion === question.question ? "border border-red" : ""
+          }`}
+          key={index}
+        >
+          <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
+            <img src={QuestionMark} alt="logo" />
           </div>
-        ))}
+          <p
+            className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
+            onClick={() =>
+              question.openModal
+                ? handleQuestionClick(question.question)
+                : sendMessage(question.question)
+            }
+          >
+            {question.question}
+          </p>
+        </div>
+      ))}
       </div>
     </div>
   );
