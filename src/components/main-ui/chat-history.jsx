@@ -310,7 +310,7 @@ function ChatHistory({
                           </div>
                         ) : (
                           <div className="relative">
-                            <p className="w-[100] mt-2 h-[100%]">{message[0].text}</p>
+                            <p className="w-[100] mt-2 h-[100%]" style={{whiteSpace:"pre-line"}}>{message[0].text}</p>
                             {isLastMessage &&
                               myContent===true &&
                               myQuest === modalContent && (

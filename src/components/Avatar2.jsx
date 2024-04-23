@@ -11,8 +11,8 @@ import React, { useEffect, useRef, useState,createContext, useContext } from "re
 import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
 import { playAudio, muteAudio, stopAudio, audioInstance, resumeAudio } from './AudioService';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentAlt } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCommentAlt } from '@fortawesome/free-solid-svg-icons';
 
 const facialExpressions = {
   default: {},
@@ -88,7 +88,7 @@ let setupMode = false;
 
 
 export function Avatar2(props) {
-    const { nodes, materials, scene } = useGLTF("/models/my-avatar.glb");
+    const { nodes, materials, scene } = useGLTF("/models/my-avatar-hair.glb");
 
   const { message, onMessagePlayed, chat, setMessage, setAnimation, animation } = useChat();
   const { isMuted } = useMuteContext();
@@ -343,11 +343,16 @@ export function Avatar2(props) {
             material={materials.Wolf3D_Glasses}
             skeleton={nodes.Wolf3D_Glasses.skeleton}
         />
-        <skinnedMesh
+        {/* <skinnedMesh
             geometry={nodes.Wolf3D_Headwear.geometry}
             material={materials.Wolf3D_Headwear}
             skeleton={nodes.Wolf3D_Headwear.skeleton}
-        />
+        /> */}
+         <skinnedMesh
+        geometry={nodes.Wolf3D_Hair.geometry}
+        material={materials.Wolf3D_Hair}
+        skeleton={nodes.Wolf3D_Hair.skeleton}
+      />
         <skinnedMesh
             name="Wolf3D_Body"
             geometry={nodes.Wolf3D_Body.geometry}
