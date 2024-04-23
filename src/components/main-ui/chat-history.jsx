@@ -238,6 +238,7 @@ function ChatHistory({
 
           {messages.length > 0 ? (
             messages?.map((message, index) => {
+              console.log(message,"is it a list");
               const isLastMessage = index === messages.length - 1;
               const lastTextMessage = messages[messages.length - 1].text;
               return (
@@ -280,6 +281,7 @@ function ChatHistory({
                               <button
                                 className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4"
                                 onClick={() => handleNoJourney(message[0].text)}
+                                // onClick={() => handleNoJourney(message[0].text.split('. '))}
                               >
                                 No
                               </button>
