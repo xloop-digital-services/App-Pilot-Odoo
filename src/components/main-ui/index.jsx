@@ -120,6 +120,8 @@ function MainUi() {
     setModalContent,
     myContent,
     setMyContent,
+    showAvatar,
+    setShowAvatar,
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -220,6 +222,11 @@ function MainUi() {
   const languageHandleChange = (value) => {
     console.log(value);
     setSelectLanguage(value);
+  };
+
+  const avatarHandleChange = (newValue) => {
+    setShowAvatar(newValue);
+    console.log(showAvatar);
   };
 
   const handleNextClick = (length) => {
@@ -819,6 +826,25 @@ function MainUi() {
             </h3>
           </div>
           <div className="flex items-center gap-4 ">
+            Select Avatar :
+          <select
+              onChange={(e) => avatarHandleChange(e.target.value)}
+              value={showAvatar}
+              className="p-1  lg:w-[6rem] w-[5rem] rounded-[5px] bg-bg-avatar text-white text-center"
+            >
+              <option
+                value="black"
+                className="text-btn-color bg-bg-primary rounded-lg"
+              >
+                Black
+              </option>
+              <option value="black-noscarf" className="text-btn-color bg-bg-primary">
+                Black 2
+              </option>
+              <option value="red" className="text-btn-color bg-bg-primary">
+                Red
+              </option>
+            </select>
             {isMuted ? (
               <button
                 onClick={toggleVolume}
@@ -828,6 +854,7 @@ function MainUi() {
                 <FontAwesomeIcon icon={faVolumeHigh} />
               </button>
             ) : (
+              
               <button
                 onClick={toggleVolume}
                 className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
@@ -836,6 +863,8 @@ function MainUi() {
                 <FontAwesomeIcon icon={faVolumeXmark} />
               </button>
             )}
+            
+
 
             <select
               onChange={(e) => languageHandleChange(e.target.value)}
@@ -973,7 +1002,6 @@ function MainUi() {
               handleQuestionClick={handleQuestionClick}
               navAddr={navAddr}
               navAddrSmall={navAddrSmall}
-              
             />
           </div>
 

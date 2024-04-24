@@ -10,6 +10,7 @@ export default {
     colors: {
       'bg-primary': '#F5F5F5',
       'bg-secondary': '#EE1D23',
+      'bg-avatar' : '#000000',
       white : '#FFFFFF',
       'h-color' : "#252363",
       'btn-color' : '#141414',

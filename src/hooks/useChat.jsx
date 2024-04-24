@@ -19,6 +19,7 @@ export const ChatProvider = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalContent, setModalContent] = useState("");
   const [myContent, setMyContent] = useState(false);
+  const [showAvatar, setShowAvatar] = useState("black");
 
   const chat = async (message) => {
     setMessages([...messages, { text: message, sender: "user" }]);
@@ -111,7 +112,9 @@ export const ChatProvider = ({ children }) => {
         setModalContent,
         myContent,
         setMyContent,
-        setMessages
+        setMessages,
+        showAvatar,
+        setShowAvatar
       }}
     >
       {children}

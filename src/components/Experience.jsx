@@ -14,6 +14,10 @@ import { useThree } from "@react-three/fiber";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import { Avatar2 } from "./Avatar2";
+import { AvatarRed } from "./AvatarRed";
+import { Button } from "antd";
+import { AvatarScarf } from "./AvatarScarf";
+// import { Avatar3 } from "./AvatarRed";
 
 const Dots = (props) => {
   const { loading } = useChat();
@@ -44,9 +48,11 @@ const Dots = (props) => {
 };
 
 export const Experience = () => {
+  
   const cameraControls = useRef();
   const myControl = useRef();
-  const { cameraZoomed } = useChat();
+  const { cameraZoomed,showAvatar } = useChat();
+  console.log(showAvatar)
 
   // useEffect(() => {
   //   // myControl.current.target.set(0, 0, 0);
@@ -78,6 +84,7 @@ export const Experience = () => {
     };
   }, [myControl]);
 
+
   // useEffect(() => {
   //   if (cameraZoomed) {
   //     cameraControls.current.setLookAt(0, 1.5, 1.5, 0, 1.5, 0, true);
@@ -90,6 +97,12 @@ export const Experience = () => {
   return (
     <>
       {/* <CameraControls ref={cameraControls} /> */}
+      {/* <Html>
+  <div style={{ position: 'absolute', top: '-250px', right: '200px' }}>
+    <button style={{ whiteSpace: 'nowrap', backgroundColor:"white" }}>Click Me</button>
+  </div>
+</Html> */}
+
       <OrbitControls ref={myControl} enableRotate={false} enableZoom={false} />
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
@@ -98,8 +111,11 @@ export const Experience = () => {
       </Suspense>
 
       {/* <Avatar /> */}
+{showAvatar === "red" && <AvatarRed position={[-0.7, -2.3, 2]}/>}
+{showAvatar === "black" && <Avatar2 position={[-0.7, -2.3, 2]} />}
+{showAvatar === "black-noscarf" && <AvatarScarf position={[-0.7, -2.3, 2]}/>}
+{/* <Avatar3 position={[-0.7, -2.3, 2]} /> */}
 
-<Avatar2 position={[-0.7, -2.3, 2]} />
 
       <ContactShadows opacity={0.7} />
     </>

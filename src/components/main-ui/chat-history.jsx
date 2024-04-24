@@ -3,6 +3,8 @@ import sender from "../../assets/send-2.svg";
 import bflLogo from "../../assets/bfl-logo.png";
 import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatar.png";
+import avatarLogo2 from "../../assets/avatarHair.png";
+import avatarRed from "../../assets/avatarRedLogo.png";
 import mainPic from "../../assets/mainPic.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -50,6 +52,7 @@ function ChatHistory({
     myContent,
     setMyContent,
     setMessages,
+    showAvatar
   } = useChat();
   // const [myContent, setMyContent] = useState(false);
   console.log(modalContent);
@@ -258,11 +261,24 @@ function ChatHistory({
                     </div>
                   ) : (
                     <div className="flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl ">
+                      {showAvatar === "black" &&
                       <div>
                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarLogo} alt="chat avatar image" />
+                          <img src={avatarLogo2} alt="chat avatar image" width="65%" className="mb-2" />
                         </div>
-                      </div>
+                      </div>}
+                        {showAvatar === "black-noscarf" &&
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img src={avatarLogo} alt="chat avatar image" width="65%" className="mb-2" />
+                        </div>
+                      </div>}
+                      {showAvatar === "red" &&
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img src={avatarRed} alt="chat avatar image" width="65%" className="mb-2" />
+                        </div>
+                      </div>}
                       <div className="flex flex-col">
                         {message.is_journey &&
                         message.is_journey &&
