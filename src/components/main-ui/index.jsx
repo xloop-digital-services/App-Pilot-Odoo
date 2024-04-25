@@ -9,6 +9,7 @@ import { faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
 import { Select, MenuItem } from "@mui/material";
+import CustomModal from "./CustomModal";
 
 function MainUi() {
   // const [currentIndex, setCurrentIndex] = useState(0);
@@ -826,8 +827,9 @@ function MainUi() {
             </h3>
           </div>
           <div className="flex items-center gap-4 ">
-            Select Avatar :
-          <select
+            {/* Select Avatar :  */}
+            <CustomModal buttonName={"Select Avatar"}/>
+          {/* <select
               onChange={(e) => avatarHandleChange(e.target.value)}
               value={showAvatar}
               className="p-1  lg:w-[6rem] w-[5rem] rounded-[5px] bg-bg-avatar text-white text-center"
@@ -844,7 +846,7 @@ function MainUi() {
               <option value="red" className="text-btn-color bg-bg-primary">
                 Red
               </option>
-            </select>
+            </select> */}
             {isMuted ? (
               <button
                 onClick={toggleVolume}

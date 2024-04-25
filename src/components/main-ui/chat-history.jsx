@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import sender from "../../assets/send-2.svg";
 import bflLogo from "../../assets/bfl-logo.png";
 import bg from "../../assets/bg.jpg";
-import avatarLogo from "../../assets/avatar.png";
+import avatarLogo from "../../assets/avatarScarf.png";
 import avatarLogo2 from "../../assets/avatarHair.png";
 import avatarRed from "../../assets/avatarRedLogo.png";
 import mainPic from "../../assets/mainPic.svg";
