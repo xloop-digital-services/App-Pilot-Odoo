@@ -274,8 +274,8 @@ const QuestionModal = ({
         {/* </div> */}
 
         <div
-          className={`bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-6 ml-3  w-[650px] h-[350px] flex justify-center items-center mt-4 flex-col ${
-            chatOpen ? "h-[350px]" : "h-[105px]"
+          className={`bg-[#ffffff] rounded-2xl lg:pb-7 lg:pt-0 p-6 ml-3  w-[650px]  flex justify-center items-center mt-4 flex-col ${
+            chatOpen ? "h-[350px]" : "h-[110px]"
           }`}
         >
           <div
