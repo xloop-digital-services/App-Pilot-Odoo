@@ -10,13 +10,13 @@ import {
   faMicrophoneSlash,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-
 import sender from "../../assets/send-2.svg";
 import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatar.png";
 import mainPic from "../../assets/mainPic.svg";
 import { Image } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
@@ -285,9 +285,6 @@ const QuestionModal = ({
               chatOpen ? "" : ""
             }`}
           >
-            {/* <p className="ml-5 text-black font-inter font-semibold text-lg leading-[157%] flex flex-row">
-                Ask Me
-              </p> */}
             <div
               className={` rounded-2xl py-4  flex justify-around items-center -mt-2 -mb-5 w-[570px] ml-3 cursor-pointer   ${
                 chatOpen
@@ -297,19 +294,29 @@ const QuestionModal = ({
               onClick={toggleChat}
             >
               {chatOpen ? (
-                <p className="ml-0 -mt-2 text-black font-inter font-semibold text-lg leading-[157%] flex justify-around">
-                  Ask Me <CaretUpOutlined style={{ marginLeft: "465px" }} />{" "}
-                </p>
+                <div
+                  className="mb-1 w-[600px]"
+                  style={{
+                    borderBottom: "2px solid #f0f0f0",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <p className="ml-0 -mt-1 text-black font-inter font-semibold text-lg leading-[157%] flex justify-around ">
+                    Ask Me <CaretUpOutlined style={{ marginLeft: "465px" }} />{" "}
+                  </p>
+                  {/* <hr class="w-[593px] border border-1 border-[#f0f0f0]  mt-4 -mb-5 ml-1 z-40"></hr> */}
+                </div>
               ) : (
-                <p className="ml-0 mt-1  text-black font-inter font-semibold text-lg leading-[157%] flex justify-around">
-                  Ask Me <CaretDownOutlined style={{ marginLeft: "465px" }} />{" "}
-                </p>
+                <div>
+                  <p className="ml-0 mt-1  text-black font-inter font-semibold text-lg leading-[157%] flex justify-around">
+                    Ask Me <CaretDownOutlined style={{ marginLeft: "465px" }} />{" "}
+                  </p>
+                </div>
               )}
             </div>
 
             {chatOpen && (
               <>
-                <hr class="w-[593px] border border-1 border-[#f0f0f0]  mt-4 -mb-5 ml-1"></hr>
                 {/* FIRST MOVE LOADER THEN SHOW RESPONSE REPLY BY BOT  */}
                 <>
                   {/* list of messages */}
@@ -320,8 +327,8 @@ const QuestionModal = ({
                           <div key={index}>
                             {/* USER MSG */}
                             {message.sender === "user" ? (
-                              <div className="flex flex-row -mt-1">
-                                <div className="ml-4 mt-4 bg-[#ebebeb] rounded-full h-10 w-10 flex flex-row items-center justify-center">
+                              <div className="flex flex-row mt-2 ">
+                                <div className="ml-4 mt-3 bg-[#ebebeb] rounded-full h-10 w-10 flex flex-row items-center justify-center">
                                   <img
                                     src={bflLogo}
                                     alt="logo"
@@ -479,16 +486,6 @@ const QuestionModal = ({
 
         {/* {console.log("all msg by modal", messages)} */}
       </div>
-      {/* <div className="flex flex-row mt-2 -mb-4  flex justify-center items-center">
-          <button
-            className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23]  flex justify-center items-center ${
-              chatOpen ? "bg-white text-[#ee1d23]" : "bg-[#ee1d23] text-[#fff]"
-            }`}
-            onClick={toggleChat}
-          >
-            {chatOpen ? <><CaretUpOutlined /> Ask Me</> : <><CaretDownOutlined /> Ask Me</>}
-          </button>
-        </div> */}
     </Modal>
   );
 };
