@@ -268,7 +268,7 @@ function ChatHistory({
                           <img src={avatarLogo2} alt="chat avatar image" width="65%" className="mb-2" />
                         </div>
                       </div>}
-                        {showAvatar === "black-noscarf" &&
+                        {showAvatar === "black-scarf" &&
                       <div>
                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                           <img src={avatarLogo} alt="chat avatar image" width="65%" className="mb-2" />
@@ -387,6 +387,7 @@ function ChatHistory({
             images={images}
             handleNextClick={handleNextClick}
             currentIndex={currentIndex}
+            showAvatar={showAvatar}
           />
         )}
 
