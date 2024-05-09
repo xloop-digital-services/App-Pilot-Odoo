@@ -7,6 +7,14 @@ import avatarRed from "../../assets/avatarRedLogo.png";
 import avatarBig from "../../assets/avatarScarfBig.png";
 import avatarNoScarfBig from "../../assets/avatarBig.png";
 import avatarRedBig from "../../assets/avatarRedBig.png";
+import avatarFGenz from "../../assets/avatarFGenzBig.png";
+import avatarFGenzLogo from "../../assets/avatarFGenzLogo.png";
+import avatarMGenz from "../../assets/avatarMGenzBig.png";
+import avatarMGenzLogo from "../../assets/avatarMGenzLogo.png";
+import avatarFFormal from "../../assets/avatarFformalBig.png";
+import avatarFFormalLogo from "../../assets/avatarFFormalLogo.png";
+import avatarMFormal from "../../assets/avatarMFormalBig.png";
+import avatarMFormalLogo from "../../assets/avatarMFormalLogo.png";
 
 const CustomModal = ({ title, buttonName }) => {
   const [visible, setVisible] = useState(false);
@@ -27,17 +35,30 @@ const CustomModal = ({ title, buttonName }) => {
   };
 
   const handleApplyAvatar = () => {
+    if(selectedAvatar)
       setShowAvatar(selectedAvatar);
+    setVisible(false)
   };
+
+  // let bgColorClass = "";
+  // switch (type) {
+  //   case "info":
+  //     bgColorClass = "bg-blue-500 hover:bg-blue-700";
+  //     break;
+  //   default:
+  //     bgColorClass = "bg-gray-500 hover:bg-gray-700";
+  // }
 
   return (
     <>
       <Button
         type="info"
         onClick={showModal}
-        style={{ border: "black 1px solid" }}
+        className={`text-black font-semibold rounded-md shadow-md bg-secondary hover:shadow-lg hover:bg-bg-secondary hover:text-white hover:outline-black focus:outline-none focus:ring-2 focus:ring-bg-secondary hover:border-none`}
+        // style={{ border: "black 1px solid"}}
       >
         {buttonName}
+        
       </Button>
       <Modal
         title={title}
@@ -50,22 +71,33 @@ const CustomModal = ({ title, buttonName }) => {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-evenly",
+            justifyContent: "space-around",
           }}
         >
-          <Button className="h-20 " onClick={() => setSelectedAvatar("black-scarf")}>
+          
+          {/* <Button className="h-20 " onClick={() => setSelectedAvatar("black-scarf")}>
             <img src={avatarlogo} alt="avatarscarf" width="50px" />
-          </Button>
+          </Button> */}
           <Button className="h-20" onClick={() => setSelectedAvatar("black")}>
             <img src={avatarHairLogo} alt="avatarHair" width="50px" />
           </Button>
-          <Button className="h-20" onClick={() => setSelectedAvatar("red")}>
+          {/* <Button className="h-20" onClick={() => setSelectedAvatar("red")}>
             <img src={avatarRed} alt="avatarRed" width="50px" />
+          </Button> */}
+          <Button className="h-20" onClick={() => setSelectedAvatar("avatar-fformal")}>
+            <img src={avatarFFormalLogo} alt="avatarFformal" width="60px" />
           </Button>
+          <Button className="h-20" onClick={() => setSelectedAvatar("avatar-fgenz")}>
+            <img src={avatarFGenzLogo} alt="avatarFgenz" width="60px" />
+          </Button>
+          {/* <Button className="h-20" onClick={() => setSelectedAvatar("avatar-mgenz")}>
+            <img src={avatarMGenzLogo} alt="avatarMgenz" width="60px" />
+          </Button>
+          <Button className="h-20" onClick={() => setSelectedAvatar("avatar-mformal")}>
+            <img src={avatarMFormalLogo} alt="avatarMformal" width="60px" />
+          </Button> */}
           
-          <Button type="info" onClick={handleApplyAvatar} style={{ border:"solid black 1px" }}>
-          Apply
-        </Button>
+          
         </div>
         <div
           style={{
@@ -75,11 +107,17 @@ const CustomModal = ({ title, buttonName }) => {
             marginTop: "30px",
           }}
         >
-          {selectedAvatar === "black-scarf" && <img src={avatarBig} />}
+          {/* {selectedAvatar === "black-scarf" && <img src={avatarBig} />} */}
           {selectedAvatar === "black" && <img src={avatarNoScarfBig} />}
-          {selectedAvatar === "red" && <img src={avatarRedBig} />}
+          {/* {selectedAvatar === "red" && <img src={avatarRedBig} />} */}
+          {selectedAvatar === "avatar-fformal" && <img src={avatarFFormal} />}
+          {selectedAvatar === "avatar-fgenz" && <img src={avatarFGenz} />}
+          {selectedAvatar === "avatar-mformal" && <img src={avatarMFormal} />}
+          {selectedAvatar === "avatar-mgenz" && <img src={avatarMGenz} />}
         </div>
-        
+        <Button type="info" onClick={handleApplyAvatar} style={{ border:"solid black 1px", width:"100%", marginTop:"10px", fontSize:"18px",textAlign:"center", padding:"3px" }}>
+          Apply
+        </Button>
       </Modal>
     </>
   );

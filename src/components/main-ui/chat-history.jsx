@@ -5,9 +5,13 @@ import bg from "../../assets/bg.jpg";
 import avatarLogo from "../../assets/avatarScarf.png";
 import avatarLogo2 from "../../assets/avatarHair.png";
 import avatarRed from "../../assets/avatarRedLogo.png";
+import avatarFGenzLogo from "../../assets/avatarFGenzLogo.png";
+import avatarMGenzLogo from "../../assets/avatarMGenzLogo.png";
+import avatarFFormalLogo from "../../assets/avatarFFormalLogo.png";
+import avatarMFormalLogo from "../../assets/avatarMFormalLogo.png";
 import mainPic from "../../assets/mainPic.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LoadingOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, DownOutlined, KeyOutlined, LoadingOutlined } from "@ant-design/icons";
 import {
   faMicrophone,
   faMicrophoneSlash,
@@ -23,6 +27,8 @@ import eligibile from "../../assets/card03.png";
 import charges from "../../assets/card04.png";
 import App from "../../App";
 import { stopAudio } from "../AudioService";
+import { FloatButton } from 'antd';
+
 
 let stepDescriptions = null;
 let images = null;
@@ -45,6 +51,7 @@ function ChatHistory({
   setQuestions,
   setNavAddr,
   setNavAddrSmall,
+  MinimizeFunction
 }) {
   const {
     modalContent,
@@ -52,17 +59,21 @@ function ChatHistory({
     myContent,
     setMyContent,
     setMessages,
-    showAvatar
+    showAvatar,
+    floatingButton,
+    setFloatingButton
   } = useChat();
   // const [myContent, setMyContent] = useState(false);
   console.log(modalContent);
   const [myQuest, setMyQuest] = useState([]);
+
 
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
       setMyContent(true);
       setMyQuest(modalContent);
       console.log(modalContent);
+      setFloatingButton(true);
     }
   }, [modalContent]);
 
@@ -204,9 +215,21 @@ function ChatHistory({
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
-        <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl">
+        
+        <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
           Ask me
+          
+          {floatingButton && <FloatButton
+        shape="circle"
+        name="name"
+        type="danger"
+        icon={<CaretDownOutlined />}
+        style={{ top: 15, border: "1px solid" }} className="hover:text-white hover:bg-bg-secondary"
+        onClick={MinimizeFunction}
+      />}
+          
         </h1>
+        
 
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
@@ -280,6 +303,30 @@ function ChatHistory({
                           <img src={avatarRed} alt="chat avatar image" width="65%" className="mb-2" />
                         </div>
                       </div>}
+                      {showAvatar === "avatar-fgenz" &&
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img src={avatarFGenzLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                        </div>
+                      </div>}
+                      {showAvatar === "avatar-mgenz" &&
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img src={avatarMGenzLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                        </div>
+                      </div>}
+                      {showAvatar === "avatar-fformal" &&
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img src={avatarFFormalLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                        </div>
+                      </div>}
+                      {showAvatar === "avatar-mformal" &&
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img src={avatarMFormalLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                        </div>
+                      </div>}
                       <div className="flex flex-col">
                         {message.is_journey &&
                         message.is_journey &&
@@ -327,8 +374,10 @@ function ChatHistory({
                             {/* REPLY CHAT BUTTON END */}
                           </div>
                         ) : (
+                          
                           <div className="relative">
-                            <p className="w-[100] mt-2 h-[100%]" style={{whiteSpace:"pre-line"}}>{message[0].text}</p>
+                             <p className="w-[100] mt-2 h-[100%]" style={{whiteSpace:"pre-line"}}>{message[0].text}</p>
+                            
                             {isLastMessage &&
                               myContent===true &&
                               myQuest === modalContent && (

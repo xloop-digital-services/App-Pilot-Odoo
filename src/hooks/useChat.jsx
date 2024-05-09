@@ -19,7 +19,10 @@ export const ChatProvider = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalContent, setModalContent] = useState("");
   const [myContent, setMyContent] = useState(false);
-  const [showAvatar, setShowAvatar] = useState("red");
+  const [showAvatar, setShowAvatar] = useState("avatar-fgenz");
+  const [floatingButton, setFloatingButton] = useState(false);
+  const [minimize, setMinimize] = useState(false);
+
 
   const chat = async (message) => {
     setMessages([...messages, { text: message, sender: "user" }]);
@@ -114,7 +117,11 @@ export const ChatProvider = ({ children }) => {
         setMyContent,
         setMessages,
         showAvatar,
-        setShowAvatar
+        setShowAvatar,
+        floatingButton,
+        setFloatingButton,
+        minimize,
+        setMinimize
       }}
     >
       {children}

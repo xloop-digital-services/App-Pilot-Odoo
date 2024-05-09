@@ -17,7 +17,11 @@ import { Avatar2 } from "./Avatar2";
 import { AvatarRed } from "./AvatarRed";
 import { Button } from "antd";
 import { AvatarScarf } from "./AvatarScarf";
-// import { Avatar3 } from "./AvatarRed";
+import { AvatarFGenz } from "./AvatarFGenz";
+import { AvatarFFormal } from "./AvatarFFormal";
+import { AvatarMFormal } from "./AvatarMFormal";
+import { AvatarMGenz } from "./AvatarMGenz";
+
 
 const Dots = (props) => {
   const { loading } = useChat();
@@ -112,9 +116,12 @@ export const Experience = () => {
       {/* <Avatar /> */}
       {showAvatar === "red" && <AvatarRed position={[-0.7, -2.3, 2]} />}
       {showAvatar === "black" && <Avatar2 position={[-0.7, -2.3, 2]} />}
-      {showAvatar === "black-scarf" && (
-        <AvatarScarf position={[-0.7, -2.3, 2]} />
-      )}
+      {showAvatar === "black-scarf" && <AvatarScarf position={[-0.7, -2.3, 2]} />}
+     {showAvatar === "avatar-fgenz" && <AvatarFGenz position={[-0.7, -2.3, 2]}/>}
+     {showAvatar === "avatar-fformal" && <AvatarFFormal position={[-0.7, -2.3, 2]}/>}
+     {showAvatar === "avatar-mformal" && <AvatarMFormal position={[-0.7, -2.3, 2]}/>}
+     {showAvatar === "avatar-mgenz" && <AvatarMGenz position={[-0.7, -2.3,2]}/> }
+     {/* {showAvatar === "avatar-mgenz" && <AvatarMGenz position={[-0.7, -2.3, 2]}/>} */}
       {/* <Avatar3 position={[-0.7, -2.3, 2]} /> */}
 
       <ContactShadows opacity={0.7} />

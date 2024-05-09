@@ -10,6 +10,7 @@ import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
 import { Select, MenuItem } from "@mui/material";
 import CustomModal from "./CustomModal";
+import StaticData from "./StaticData";
 
 function MainUi() {
   // const [currentIndex, setCurrentIndex] = useState(0);
@@ -123,6 +124,9 @@ function MainUi() {
     setMyContent,
     showAvatar,
     setShowAvatar,
+    setFloatingButton,
+    minimize,
+    setMinimize
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -610,7 +614,7 @@ function MainUi() {
         },
       ],
       "Islamic Saving Account": [
-        { question: "Falah Business Account" },
+        { question: "Falah Business Account",openModal:true },
         {
           question: "Alfalah Islamic Foreign Currency Savings Account",
           openModal: true,
@@ -805,6 +809,12 @@ function MainUi() {
     setQuestions(selectedQuestions);
   }
 
+  const setMinimizeText = () => {
+    setMinimize(true);
+  }
+
+  console.log(minimize)
+
   // ]
 
   return (
@@ -907,6 +917,8 @@ function MainUi() {
                     toggleDropdown(index);
                     setModalContent("");
                     setMyContent(false);
+                    setFloatingButton(false);
+                    setMinimize(false);
                   }}
                 >
                   {option.label}
@@ -1008,7 +1020,7 @@ function MainUi() {
           </div>
 
           <div className="  lg:w-[100%] w-full">
-            <ChatHistory
+          {!minimize ? ( <ChatHistory
               specialQuestions={specialQuestions}
               inputRef={input}
               sendMessage={sendMessage}
@@ -1026,7 +1038,10 @@ function MainUi() {
               setQuestions={setQuestions}
               setNavAddr={setNavAddr}
               setNavAddrSmall={setNavAddrSmall}
-            />
+              MinimizeFunction={setMinimizeText}
+            />) : (
+              <StaticData/>
+            )} 
           </div>
         </div>
       </div>

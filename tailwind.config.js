@@ -15,6 +15,7 @@ export default {
       'h-color' : "#252363",
       'btn-color' : '#141414',
       'sidbar-color' : '#FAF0F0',
+      'red':"#e11d23"
     },
   },
   plugins: [],
