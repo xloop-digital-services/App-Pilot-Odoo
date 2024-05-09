@@ -18,8 +18,8 @@ import { Image } from "antd";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { div } from "three/examples/jsm/nodes/Nodes.js";
 import avatarLogo2 from "../../assets/avatarHair.png";
-import avatarLogo from "../../assets/avatarScarf.png";
-import avatarRed from "../../assets/avatarRedLogo.png";
+import avatarfGenzLogo from "../../assets/avatarFGenzLogo.png";
+import avatarFformalLogo from "../../assets/avatarFFormalLogo.png"
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
@@ -538,11 +538,11 @@ const QuestionModal = ({
                                         </div>
                                       </div>
                                     )}
-                                    {showAvatar === "black-scarf" && (
+                                    {showAvatar === "avatar-fformal" && (
                                       <div>
                                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                                           <img
-                                            src={avatarLogo}
+                                            src={avatarFformalLogo}
                                             alt="chat avatar image"
                                             width="65%"
                                             className="mb-2"
@@ -550,11 +550,11 @@ const QuestionModal = ({
                                         </div>
                                       </div>
                                     )}
-                                    {showAvatar === "red" && (
+                                    {showAvatar === "avatar-fgenz" && (
                                       <div>
                                         <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                                           <img
-                                            src={avatarRed}
+                                            src={avatarfGenzLogo}
                                             alt="chat avatar image"
                                             width="65%"
                                             className="mb-2"
