@@ -58,7 +58,7 @@ export const Experience = () => {
   const cameraControls = useRef();
   const myControl = useRef();
   const { cameraZoomed, showAvatar } = useChat();
-  console.log(showAvatar);
+  // console.log(showAvatar);
 
   // useEffect(() => {
   //   // myControl.current.target.set(0, 0, 0);

@@ -70,6 +70,7 @@ function SideBar({
     // message,
     // messages,
     setMessages,
+    showAvatar,
   } = useChat();
 
   handleQuestionClick = async (question) => {
@@ -85,6 +86,7 @@ function SideBar({
       setModalLoading(true);
       const result = await fetchJournies(question);
       stepDescriptions = result.top_results.steps.map((step) => step.Step);
+      // console.log("DESCRIPTION BY SIDEBAR",stepDescriptions);
       images = result.top_results.steps.map((step) => step.Image_URL);
       setSelectedQuestion(question);
       setModalLoading(false);
@@ -147,6 +149,7 @@ function SideBar({
             // messages={messages}
             handleNextClick={handleNextClick}
             currentIndex={currentIndex}
+            showAvatar={showAvatar}
           />
         )
       )}
