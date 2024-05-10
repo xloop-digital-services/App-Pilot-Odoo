@@ -236,7 +236,7 @@ const StaticData = () => {
           shape="circle"
           type="danger"
           icon={<CaretUpOutlined />}
-          style={{ top: 15, border: "1px solid" }} className="hover:text-white hover:bg-bg-secondary"
+          style={{ top: 15, border: "1px solid",boxShadow:"none" }} className="hover:text-white hover:bg-bg-secondary"
           onClick={backtoChat}
         />
       </h1>

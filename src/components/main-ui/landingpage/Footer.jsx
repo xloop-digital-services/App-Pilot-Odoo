@@ -32,7 +32,7 @@ export const Footer = () => {
             <li className="leading-snug tracking-wide ">
               <p
                 className="inline-block text-4xl "
-                style={{ fontFamily: "Roboto Mono" }}
+                style={{ fontFamily: "Lekton" }}
               >
                 App Pilot
               </p>

@@ -11,7 +11,13 @@ import avatarFFormalLogo from "../../assets/avatarFFormalLogo.png";
 import avatarMFormalLogo from "../../assets/avatarMFormalLogo.png";
 import mainPic from "../../assets/mainPic.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CaretDownOutlined, CaretUpOutlined, DownOutlined, KeyOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  CaretDownOutlined,
+  CaretUpOutlined,
+  DownOutlined,
+  KeyOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import {
   faMicrophone,
   faMicrophoneSlash,
@@ -27,8 +33,7 @@ import eligibile from "../../assets/card03.png";
 import charges from "../../assets/card04.png";
 import App from "../../App";
 import { stopAudio } from "../AudioService";
-import { FloatButton } from 'antd';
-
+import { FloatButton } from "antd";
 
 let stepDescriptions = null;
 let images = null;
@@ -51,7 +56,7 @@ function ChatHistory({
   setQuestions,
   setNavAddr,
   setNavAddrSmall,
-  MinimizeFunction
+  MinimizeFunction,
 }) {
   const {
     modalContent,
@@ -61,12 +66,11 @@ function ChatHistory({
     setMessages,
     showAvatar,
     floatingButton,
-    setFloatingButton
+    setFloatingButton,
   } = useChat();
   // const [myContent, setMyContent] = useState(false);
   console.log(modalContent);
   const [myQuest, setMyQuest] = useState([]);
-
 
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
@@ -74,8 +78,33 @@ function ChatHistory({
       setMyQuest(modalContent);
       console.log(modalContent);
       setFloatingButton(true);
+ 
     }
   }, [modalContent]);
+
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      const firstMessage = chatContainerRef.current.firstChild;
+      if (firstMessage) {
+        firstMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [messages]);
+  
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      const lastMessage = chatContainerRef.current.lastChild;
+      if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [messages]);
+  
+
+  
+  
 
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -167,39 +196,40 @@ function ChatHistory({
     const defaultQuestions = [
       {
         question: "How to load a mobile package via a banking app?",
-        openModal: true
+        openModal: true,
       },
       {
-        question: "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
-        openModal: true
+        question:
+          "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        openModal: true,
       },
       {
         question: "How to register for Bank Alfalah App?",
-        openModal: true
+        openModal: true,
       },
       {
         question: "How to Open Bank Alfalah Roshan Digital Account Online?",
-        openModal: true
+        openModal: true,
       },
       {
         question: "How to create Alfa Savings Account?",
-        openModal: true
+        openModal: true,
       },
       {
         question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
-        openModal: true
+        openModal: true,
       },
       {
         question: "How to activate a credit card?",
-        openModal: true
+        openModal: true,
       },
       {
         question: "How to activate Debit Card via WhatsApp?",
-        openModal: true
+        openModal: true,
       },
       {
         question: "How to view e-statement?",
-        openModal: true
+        openModal: true,
       },
     ];
 
@@ -212,24 +242,24 @@ function ChatHistory({
   };
 
 
+
   return (
     <>
       <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
-        
         <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
           Ask me
-          
-          {floatingButton && <FloatButton
-        shape="circle"
-        name="name"
-        type="danger"
-        icon={<CaretDownOutlined />}
-        style={{ top: 15, border: "1px solid" }} className="hover:text-white hover:bg-bg-secondary"
-        onClick={MinimizeFunction}
-      />}
-          
+          {floatingButton && (
+            <FloatButton
+              shape="circle"
+              name="name"
+              type="danger"
+              icon={<CaretDownOutlined />}
+              style={{ top: 15, border: "1px solid", boxShadow: "none" }}
+              className="hover:text-white hover:bg-bg-secondary"
+              onClick={MinimizeFunction}
+            />
+          )}
         </h1>
-        
 
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
@@ -264,7 +294,7 @@ function ChatHistory({
 
           {messages.length > 0 ? (
             messages?.map((message, index) => {
-              console.log(message,"is it a list");
+              console.log(message, "is it a list");
               const isLastMessage = index === messages.length - 1;
               const lastTextMessage = messages[messages.length - 1].text;
               return (
@@ -285,48 +315,90 @@ function ChatHistory({
                     </div>
                   ) : (
                     <div className="flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl ">
-                      {showAvatar === "black" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarLogo2} alt="chat avatar image" width="65%" className="mb-2" />
+                      {showAvatar === "black" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarLogo2}
+                              alt="chat avatar image"
+                              width="65%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
-                        {showAvatar === "black-scarf" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarLogo} alt="chat avatar image" width="65%" className="mb-2" />
+                      )}
+                      {showAvatar === "black-scarf" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarLogo}
+                              alt="chat avatar image"
+                              width="65%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
-                      {showAvatar === "red" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarRed} alt="chat avatar image" width="65%" className="mb-2" />
+                      )}
+                      {showAvatar === "red" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarRed}
+                              alt="chat avatar image"
+                              width="65%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
-                      {showAvatar === "avatar-fgenz" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarFGenzLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                      )}
+                      {showAvatar === "avatar-fgenz" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarFGenzLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
-                      {showAvatar === "avatar-mgenz" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarMGenzLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                      )}
+                      {showAvatar === "avatar-mgenz" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarMGenzLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
-                      {showAvatar === "avatar-fformal" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarFFormalLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                      )}
+                      {showAvatar === "avatar-fformal" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarFFormalLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
-                      {showAvatar === "avatar-mformal" &&
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img src={avatarMFormalLogo} alt="chat avatar image" width="75%" className="mb-2" />
+                      )}
+                      {showAvatar === "avatar-mformal" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarMFormalLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>}
+                      )}
                       <div className="flex flex-col">
                         {message.is_journey &&
                         message.is_journey &&
@@ -374,12 +446,19 @@ function ChatHistory({
                             {/* REPLY CHAT BUTTON END */}
                           </div>
                         ) : (
-                          
-                          <div className="relative">
-                             <p className="w-[100] mt-2 h-[100%]" style={{whiteSpace:"pre-line"}}>{message[0].text}</p>
-                            
+                          <div className="relative" ref={chatContainerRef}>
+                            <div
+                              style={{ whiteSpace: "pre-line" }}
+                              dangerouslySetInnerHTML={{
+                                __html: message[0].text.replace(
+                                  /\*\*(.*?)\*\*/g,
+                                  '<b style="font-weight:600">$1</b>'
+                                ),
+                              }}
+                            ></div>
+
                             {isLastMessage &&
-                              myContent===true &&
+                              myContent === true &&
                               myQuest === modalContent && (
                                 <div className="flex gap-6 ml-60 items-center p-10 absolute">
                                   <button
@@ -394,8 +473,7 @@ function ChatHistory({
                                   </button>
                                   <button
                                     className="rounded-xl bg-[#dcdcdc] p-4"
-                                    onClick={navigateToDefaultPath
-                                    }
+                                    onClick={navigateToDefaultPath}
                                   >
                                     End Journey
                                   </button>

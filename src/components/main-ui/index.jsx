@@ -820,7 +820,7 @@ function MainUi() {
   return (
     <>
       <div className="lg:p-[2rem]  absolute z-30 w-full ">
-        <header className="flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4">
+        <header className="flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4 max-md:flex-col">
           <div className="flex gap-2 items-center">
             <img
               src={Logo}
@@ -900,12 +900,12 @@ function MainUi() {
         </header>
 
         {/* Banking Options */}
-        <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 w-full items-center h-[80px] mb-7 flex justify-center">
-          <div className="flex flex-row space-x-20 mt-8" ref={dropdownRef}>
+        <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 items-center h-auto mb-7 flex justify-center">
+          <div className="flex flex-row space-x-20 mt-8 max-md:mt-0  max-md:flex-col max-md:items-start max-md:text-center" ref={dropdownRef}>
             {bankingOptions.map((option, index) => (
               <div
                 key={index}
-                className={`relative ${
+                className={`relative  ${
                   option.isOpen ? "text-[#000] z-10 " : ""
                 }`}
               >
