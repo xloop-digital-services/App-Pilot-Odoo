@@ -47,6 +47,17 @@ const QuestionModal = ({
 
   const [chatOpen, setChatOpen] = useState(false);
 
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      const lastMessage = chatContainerRef.current.lastChild;
+      if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [messages]);
+
   useEffect(() => {
     let recognition;
 
@@ -605,7 +616,7 @@ const QuestionModal = ({
                                         )}
                                       </div>
                                     ) : (
-                                      <div className="flex flex-col">
+                                      <div className="flex flex-col" ref={chatContainerRef}>
                                         <p className="text-[#2C2A2B] font-inter text-sm font-light mt-3 ml-3 whitespace-pre-line">
                                           {message.text}
                                         </p>
