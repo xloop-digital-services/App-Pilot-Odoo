@@ -1,28 +1,116 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { stopAudio } from "../components/AudioService";
 
 // const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
 const backendUrl = "http://43.205.98.215:8000";
 
 const ChatContext = createContext();
 
-
-
 export const ChatProvider = ({ children }) => {
-
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectLanguage, setSelectLanguage] = useState('en');
+  const [selectLanguage, setSelectLanguage] = useState("en");
   const [cameraZoomed, setCameraZoomed] = useState(true);
   const [micOn, setMicOn] = useState(false);
-  const [animation, setAnimation] = useState('Idle');
+  const [animation, setAnimation] = useState("Idle");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalContent, setModalContent] = useState("");
   const [myContent, setMyContent] = useState(false);
   const [showAvatar, setShowAvatar] = useState("avatar-fgenz");
   const [floatingButton, setFloatingButton] = useState(false);
   const [minimize, setMinimize] = useState(false);
+  const [navAddr, setNavAddr] = useState("");
+  const [navAddrSmall, setNavAddrSmall] = useState("");
+  const [showAddr, setShowAddr] = useState(false);
+  const [questions, setQuestions] = useState([
+    {
+      question: "How to load a mobile package via a banking app?",
+      openModal: true,
+    },
+    {
+      question:
+        "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+      openModal: true,
+    },
+    {
+      question: "How to register for Bank Alfalah App?",
+      openModal: true,
+    },
+    {
+      question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+      openModal: true,
+    },
+    {
+      question: "How to create Alfa Savings Account?",
+      openModal: true,
+    },
+    {
+      question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
+      openModal: true,
+    },
+    {
+      question: "How to activate a credit card?",
+      openModal: true,
+    },
+    {
+      question: "How to activate Debit Card via WhatsApp?",
+      openModal: true,
+    },
+    {
+      question: "How to view e-statement?",
+      openModal: true,
+    },
+  ]);
 
+  const navigateToDefaultPath = () => {
+    const defaultQuestions = [
+      {
+        question: "How to load a mobile package via a banking app?",
+        openModal: true,
+      },
+      {
+        question:
+          "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        openModal: true,
+      },
+      {
+        question: "How to register for Bank Alfalah App?",
+        openModal: true,
+      },
+      {
+        question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+        openModal: true,
+      },
+      {
+        question: "How to create Alfa Savings Account?",
+        openModal: true,
+      },
+      {
+        question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
+        openModal: true,
+      },
+      {
+        question: "How to activate a credit card?",
+        openModal: true,
+      },
+      {
+        question: "How to activate Debit Card via WhatsApp?",
+        openModal: true,
+      },
+      {
+        question: "How to view e-statement?",
+        openModal: true,
+      },
+    ];
+
+    setQuestions(defaultQuestions);
+    setMessages([]);
+    setMyContent(false);
+    setNavAddr("");
+    setNavAddrSmall("");
+    stopAudio();
+  };
 
   const chat = async (message) => {
     setMessages([...messages, { text: message, sender: "user" }]);
@@ -74,7 +162,6 @@ export const ChatProvider = ({ children }) => {
     // setMessages((messages) => [...messages, ...resp]);
     // setLoading(false);
   };
- 
 
   const onMessagePlayed = () => {
     setMessage(null);
@@ -83,7 +170,7 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     if (message) {
       // console.log(message, 'innser message')
-      setMessage(prev=>  prev);
+      setMessage((prev) => prev);
     } else {
       setMessage(null);
     }
@@ -92,12 +179,13 @@ export const ChatProvider = ({ children }) => {
   // console.log("data comes from response in mainUI2",messages[1]);
   // console.log("Image URL:", messages[1]?.list[0]?.image);
 
-
   return (
     <ChatContext.Provider
       value={{
-        currentIndex, setCurrentIndex,
-        selectLanguage, setSelectLanguage,
+        currentIndex,
+        setCurrentIndex,
+        selectLanguage,
+        setSelectLanguage,
         chat,
         message,
         setMessage,
@@ -121,7 +209,16 @@ export const ChatProvider = ({ children }) => {
         floatingButton,
         setFloatingButton,
         minimize,
-        setMinimize
+        setMinimize,
+        navAddr,
+        setNavAddr,
+        navAddrSmall,
+        setNavAddrSmall,
+        questions,
+        setQuestions,
+        showAddr,
+        setShowAddr,
+        navigateToDefaultPath
       }}
     >
       {children}

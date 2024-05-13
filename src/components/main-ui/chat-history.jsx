@@ -19,8 +19,10 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import {
+  faCommentDots,
   faMicrophone,
   faMicrophoneSlash,
+  faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Image, Modal, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
@@ -67,6 +69,7 @@ function ChatHistory({
     showAvatar,
     floatingButton,
     setFloatingButton,
+    navigateToDefaultPath
   } = useChat();
   // const [myContent, setMyContent] = useState(false);
   console.log(modalContent);
@@ -78,7 +81,6 @@ function ChatHistory({
       setMyQuest(modalContent);
       console.log(modalContent);
       setFloatingButton(true);
- 
     }
   }, [modalContent]);
 
@@ -92,7 +94,7 @@ function ChatHistory({
       }
     }
   }, [messages]);
-  
+
   useEffect(() => {
     if (chatContainerRef.current) {
       const lastMessage = chatContainerRef.current.lastChild;
@@ -101,10 +103,6 @@ function ChatHistory({
       }
     }
   }, [messages]);
-  
-
-  
-  
 
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -192,56 +190,7 @@ function ChatHistory({
     },
   ];
 
-  const navigateToDefaultPath = () => {
-    const defaultQuestions = [
-      {
-        question: "How to load a mobile package via a banking app?",
-        openModal: true,
-      },
-      {
-        question:
-          "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
-        openModal: true,
-      },
-      {
-        question: "How to register for Bank Alfalah App?",
-        openModal: true,
-      },
-      {
-        question: "How to Open Bank Alfalah Roshan Digital Account Online?",
-        openModal: true,
-      },
-      {
-        question: "How to create Alfa Savings Account?",
-        openModal: true,
-      },
-      {
-        question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
-        openModal: true,
-      },
-      {
-        question: "How to activate a credit card?",
-        openModal: true,
-      },
-      {
-        question: "How to activate Debit Card via WhatsApp?",
-        openModal: true,
-      },
-      {
-        question: "How to view e-statement?",
-        openModal: true,
-      },
-    ];
-
-    setQuestions(defaultQuestions);
-    setMessages([]);
-    setMyContent(false);
-    setNavAddr("");
-    setNavAddrSmall("");
-    stopAudio();
-  };
-
-
+  
 
   return (
     <>
@@ -537,10 +486,17 @@ function ChatHistory({
               }
             }}
           />
-
+          {micStart && (
+            <FontAwesomeIcon
+              icon={faPause}
+              flip="horizontal"
+              className="text-xl text-bg-secondary relative p-2"
+            />
+          )}
           <div className="flex gap-4">
             {micStart ? (
               // /* //stop the recording */
+
               <button
                 id="voice-stop-button"
                 // disabled={micOn}

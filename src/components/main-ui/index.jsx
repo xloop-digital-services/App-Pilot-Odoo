@@ -4,7 +4,7 @@ import SideBar from "./sideBar";
 import Logo from "../../assets/logo.png";
 import bflLogo from "../../assets/bfl-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faHome } from "@fortawesome/free-solid-svg-icons";
 import { faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { useChat } from "../../hooks/useChat";
 import { useMuteContext } from "../Avatar2";
@@ -13,51 +13,9 @@ import CustomModal from "./CustomModal";
 import StaticData from "./StaticData";
 
 function MainUi() {
-  // const [currentIndex, setCurrentIndex] = useState(0);
   const [micStart, setMicStart] = useState(false);
   const [startStopRecording, setStartStopRecording] = useState(true);
-  const [navAddr, setNavAddr] = useState("");
-  const [navAddrSmall, setNavAddrSmall] = useState("");
-  const [showAddr, setShowAddr] = useState(false);
-  const [questions, setQuestions] = useState([
-    {
-      question: "How to load a mobile package via a banking app?",
-      openModal: true,
-    },
-    {
-      question:
-        "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
-      openModal: true,
-    },
-    {
-      question: "How to register for Bank Alfalah App?",
-      openModal: true,
-    },
-    {
-      question: "How to Open Bank Alfalah Roshan Digital Account Online?",
-      openModal: true,
-    },
-    {
-      question: "How to create Alfa Savings Account?",
-      openModal: true,
-    },
-    {
-      question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
-      openModal: true,
-    },
-    {
-      question: "How to activate a credit card?",
-      openModal: true,
-    },
-    {
-      question: "How to activate Debit Card via WhatsApp?",
-      openModal: true,
-    },
-    {
-      question: "How to view e-statement?",
-      openModal: true,
-    },
-  ]);
+
   const [specialQuestions] = useState([
     "Alfalah Kamyab Karobar Account",
     "Alfalah PKR Current Account",
@@ -126,7 +84,16 @@ function MainUi() {
     setShowAvatar,
     setFloatingButton,
     minimize,
-    setMinimize
+    setMinimize,
+    navAddr,
+    setNavAddr,
+    navAddrSmall,
+    setNavAddrSmall,
+    questions,
+    setQuestions,
+    showAddr,
+    setShowAddr,
+    navigateToDefaultPath
   } = useChat();
   const { isMuted, setIsMuted, muteAudio, unmuteAudio } = useMuteContext();
 
@@ -614,7 +581,7 @@ function MainUi() {
         },
       ],
       "Islamic Saving Account": [
-        { question: "Falah Business Account",openModal:true },
+        { question: "Falah Business Account", openModal: true },
         {
           question: "Alfalah Islamic Foreign Currency Savings Account",
           openModal: true,
@@ -811,9 +778,9 @@ function MainUi() {
 
   const setMinimizeText = () => {
     setMinimize(true);
-  }
+  };
 
-  console.log(minimize)
+  console.log(minimize);
 
   // ]
 
@@ -838,8 +805,8 @@ function MainUi() {
           </div>
           <div className="flex items-center gap-4 ">
             {/* Select Avatar :  */}
-            <CustomModal buttonName={"Select Avatar"}/>
-          {/* <select
+            <CustomModal buttonName={"Select Avatar"} />
+            {/* <select
               onChange={(e) => avatarHandleChange(e.target.value)}
               value={showAvatar}
               className="p-1  lg:w-[6rem] w-[5rem] rounded-[5px] bg-bg-avatar text-white text-center"
@@ -866,7 +833,6 @@ function MainUi() {
                 <FontAwesomeIcon icon={faVolumeHigh} />
               </button>
             ) : (
-              
               <button
                 onClick={toggleVolume}
                 className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
@@ -875,8 +841,6 @@ function MainUi() {
                 <FontAwesomeIcon icon={faVolumeXmark} />
               </button>
             )}
-            
-
 
             <select
               onChange={(e) => languageHandleChange(e.target.value)}
@@ -901,7 +865,11 @@ function MainUi() {
 
         {/* Banking Options */}
         <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 items-center h-auto mb-7 flex justify-center">
-          <div className="flex flex-row space-x-20 mt-8 max-md:mt-0  max-md:flex-col max-md:items-start max-md:text-center" ref={dropdownRef}>
+          <div
+            className="flex flex-row space-x-20 mt-8 max-md:mt-0  max-md:flex-col max-md:items-start max-md:text-center"
+            ref={dropdownRef}
+          >
+            <FontAwesomeIcon icon={faHome} className="bg-bg-avatar text-white p-2 rounded-2xl cursor-pointer" onClick={navigateToDefaultPath}/>
             {bankingOptions.map((option, index) => (
               <div
                 key={index}
@@ -1020,28 +988,30 @@ function MainUi() {
           </div>
 
           <div className="  lg:w-[100%] w-full">
-          {!minimize ? ( <ChatHistory
-              specialQuestions={specialQuestions}
-              inputRef={input}
-              sendMessage={sendMessage}
-              micStart={micStart}
-              micOn={micOn}
-              loading={loading}
-              setMicOn={setMicOn}
-              setMicStart={setMicStart}
-              startStopHandle={startStopHandle}
-              startStopRecording={startStopRecording}
-              messages={messages}
-              handleNextClick={handleNextClick}
-              currentIndex={currentIndex}
-              handleQuestionClick={handleQuestionClick}
-              setQuestions={setQuestions}
-              setNavAddr={setNavAddr}
-              setNavAddrSmall={setNavAddrSmall}
-              MinimizeFunction={setMinimizeText}
-            />) : (
-              <StaticData/>
-            )} 
+            {!minimize ? (
+              <ChatHistory
+                specialQuestions={specialQuestions}
+                inputRef={input}
+                sendMessage={sendMessage}
+                micStart={micStart}
+                micOn={micOn}
+                loading={loading}
+                setMicOn={setMicOn}
+                setMicStart={setMicStart}
+                startStopHandle={startStopHandle}
+                startStopRecording={startStopRecording}
+                messages={messages}
+                handleNextClick={handleNextClick}
+                currentIndex={currentIndex}
+                handleQuestionClick={handleQuestionClick}
+                setQuestions={setQuestions}
+                setNavAddr={setNavAddr}
+                setNavAddrSmall={setNavAddrSmall}
+                MinimizeFunction={setMinimizeText}
+              />
+            ) : (
+              <StaticData />
+            )}
           </div>
         </div>
       </div>
