@@ -13,7 +13,7 @@ const Root = () => (
       <ChatProvider>
         <MuteProvider>
           <Routes>
-            <Route exact path="/" element={<LandingPage/>} />
+            <Route path="/" element={<LandingPage/>} />
             <Route path="/app-pilot" element={<App/>} />
           </Routes>
         </MuteProvider>
