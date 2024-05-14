@@ -9,6 +9,7 @@ import {
   faMicrophone,
   faMicrophoneSlash,
   faPaperPlane,
+  faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import sender from "../../assets/send-2.svg";
 import bg from "../../assets/bg.jpg";
@@ -669,6 +670,14 @@ const QuestionModal = ({
                           }
                         }}
                       />
+
+{micStart && (
+            <FontAwesomeIcon
+              icon={faPause}
+              flip="horizontal"
+              className="text-xl text-bg-secondary relative p-2"
+            />
+          )}
 
                       <div className="flex gap-3">
                         {micStart ? (
