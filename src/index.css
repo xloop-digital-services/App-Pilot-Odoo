@@ -96,3 +96,11 @@ body.greenScreen {
 /* .modal-top-panel{
   background-color: #00ff00;
 } */
+.gradient-text {
+  /* font-size: 6rem;  */
+  font-weight: bold; /* Adjust font weight as needed */
+  background: linear-gradient(181deg, rgb(253, 244, 244), rgb(238,29,35));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

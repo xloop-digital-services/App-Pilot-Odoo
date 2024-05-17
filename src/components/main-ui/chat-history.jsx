@@ -19,6 +19,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import {
+  faCircleInfo,
   faCommentDots,
   faMicrophone,
   faMicrophoneSlash,
@@ -69,7 +70,7 @@ function ChatHistory({
     showAvatar,
     floatingButton,
     setFloatingButton,
-    navigateToDefaultPath
+    navigateToDefaultPath,
   } = useChat();
   // const [myContent, setMyContent] = useState(false);
   console.log(modalContent);
@@ -190,12 +191,21 @@ function ChatHistory({
     },
   ];
 
-  
+  const handleDefaultQuestionClick = (question) => {
+    sendMessage(question);
+  };
+
+  const defaultQuestions = [
+    "What can I help you with?",
+    "How can you assist me?",
+    "Do you have any questions .Do you have any questions?",
+    "What is BAFL ",
+  ];
 
   return (
     <>
-      <div className="bg-[#ffffff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
-        <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center border-b-[1px] border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
+      <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
+        {/* <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center  border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
           Ask me
           {floatingButton && (
             <FloatButton
@@ -208,7 +218,7 @@ function ChatHistory({
               onClick={MinimizeFunction}
             />
           )}
-        </h1>
+        </h1> */}
 
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
@@ -446,12 +456,42 @@ function ChatHistory({
               );
             })
           ) : (
-            <div className="flex justify-center items-center h-full">
-              <img
-                src={mainPic}
-                alt="chat icon"
-                className="sm:w-[60%] sm:h-[100%]"
-              />
+            // DEFAULT CARD QUESTION
+
+            <div className="overflow-y-auto lg:h-[80%] h-[77%] flex flex-col items-center">
+              <div className="justify-start items-start text-start ">
+                <div className="text-center mt-8 w-[100%]">
+                <h2 className="flex font-semibold text-7xl gradient-text" style={{color: 'red'}}>Hello !</h2>
+                
+                  <p className="text-3xl justify-start items-start text-start font-semibold mt-3 ">
+                    How can I help you today?
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    justifyContent: "center",
+                  }}
+                >
+                  {defaultQuestions.map((question, index) => (
+                    <button
+                      key={index}
+                      className="h-[150px] mt-10 flex justify-start items-start text-left rounded-3xl w-[200px] font-semibold p-3 relative" // Added 'relative'
+                      onClick={() => handleDefaultQuestionClick(question)}
+                      style={{
+                        boxShadow: "0px 0px 10px 4px rgba(255, 0, 0, 0.2)",
+                      }}
+                    >
+                      <span className="ml-0">{question}</span>
+                      <FontAwesomeIcon
+                        icon={faCircleInfo}
+                        className="absolute bottom-3 right-3 text-2xl" // Positioned absolutely
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
