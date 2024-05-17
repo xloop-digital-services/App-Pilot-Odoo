@@ -29,7 +29,7 @@ export const NavComp = () => {
           >
             App Pilot
           </li>
-          <li>
+          <li className="max-md:flex max-md:flex-wrap max-md:flex-col max-md:ml-10 max-md:gap-6">
             <button
               className={`mr-12 max-sm:mr-12 ${
                 activeSection === "home" ? "active" : ""
@@ -64,16 +64,18 @@ export const NavComp = () => {
             </button>
           </li>
           <li class="inline-block font-semibold text-lg">
+          <Link to="/app-pilot">
             <button className="border rounded-lg p-4 px-11   ">
-              <Link to="/app-pilot">Get Started</Link>
+              Get Started
             </button>
+            </Link>
           </li>
         </ul>
-        <div className="d-flex flex-column flex-wrap items-center justify-center xl:ml-60 sm:justify-center mt-10 pb-10">
+        <div className="d-flex flex-column flex-wrap items-center justify-center xl:ml-60 sm:justify-center mt-10 pb-10 max-md:text-center max-xl:text-center">
           <button className="text-bg-secondary font-semibold p-3 px-5 py-3 rounded-md mb-1 bg-[#2e2e2e] text-xl">
             Who We Are
           </button>
-          <h1 className="text-6xl font-semibold text-white leading-snug tracking-wide">
+          <h1 className="text-6xl font-semibold text-white leading-snug tracking-wide max-md:text-5xl">
             Welcome to App Pilot <br /> Your Personalized <br />
             Chatbot{" "}
             <span

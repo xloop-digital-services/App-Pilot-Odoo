@@ -799,7 +799,7 @@ function MainUi() {
               alt="logo"
               className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
             /> */}
-            <h3 className="text-h-color lg:text-[2.106rem]  font-[600]">
+            <h3 className="text-h-color lg:text-[2.106rem]  font-[600] cursor-pointer" onClick={navigateToDefaultPath}>
               App Pilot
             </h3>
           </div>

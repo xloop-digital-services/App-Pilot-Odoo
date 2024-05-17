@@ -14,13 +14,13 @@ export const HowWorks = () => {
           // backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="flex px-12 pt-44 pb-48 max-sm:flex-col items-center justify-center max-sm:pt-4 flex-wrap max-sm:px-0 max-sm:pb-0 max-sm:pt-10 xl:ml-40">
-          <div className="w-[40%] max-sm:w-[65%]">
+        <div className="flex px-12 pt-44 pb-48 max-sm:flex-col items-center justify-center max-sm:pt-4 flex-wrap max-sm:px-0 max-sm:pb-0 max-sm:pt-10 xl:ml-40 max-sm:pb-4 max-lg:flex max-lg:flex-col max-lg:py-4">
+          <div className="w-[40%] max-sm:w-[100%] max-sm:text-center max-lg:w-full max-lg:text-center max-lg:w-[70%]">
             <button className="bg-[#353535] py-3 px-5 text-white rounded-lg text-xl font-semibold">
               How It Works
             </button>
-            <h1 className="text-5xl mt-4 font-semibold text-bg-avatar leading-snug tracking-wide justify-center">
-              Celeberate The <br />
+            <h1 className="text-5xl mt-4 font-semibold text-bg-avatar leading-snug tracking-wide justify-center max-sm:text-5xl ">
+              Celebrate The <br />
               Simplicity: Explore How <br />
               App{" "}
               <span
@@ -33,14 +33,14 @@ export const HowWorks = () => {
                 Pilot Works
               </span>
             </h1>
-            <p className="w-[80%] max-sm:w-full py-6 text-[#6a738b] text-lg ">
+            <p className="w-[80%] max-sm:w-full py-6 text-[#6a738b] text-lg max-lg:w-[100%]">
               Your security is our top priority. App Pilot is built with
               industry-leading encryption and security measures to safeguard
               your sensitive information. Rest easy knowing that your data is
               protected at all times.
             </p>
           </div>
-          <div className="w-[35%] text-lg max-sm:w-[350px] max-sm:flex max-sm:items-center">
+          <div className="w-[35%] text-lg max-sm:w-[350px] max-sm:flex max-sm:items-center max-lg:w-[400px]">
             <img
               src={img}
               alt="ai"
