@@ -37,7 +37,7 @@ export const Aboutus = () => {
             </h1>
             <p className="w-[76%] max-sm:w-full py-6 text-white text-lg max-lg:w-[100%] max-lg:text-xl">
               Unlock the power of intelligent assistance with App Pilot, your
-              go-to chatbot for all things Bank Alfalah. Seamlessly integrated
+              go-to knowledge platform for all things Bank Alfalah. Seamlessly integrated
               with Bank Alfalah's systems, App Pilot is here to make your
               banking experience smoother, faster, and more efficient than ever
               before.

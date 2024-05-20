@@ -799,7 +799,7 @@ function MainUi() {
               alt="logo"
               className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
             /> */}
-            <h3 className="text-h-color lg:text-[2.106rem]  font-[600] cursor-pointer" onClick={navigateToDefaultPath}>
+            <h3 className="text-h-color lg:text-[2.106rem]  font-semibold cursor-pointer" onClick={navigateToDefaultPath} style={{fontFamily:"lekton"}}>
               App Pilot
             </h3>
           </div>
@@ -845,7 +845,7 @@ function MainUi() {
             <select
               onChange={(e) => languageHandleChange(e.target.value)}
               value={selectLanguage}
-              className="lg:px-5 lg:py-3 p-1 lg:w-[9.688rem] w-[5rem]  rounded-[20px] bg-bg-secondary text-white"
+              className=" lg:w-[6.688rem] p-2 w-[5rem]  rounded-[20px] bg-bg-secondary text-white font-semibold"
             >
               <option
                 className="text-btn-color bg-bg-primary rounded-lg"

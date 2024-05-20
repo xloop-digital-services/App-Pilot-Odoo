@@ -74,12 +74,13 @@ function SideBar({
   } = useChat();
 
   handleQuestionClick = async (question) => {
+    stopAudio();
     if (specialQuestions.includes(question)) {
       setModalContent(question);
       setModalLoading(false);
       setMyContent(true);
       setMessages([]);
-      stopAudio();
+      
       return;
     } else {
       setMyContent(false);
@@ -111,9 +112,9 @@ function SideBar({
       className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-hidden"
       style={{ height: "420px" }}
     >
-      <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2">
+      <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2 font-semibold">
         {" "}
-        Frequently Asked journeys{" "}
+        Frequently Asked Journeys{" "}
       </h1>
 
       {modalLoading ? (
@@ -162,7 +163,7 @@ function SideBar({
       ) : (
         <div></div>
       )}
-<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
+<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion" >
       {questions.map((question, index) => (
         <div
           className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
@@ -174,7 +175,7 @@ function SideBar({
             <img src={QuestionMark} alt="logo" />
           </div>
           <p
-            className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
+            className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%] "
             onClick={() =>
               question.openModal
                 ? handleQuestionClick(question.question)

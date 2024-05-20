@@ -31,8 +31,8 @@ export const Footer = () => {
           <div className="flex w-[80%] items-center justify-around pb-20 flex-wrap max-sm:pb-1">
             <li className="leading-snug tracking-wide ">
               <p
-                className="inline-block text-4xl "
-                style={{ fontFamily: "Lekton" }}
+                className="inline-block text-4xl font-semibold"
+                style={{ fontFamily: "Lekton", fontSize:"40px" }}
               >
                 App Pilot
               </p>
@@ -41,8 +41,7 @@ export const Footer = () => {
                 <span className="opacity-50 font-semibold">________</span>
               </p>
               <p className="text-xl w-[350px] pt-5">
-                An all-in-one platform to build and launch chatbots
-                conversational without coding
+              An all-in-one platform for all your queries and prompts, based on a knowledge base, delivered in seconds.
               </p>
             </li>
             <li class="inline-block text-xl leading-snug tracking-wide ">
@@ -56,11 +55,11 @@ export const Footer = () => {
               </div>
               <div className="flex gap-3 mt-2">
                 <img src={icon2} alt="address" />
-                <p>abdulwasey@xloopdigital.com</p>
+                <p>sales@xloopdigital.com</p>
               </div>
               <div className="flex gap-3 mt-2">
                 <img src={icon3} alt="address" />
-                <p>0900-78601</p>
+                <p>1-800-397-9124</p>
               </div>
             </li>
             <li class="inline-block text-xl leading-snug tracking-wide">
@@ -74,9 +73,8 @@ export const Footer = () => {
               <p className={`mt-2 ${activeSection === 'security' ? 'active' : ''} cursor-pointer`} onClick={() => scrollToSection('security')}>Security</p>
             </li>
           </div>
-          <div className="border-t-2 flex w-[69%] items-center justify-between pb-8 flex-wrap max-sm:text-center">
-          <p className="mt-2 max-sm:px-12">PRIVACY POLICY</p>
-              <p className="mt-2 max-sm:px-12">TERMS OF USE</p>
+          <div className="border-t-2 flex w-[69%] items-right justify-end pb-8 flex-wrap max-sm:text-center">
+          
               <p className="mt-2 text-lg font-semibold">©2024 App Pilot. All Rights Reserved.</p>
 </div>
         </ul>

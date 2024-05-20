@@ -25,7 +25,7 @@ export const NavComp = () => {
         <ul class="flex items-center justify-evenly bg-gray-100  flex-wrap gap-10 text-white text-xl py-8 px-8">
           <li
             class="inline-block  font-semibold"
-            style={{ fontFamily: "Lekton", fontSize:"40px" }}
+            style={{ fontFamily: "Lekton", fontSize: "40px" }}
           >
             App Pilot
           </li>
@@ -64,10 +64,10 @@ export const NavComp = () => {
             </button>
           </li>
           <li class="inline-block font-semibold text-lg">
-          <Link to="/app-pilot">
-            <button className="border rounded-lg p-4 px-11   ">
-              Get Started
-            </button>
+            <Link to="/app-pilot">
+              <button className="border rounded-lg p-4 px-11   ">
+                Get Started
+              </button>
             </Link>
           </li>
         </ul>
@@ -76,8 +76,7 @@ export const NavComp = () => {
             Who We Are
           </button>
           <h1 className="text-6xl font-semibold text-white leading-snug tracking-wide max-md:text-5xl">
-            Welcome to App Pilot <br /> Your Personalized <br />
-            Chatbot{" "}
+            Welcome to App Pilot <br/>Your Ultimate AI Powered<br/>
             <span
               style={{
                 backgroundImage:
@@ -85,19 +84,14 @@ export const NavComp = () => {
                 color: "red",
               }}
             >
-              Assistant
+              Knowledge Platform
             </span>
           </h1>
           <p className="text-white mt-5 text-xl">
-            An all-in-one platform to build and launch chatbots conversational{" "}
-            <br /> without coding
+          An all-in-one platform for all your queries and prompts, based on a knowledge base,
+            <br />  delivered in seconds.
           </p>
-          <p
-            className="font-bold text-4xl text-[#4b4b4b]"
-          >
-            {" "}
-            <span className="text-red">___</span> _ _
-          </p>
+         
         </div>
       </div>
     </section>
