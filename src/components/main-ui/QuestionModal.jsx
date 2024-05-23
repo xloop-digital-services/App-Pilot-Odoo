@@ -149,9 +149,78 @@ const QuestionModal = ({
 
   console.log("descriptions,Steps of journey question ", stepDescriptions);
 
+
+
+  const sendMessage = async () => {
+    const input = inputRef.current.value.trim();
+    setLoading(true);
+  
+    if (input) {
+      if (micOn) {
+        setMicOn(false);
+        setMicStart(false);
+        setStartStopRecording("stop");
+      }
+  
+      setMessages([...messages, { text: input, sender: "user" }]);
+      inputRef.current.value = "";
+  
+      let processedInput = input;
+  
+      // Check if the input contains "this step"
+      if (/this step/i.test(input)) {
+        processedInput = `${input} ${description}`;
+      }
+  
+      const stepMatch = processedInput.match(/step\s+(\d+)/i);
+      if (stepMatch) {
+        try {
+          const stepNumber = stepMatch[1];
+          const description = stepDescriptions[stepNumber - 1];
+          const combinedInput = `${processedInput} ${description}`;
+          const response = await fetch(
+            `${backendUrl}/query_response/${encodeURIComponent(combinedInput)}/en`
+          );
+          const result = await response.json();
+          console.log("response in modal", result);
+   console.log("combinedInput with step number", combinedInput);
+  
+          const myData =
+            "en" === "en" ? { ...result.data } : { ...result.translate };
+          console.log("only ai data", myData);
+          setMessages((prevmsg) => [...prevmsg, myData[0]]);
+        } catch (error) {
+          console.error("Error sending message:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        try {
+          const response = await fetch(
+            `${backendUrl}/query_response/${encodeURIComponent(processedInput)}/en`
+          );
+          const result = await response.json();
+          console.log("response in modal", result);
+  
+          const myData =
+            "en" === "en" ? { ...result.data } : { ...result.translate };
+          console.log("only ai data", myData);
+          setMessages((prevmsg) => [...prevmsg, myData[0]]);
+        } catch (error) {
+          console.error("Error sending message:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+  };
+  
+
+
+
+  
   // const sendMessage = async () => {
-  //   const input = inputRef.current.value;
-  //   console.log("click sendMSG modal");
+  //   const input = inputRef.current.value.trim(); 
   //   setLoading(true);
 
   //   if (input) {
@@ -161,58 +230,23 @@ const QuestionModal = ({
   //       setStartStopRecording("stop");
   //     }
 
-  //     console.log("Previous messages:", messages);
-
   //     setMessages([...messages, { text: input, sender: "user" }]);
   //     inputRef.current.value = "";
 
-  //     try {
-  //       const combinedInput = `${input} ${stepDescriptions.join(" ")}`;
-  //       const response = await fetch(
-  //         `${backendUrl}/query_response/${encodeURIComponent(combinedInput)}/en`
-  //       );
-  //       const result = await response.json();
-  //       console.log("response in modal", result);
-
-  //       const myData =
-  //         "en" === "en" ? { ...result.data } : { ...result.translate };
-  //       console.log("only ai data", myData);
-  //       setMessages((prevmsg) => [...prevmsg, myData[0]]);
-  //     } catch (error) {
-  //       console.error("Error sending message:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
-
-  ///////////////
-
-  // YE WALA SAHI HE
-  // const sendMessage = async () => {
-  //   const input = inputRef.current.value.trim(); // Trim whitespace from input
-  //   setLoading(true);
-
-  //   if (input) {
-  //     if (micOn) {
-  //       setMicOn(false);
-  //       setMicStart(false);
-  //       setStartStopRecording("stop");
-  //     }
-
-  //     setMessages([...messages, { text: input, sender: "user" }]);
-  //     inputRef.current.value = "";
-
-  //     // Check if the input mentions a step number
   //     const stepMatch = input.match(/step\s+(\d+)/i);
   //     if (stepMatch) {
   //       try {
-  //         const combinedInput = `${input} ${stepDescriptions.join(" ")}`;
+  //         const stepNumber = stepMatch[1];
+  //         const description = stepDescriptions[stepNumber - 1];
+  //         const combinedInput = `${input} ${description}`;
   //         const response = await fetch(
-  //           `${backendUrl}/query_response/${encodeURIComponent(combinedInput)}/en`
+  //           `${backendUrl}/query_response/${encodeURIComponent(
+  //             combinedInput
+  //           )}/en`
   //         );
   //         const result = await response.json();
   //         console.log("response in modal", result);
+  //         console.log("combinedInput with step number", combinedInput);
 
   //         const myData =
   //           "en" === "en" ? { ...result.data } : { ...result.translate };
@@ -223,8 +257,9 @@ const QuestionModal = ({
   //       } finally {
   //         setLoading(false);
   //       }
-  //     } else {
-  //       // If input doesn't mention a step number, proceed with regular query
+  //     } else
+  //      {
+       
   //       try {
   //         const response = await fetch(
   //           `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
@@ -245,100 +280,8 @@ const QuestionModal = ({
   //   }
   // };
 
-  ///////////////
 
-  // const sendMessage = async () => {
-  //   const input = inputRef.current.value;
-  //   console.log("click sendMSG modal");
-  //   setLoading(true);
 
-  //   if (input) {
-  //     if (micOn) {
-  //       setMicOn(false);
-  //       setMicStart(false);
-  //       setStartStopRecording("stop");
-  //     }
-
-  //     setMessages([...messages, { text: input, sender: "user" }]);
-  //     inputRef.current.value = "";
-
-  //     try {
-  //       const response = await fetch(
-  //         `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
-  //       );
-  //       const result = await response.json();
-  //       console.log("response in modal", result);
-
-  //       const myData =
-  //         "en" === "en" ? { ...result.data } : { ...result.translate };
-  //       console.log("only ai data", myData);
-  //       setMessages((prevmsg) => [...prevmsg, myData[0]]);
-  //     } catch (error) {
-  //       console.error("Error sending message:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
-  const sendMessage = async () => {
-    const input = inputRef.current.value.trim(); // Trim whitespace from input
-    setLoading(true);
-
-    if (input) {
-      if (micOn) {
-        setMicOn(false);
-        setMicStart(false);
-        setStartStopRecording("stop");
-      }
-
-      setMessages([...messages, { text: input, sender: "user" }]);
-      inputRef.current.value = "";
-
-      const stepMatch = input.match(/step\s+(\d+)/i);
-      if (stepMatch) {
-        try {
-          const stepNumber = stepMatch[1];
-          const description = stepDescriptions[stepNumber - 1];
-          const combinedInput = `${input} ${description}`;
-          // const combinedInput = `${input} ${stepDescriptions.join(" ")}`;
-          const response = await fetch(
-            `${backendUrl}/query_response/${encodeURIComponent(
-              combinedInput
-            )}/en`
-          );
-          const result = await response.json();
-          console.log("response in modal", result);
-
-          const myData =
-            "en" === "en" ? { ...result.data } : { ...result.translate };
-          console.log("only ai data", myData);
-          setMessages((prevmsg) => [...prevmsg, myData[0]]);
-        } catch (error) {
-          console.error("Error sending message:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        // If input doesn't mention a step number
-        try {
-          const response = await fetch(
-            `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
-          );
-          const result = await response.json();
-          console.log("response in modal", result);
-
-          const myData =
-            "en" === "en" ? { ...result.data } : { ...result.translate };
-          console.log("only ai data", myData);
-          setMessages((prevmsg) => [...prevmsg, myData[0]]);
-        } catch (error) {
-          console.error("Error sending message:", error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    }
-  };
 
   const startStopHandle = (value) => {
     setStartStopRecording(value);
