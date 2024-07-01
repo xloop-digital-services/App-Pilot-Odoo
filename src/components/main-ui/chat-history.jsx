@@ -1,3 +1,5 @@
+// new ONEE...........
+
 import React, { useEffect, useRef, useState } from "react";
 import sender from "../../assets/send-2.svg";
 import bflLogo from "../../assets/bfl-logo.png";
@@ -24,6 +26,8 @@ import {
   faMicrophone,
   faMicrophoneSlash,
   faPause,
+  faVolumeUp,
+  faLanguage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Image, Modal, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
@@ -37,6 +41,9 @@ import charges from "../../assets/card04.png";
 import App from "../../App";
 import { stopAudio } from "../AudioService";
 import { FloatButton } from "antd";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
+
+const backendUrl = "http://13.234.218.130:8003";
 
 let stepDescriptions = null;
 let images = null;
@@ -71,10 +78,56 @@ function ChatHistory({
     floatingButton,
     setFloatingButton,
     navigateToDefaultPath,
+    receivedData,
   } = useChat();
-  // const [myContent, setMyContent] = useState(false);
-  console.log(modalContent);
+  // console.log(modalContent);
   const [myQuest, setMyQuest] = useState([]);
+
+  const [loadingAudio, setLoadingAudio] = useState(false);
+
+  const [loadingTranslation, setLoadingTranslation] = useState(false);
+  const [translatedText, setTranslatedText] = useState({});
+  const [selectedLanguage, setSelectedLanguage] = useState("es"); // Default language
+
+  const playAudio = async (text) => {
+    setLoadingAudio(true);
+    try {
+      // Encode the text to be URL-safe
+      const encodedText = encodeURIComponent(text);
+      const response = await fetch(`${backendUrl}/voice/${encodedText}`);
+
+      if (!response.ok) {
+        console.error("Error fetching audio:", response.statusText);
+        setLoadingAudio(false);
+        return;
+      }
+
+      const data = await response.json();
+      const audioData = data.audio; // Assuming the backend returns the audio data directly
+
+      if (!audioData) {
+        console.error("No audio data returned");
+        setLoadingAudio(false);
+        return;
+      }
+
+      // Convert the base64 audio data to a Blob
+      const byteCharacters = atob(audioData);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const audioBlob = new Blob([byteArray], { type: "audio/wav" });
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (error) {
+      console.error("Error fetching audio:", error);
+    }
+    setLoadingAudio(false);
+  };
 
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
@@ -154,8 +207,6 @@ function ChatHistory({
     setModalLoading(false);
   };
 
-  // handleQuestionClick = async (question) => {
-  // };
   const closeModal = () => {
     setSelectedQuestion(null);
   };
@@ -202,24 +253,43 @@ function ChatHistory({
     "What is BAFL?",
   ];
 
+  const translateText = async (text, index) => {
+    setLoadingTranslation(true);
+    try {
+      const encodedText = encodeURIComponent(text);
+      const response = await fetch(`${backendUrl}/translate/ur/${encodedText}`);
+
+      if (!response.ok) {
+        console.error("Error fetching translation:", response.statusText);
+        setLoadingTranslation(false);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Translation API response:", data); // Log the response
+
+      if (!data.translation) {
+        console.error("Translated text is missing in the response");
+        setLoadingTranslation(false);
+        return;
+      }
+
+      const translation = data.translation;
+
+      // Update the translatedText state
+      setTranslatedText((prev) => ({
+        ...prev,
+        [index]: translation,
+      }));
+    } catch (error) {
+      console.error("Error fetching translation:", error);
+    }
+    setLoadingTranslation(false);
+  };
+
   return (
     <>
       <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
-        {/* <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center  border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
-          Ask me
-          {floatingButton && (
-            <FloatButton
-              shape="circle"
-              name="name"
-              type="danger"
-              icon={<CaretDownOutlined />}
-              style={{ top: 15, border: "1px solid", boxShadow: "none" }}
-              className="hover:text-white hover:bg-bg-secondary"
-              onClick={MinimizeFunction}
-            />
-          )}
-        </h1> */}
-
         {/* list of messages */}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
           {myContent && !loading && (
@@ -251,249 +321,79 @@ function ChatHistory({
             </div>
           )}
 
-          {messages.length > 0 ? (
-            messages?.map((message, index) => {
-              console.log(message, "is it a list");
-              const isLastMessage = index === messages.length - 1;
-              const lastTextMessage = messages[messages.length - 1].text;
-              return (
-                <div key={index}>
-                  {/* USER MSG */}
-                  {message.sender === "user" ? (
-                    <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
+          {/* 111111111 */}
+
+          <div className="chat-history">
+            {messages.map((message, index) => (
+              <div key={index}>
+                {message.sender === "user" ? (
+                  <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
+                    <div>
+                      <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#9B9B9B] rounded-full flex items-center justify-center">
+                        <img
+                          src={bflLogo}
+                          alt="sender image"
+                          className="w-9 h-9"
+                        />
+                      </div>
+                    </div>
+                    <p className="w-full flex items-center">{message.text}</p>
+                    {translatedText[index] && (
+                      <p className="translated-text mt-2 text-blue-600">
+                        {translatedText[index]}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
+                    <div className="flex gap-4">
                       <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#9B9B9B] rounded-full flex items-center justify-center">
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                           <img
-                            src={bflLogo}
-                            alt="sender image"
-                            className="w-9 h-9"
+                            src={avatarLogo}
+                            alt="chat avatar image"
+                            className="w-9 h-10 mb-1"
                           />
                         </div>
                       </div>
-                      <p className="w-full flex items-center">{message.text}</p>
-                    </div>
-                  ) : (
-                    <div className="flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl ">
-                      {showAvatar === "black" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarLogo2}
-                              alt="chat avatar image"
-                              width="65%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "black-scarf" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarLogo}
-                              alt="chat avatar image"
-                              width="65%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "red" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarRed}
-                              alt="chat avatar image"
-                              width="65%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-fgenz" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFGenzLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-mgenz" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarMGenzLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-fformal" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFFormalLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-mformal" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarMFormalLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      <div className="flex flex-col">
-                        {message.is_journey &&
-                        message.is_journey &&
-                        message.is_journey.journey_avalible == 1 ? (
-                          <div>
-                            {/* REPLY CHAT BUTTON START */}
-                            <p ref={journeyRef} className="w-full mt-2">
-                              This is a journey question, Do you want to start
-                              journey ?
-                            </p>
-                            <div
-                              className="flex flex-row mt-3 -mb-3 "
-                              ref={journeyRefDiv}
-                            >
-                              <button
-                                className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4"
-                                onClick={() => handleNoJourney(message[0].text)}
-                                // onClick={() => handleNoJourney(message[0].text.split('. '))}
-                              >
-                                No
-                              </button>
-                              <button
-                                className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
-                                onClick={() => {
-                                  toggleVolumeWhenModalOpen();
-                                  handleQuestionClick(
-                                    message.is_journey.question_list[0]
-                                  );
-                                }}
-                              >
-                                {modalLoading ? (
-                                  <Spin
-                                    indicator={
-                                      <LoadingOutlined
-                                        style={{ fontSize: 20, color: "white" }}
-                                        spin
-                                      />
-                                    }
-                                  />
-                                ) : (
-                                  "Yes"
-                                )}
-                              </button>
-                            </div>
-                            {/* REPLY CHAT BUTTON END */}
-                          </div>
-                        ) : (
-                          <div className="relative" ref={chatContainerRef}>
-                            <div
-                              style={{ whiteSpace: "pre-line" }}
-                              dangerouslySetInnerHTML={{
-                                __html: message[0].text.replace(
-                                  /\*\*(.*?)\*\*/g,
-                                  '<b style="font-weight:600">$1</b>'
-                                ),
-                              }}
-                            ></div>
-
-                            {isLastMessage &&
-                              myContent === true &&
-                              myQuest === modalContent && (
-                                <div className="flex gap-6 ml-60 items-center p-10 absolute">
-                                  <button
-                                    className="rounded-xl bg-[#dcdcdc] p-4"
-                                    onClick={() => {
-                                      setMyContent(true);
-                                      setMessages([]);
-                                      stopAudio();
-                                    }}
-                                  >
-                                    Do you want further information?
-                                  </button>
-                                  <button
-                                    className="rounded-xl bg-[#dcdcdc] p-4"
-                                    onClick={navigateToDefaultPath}
-                                  >
-                                    End Journey
-                                  </button>
-                                </div>
-                              )}
-                          </div>
-                        )}
-                        {message.image && (
-                          <div className=" w-[60%] h-[100%] mb-3 mt-4">
-                            <Image
-                              width={"50%"}
-                              src={bg}
-                              alt={`data:image/png;base64, ${message.image}`}
-                            />
-                          </div>
+                      <div
+                        className="message-content w-full flex flex-col mt-2"
+                        style={{ whiteSpace: "pre-wrap" }}
+                      >
+                        <p>{message.text}</p>
+                        {translatedText[index] && (
+                          <p className="translated-text mt-2 text-blue-600">
+                            {translatedText[index]}
+                          </p>
                         )}
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            // DEFAULT CARD QUESTION
-
-            <div className="overflow-y-auto lg:h-[80%] h-[77%] flex flex-col items-center">
-              <div className="justify-start items-start text-start ">
-                <div className="text-center mt-8 w-[100%]">
-                <p className="flex  text-5xl font-semibold gradient-text" style={{color: 'red'}}>Hello !</p>
-                
-                  <p className="text-3xl justify-start items-start text-start font-semibold mt-3 gradient-text">
-                    How can I help you today?
-                  </p>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    justifyContent: "center",
-                  }}
-                >
-                  {defaultQuestions.map((question, index) => (
-                    <button
-                      key={index}
-                      className="h-[150px] mt-10 flex justify-start items-start text-left rounded-3xl w-[200px] font-semibold p-3 relative" // Added 'relative'
-                      onClick={() => handleDefaultQuestionClick(question)}
-                      style={{
-                        boxShadow: "0px 0px 7px 3px rgba(220, 0, 0, 0.2)",
-                      }}
-                    >
-                      <span className="ml-0 ">{question}</span>
+                    <div className="audio-icon-container flex items-end justify-start ml-14 mb-1">
                       <FontAwesomeIcon
-                        icon={faCircleInfo}
-                        className="absolute bottom-3 right-3 text-2xl" // Positioned absolutely
+                        icon={faVolumeUp}
+                        className="ml-2 cursor-pointer"
+                        onClick={() => playAudio(message.text)}
+                        title="Play Audio"
                       />
-                    </button>
-                  ))}
-                </div>
+                      <FontAwesomeIcon
+                        icon={faLanguage}
+                        className={`ml-2 cursor-pointer ${
+                          loadingTranslation ? "text-gray-500" : "text-black"
+                        }`}
+                        onClick={() =>
+                          !loadingTranslation &&
+                          translateText(message.text, index)
+                        }
+                        title="Translate Text"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
+            ))}
+          </div>
+
+          {/* 111111111 */}
         </div>
         {selectedQuestion && (
           <QuestionModal

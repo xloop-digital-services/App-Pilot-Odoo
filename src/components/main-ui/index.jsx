@@ -780,7 +780,7 @@ function MainUi() {
     setMinimize(true);
   };
 
-  console.log(minimize);
+  // console.log(minimize);
 
   // ]
 

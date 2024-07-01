@@ -2,32 +2,41 @@ import React, { useState, useRef } from "react";
 import QuestionMark from "../../assets/message-question.svg";
 import QuestionModal from "./QuestionModal";
 import { useChat } from "../../hooks/useChat";
-import { useMuteContext } from "../Avatar2";
 import { Modal, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import { stopAudio } from "../AudioService";
-// import { useChatModal } from "../../hooks/useChatModal";
 
-const backendUrl = "http://43.205.98.215:8000";
+const backendUrl = "http://13.234.218.130:8003";
 
-let stepDescriptions = null;
-let images = null;
+let stepDescriptions = [];
+let images = [];
 
-//modal fetch function from simple chat
+// Function to fetch journeys using the updated endpoint
 export const fetchJournies = async (question) => {
-  const response = await fetch(
-    `${backendUrl}/get_step_response/?user_input=${encodeURIComponent(
-      question
-    )}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
+  try {
+    const response = await fetch(
+      `${backendUrl}/get_step_response`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: question }), // Sending question in the body
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
     }
-  );
-  return response.json();
+
+    const result = await response.json();
+    // console.log("result",result);
+    // console.log("result",result.top_results.Steps);
+    return result;
+  } catch (error) {
+    console.error("Error fetching journeys:", error);
+    throw error;
+  }
 };
 
 function SideBar({
@@ -39,36 +48,17 @@ function SideBar({
   navAddr,
 }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [showModal, setShowModal] = useState(false); // New state
-  // const [modalContent, setModalContent] = useState("");
-  const [features, setFeatures] = useState(""); // State to store modal content
-
-  // const [activeStep, setActiveStep] = useState(0);
-
-  const [micStart, setMicStart] = useState(false);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  const [startStopRecording, setStartStopRecording] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [features, setFeatures] = useState("");
   const [modalLoading, setModalLoading] = useState(false);
 
-  const input = useRef();
   const {
-    // chat,
     currentIndex,
-    selectLanguage,
-    // setSelectLanguage,
     setCurrentIndex,
     modalContent,
     setModalContent,
     myContent,
     setMyContent,
-    // loading,
-    // setLoading,
-    // micOn,
-    // setMicOn,
-    // cameraZoomed,
-    // setCameraZoomed,
-    // message,
-    // messages,
     setMessages,
     showAvatar,
   } = useChat();
@@ -80,17 +70,22 @@ function SideBar({
       setModalLoading(false);
       setMyContent(true);
       setMessages([]);
-      
       return;
     } else {
       setMyContent(false);
       setModalLoading(true);
-      const result = await fetchJournies(question);
-      stepDescriptions = result.top_results.steps.map((step) => step.Step);
-      // console.log("DESCRIPTION BY SIDEBAR",stepDescriptions);
-      images = result.top_results.steps.map((step) => step.Image_URL);
-      setSelectedQuestion(question);
-      setModalLoading(false);
+      try {
+        const result = await fetchJournies(question);
+        stepDescriptions = result.top_results.Steps.map((step) => step.Step);
+        // console.log("stepDescrippppption yaha dekho", stepDescriptions);
+        images = result.top_results.Steps.map((step) => step.Image_URL);
+        // console.log("images yaha dekho", images);
+        setSelectedQuestion(question);
+        setModalLoading(false);
+      } catch (error) {
+        console.error("Error fetching journeys:", error);
+        setModalLoading(false);
+      }
     }
   };
 
@@ -101,7 +96,6 @@ function SideBar({
   };
 
   const handleNextClick = (length) => {
-    console.log(length);
     if (currentIndex < length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
@@ -112,9 +106,8 @@ function SideBar({
       className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-hidden"
       style={{ height: "420px" }}
     >
-      <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2 font-semibold">
-        {" "}
-        Frequently Asked Journeys{" "}
+      <h1 className="text-center p-2.5 text-[20px] font-semibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2 font-semibold">
+        Frequently Asked Journeys
       </h1>
 
       {modalLoading ? (
@@ -134,20 +127,6 @@ function SideBar({
             closeModal={closeModal}
             stepDescriptions={stepDescriptions}
             images={images}
-            // modalLoading={modalLoading}
-            // loading={loading}
-            // chat={chat}
-            // activeStep={activeStep}
-            // inputRef={input}
-            // sendMessage={sendMessage}
-            // micStart={micStart}
-            // micOn={micOn}
-            // loading={loading}
-            // setMicOn={setMicOn}
-            // setMicStart={setMicStart}
-            // startStopHandle={startStopHandle}
-            // startStopRecording={startStopRecording}
-            // messages={messages}
             handleNextClick={handleNextClick}
             currentIndex={currentIndex}
             showAvatar={showAvatar}
@@ -163,29 +142,30 @@ function SideBar({
       ) : (
         <div></div>
       )}
-<div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion" >
-      {questions.map((question, index) => (
-        <div
-          className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
-            selectedQuestion === question.question ? "border border-red" : ""
-          }`}
-          key={index}
-        >
-          <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
-            <img src={QuestionMark} alt="logo" />
-          </div>
-          <p
-            className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%] "
-            onClick={() =>
-              question.openModal
-                ? handleQuestionClick(question.question)
-                : sendMessage(question.question)
-            }
+
+      <div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden sideBarQuestion">
+        {questions.map((question, index) => (
+          <div
+            className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
+              selectedQuestion === question.question ? "border border-red" : ""
+            }`}
+            key={index}
           >
-            {question.question}
-          </p>
-        </div>
-      ))}
+            <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
+              <img src={QuestionMark} alt="logo" />
+            </div>
+            <p
+              className="text-[#2C2A2B] text-[12px] cursor-pointer w-[100%]"
+              onClick={() =>
+                question.openModal
+                  ? handleQuestionClick(question.question)
+                  : sendMessage(question.question)
+              }
+            >
+              {question.question}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,14 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
+// ATIQUE BHAI YEH STREAMING RESPONSE K LYE HE......................................
+
+import { createContext, useContext, useState } from "react";
 import { stopAudio } from "../components/AudioService";
 
-// const backendUrl = "https://chatbot-new-yv3usc4lcq-de.a.run.app";
-const backendUrl = "http://43.205.98.215:8000";
+const backendUrl = "http://13.234.218.130:8003";
+// const backendUrl = "https://8nz0tgsd-8003.asse.devtunnels.ms";
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectLanguage, setSelectLanguage] = useState("en");
   const [cameraZoomed, setCameraZoomed] = useState(true);
@@ -23,6 +24,10 @@ export const ChatProvider = ({ children }) => {
   const [navAddr, setNavAddr] = useState("");
   const [navAddrSmall, setNavAddrSmall] = useState("");
   const [showAddr, setShowAddr] = useState(false);
+  const [streamingData, setStreamingData] = useState("");
+
+  const [receivedData, setReceivedData] = useState("");
+
   const [questions, setQuestions] = useState([
     {
       question: "How to load a mobile package via a banking app?",
@@ -33,38 +38,23 @@ export const ChatProvider = ({ children }) => {
         "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
       openModal: true,
     },
-    {
-      question: "How to register for Bank Alfalah App?",
-      openModal: true,
-    },
+    { question: "How to register for Bank Alfalah App?", openModal: true },
     {
       question: "How to Open Bank Alfalah Roshan Digital Account Online?",
       openModal: true,
     },
-    {
-      question: "How to create Alfa Savings Account?",
-      openModal: true,
-    },
+    { question: "How to create Alfa Savings Account?", openModal: true },
     {
       question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
       openModal: true,
     },
-    {
-      question: "How to activate a credit card?",
-      openModal: true,
-    },
-    {
-      question: "How to activate Debit Card via WhatsApp?",
-      openModal: true,
-    },
-    {
-      question: "How to view e-statement?",
-      openModal: true,
-    },
+    { question: "How to activate a credit card?", openModal: true },
+    { question: "How to activate Debit Card via WhatsApp?", openModal: true },
+    { question: "How to view e-statement?", openModal: true },
   ]);
 
   const navigateToDefaultPath = () => {
-    const defaultQuestions = [
+    setQuestions([
       {
         question: "How to load a mobile package via a banking app?",
         openModal: true,
@@ -74,37 +64,20 @@ export const ChatProvider = ({ children }) => {
           "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
         openModal: true,
       },
-      {
-        question: "How to register for Bank Alfalah App?",
-        openModal: true,
-      },
+      { question: "How to register for Bank Alfalah App?", openModal: true },
       {
         question: "How to Open Bank Alfalah Roshan Digital Account Online?",
         openModal: true,
       },
-      {
-        question: "How to create Alfa Savings Account?",
-        openModal: true,
-      },
+      { question: "How to create Alfa Savings Account?", openModal: true },
       {
         question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
         openModal: true,
       },
-      {
-        question: "How to activate a credit card?",
-        openModal: true,
-      },
-      {
-        question: "How to activate Debit Card via WhatsApp?",
-        openModal: true,
-      },
-      {
-        question: "How to view e-statement?",
-        openModal: true,
-      },
-    ];
-
-    setQuestions(defaultQuestions);
+      { question: "How to activate a credit card?", openModal: true },
+      { question: "How to activate Debit Card via WhatsApp?", openModal: true },
+      { question: "How to view e-statement?", openModal: true },
+    ]);
     setMessages([]);
     setMyContent(false);
     setNavAddr("");
@@ -113,83 +86,66 @@ export const ChatProvider = ({ children }) => {
   };
 
   const chat = async (message) => {
-    setMessages([...messages, { text: message, sender: "user" }]);
-    console.log("message given to chat func", message);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: message, sender: "user" },
+    ]);
     setLoading(true);
+    setStreamingData("");
+
     try {
       const response = await fetch(
-        `${backendUrl}/query_response/${encodeURIComponent(
-          message
-        )}/${selectLanguage}`
+        `${backendUrl}/stream/${encodeURIComponent(message)}`
       );
-      const result = await response.json();
-      console.log("result by useChat", result);
 
-      if (result.data.length > 1) {
-        setCurrentIndex(0);
-        const list =
-          selectLanguage === "en" ? [...result.data] : [...result.translate];
+      const reader = response.body.getReader();
+      let receivedData = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = new TextDecoder().decode(value);
+        receivedData += chunk;
 
-        setMessages((prevmsg) => [...prevmsg, { type: "list", list }]);
-      } else {
-        const myData =
-          selectLanguage === "en"
-            ? [{ ...result.data, is_journey: result.is_journey }]
-            : [{ ...result.translate, is_journey: result.is_journey }];
-        console.log(myData, "inner data");
-        setMessages((prevmsg) => [...prevmsg, myData[0]]);
+        // Update the last message with the new chunk
+        setMessages((prevMessages) => {
+          const lastMessageIndex = prevMessages.length - 1;
+          const lastMessage = prevMessages[lastMessageIndex];
+
+          // Check if the last message is from the receiver
+          if (lastMessage && lastMessage.sender === "receiver") {
+            const newMessages = [...prevMessages];
+            newMessages[lastMessageIndex] = {
+              ...lastMessage,
+              text: lastMessage.text + chunk,
+            };
+            return newMessages;
+          } else {
+            // Add a new message if it's the first response chunk
+            return [...prevMessages, { text: chunk, sender: "receiver" }];
+          }
+        });
+
+        setStreamingData((prev) => prev + chunk);
       }
+      setReceivedData(receivedData);
+      console.log("Final receivedData:", receivedData);
 
-      setMessage(result);
       setLoading(false);
-      // setMicOn(false);
-      console.log("data comes from response in mainUI", messages);
     } catch (err) {
-      console.log("errOr", err);
-      setMessages((prev) => [
-        ...prev,
-        { text: "Please check your network.", sender: "receiver" },
-      ]);
+      console.error("Error:", err);
       setLoading(false);
     }
-
-    // setTimeout(()=>{
-    //   setMessages( prevmsg=> [ ...prevmsg, { text: 'Sorry! We are under development...', sender: 'receiver' } ]);
-    //   setLoading(false);
-    // }, 2000)
-
-    // const resp = (await data.json()).messages;
-    // setMessages((messages) => [...messages, ...resp]);
-    // setLoading(false);
   };
-
-  const onMessagePlayed = () => {
-    setMessage(null);
-  };
-
-  useEffect(() => {
-    if (message) {
-      // console.log(message, 'innser message')
-      setMessage((prev) => prev);
-    } else {
-      setMessage(null);
-    }
-  }, [message]);
-
-  // console.log("data comes from response in mainUI2",messages[1]);
-  // console.log("Image URL:", messages[1]?.list[0]?.image);
 
   return (
     <ChatContext.Provider
       value={{
+        receivedData,
         currentIndex,
         setCurrentIndex,
         selectLanguage,
         setSelectLanguage,
         chat,
-        message,
-        setMessage,
-        onMessagePlayed,
         loading,
         setLoading,
         micOn,
@@ -214,11 +170,11 @@ export const ChatProvider = ({ children }) => {
         setNavAddr,
         navAddrSmall,
         setNavAddrSmall,
-        questions,
-        setQuestions,
         showAddr,
         setShowAddr,
-        navigateToDefaultPath
+        questions,
+        setQuestions,
+        navigateToDefaultPath,
       }}
     >
       {children}
