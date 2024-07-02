@@ -338,7 +338,7 @@ function ChatHistory({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ language:"ur",
-        text: text }), // Send the text in the request body
+        text: text }), // Send the text in the reqdfdfduest body
     });
   
     if (!response.ok) {
