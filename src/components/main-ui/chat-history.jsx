@@ -630,15 +630,42 @@ function ChatHistory({
                 ) : (
                   <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                          <img
-                            src={avatarLogo}
-                            alt="chat avatar image"
-                            className="w-9 h-10 mb-1"
-                          />
+                     {showAvatar === "black" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarLogo2}
+                              alt="chat avatar image"
+                              width="65%"
+                              className="mb-2"
+                            />
+                          </div>
                         </div>
-                      </div>
+                      )}
+                      {showAvatar === "avatar-fgenz" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarFGenzLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {showAvatar === "avatar-fformal" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarFFormalLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
+                        </div>
+                      )}
                       <div
                         className="message-content w-full flex flex-col mt-2"
                         style={{ whiteSpace: "pre-wrap" }}
