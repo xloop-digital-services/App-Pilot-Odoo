@@ -51,7 +51,7 @@ export const ChatProvider = ({ children }) => {
     },
     { question: "How to activate a credit card", openModal: true },
     { question: "How to activate Debit Card via WhatsApp", openModal: true },
-    { question: "How to view eStatement", openModal: true },
+    { question: "How to view e-statement", openModal: true },
   ]);
 
   const navigateToDefaultPath = () => {
