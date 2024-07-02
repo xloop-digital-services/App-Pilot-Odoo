@@ -31,27 +31,27 @@ export const ChatProvider = ({ children }) => {
 
   const [questions, setQuestions] = useState([
     {
-      question: "How to load a mobile package via a banking app?",
+      question: "How to load a mobile package via a banking app",
       openModal: true,
     },
     {
       question:
-        "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        "How to online apply for a new cheque book using Bank Alfalah Alfa App",
       openModal: true,
     },
-    { question: "How to register for Bank Alfalah App?", openModal: true },
+    { question: "How to register for Bank Alfalah App", openModal: true },
     {
-      question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+      question: "How to Open Bank Alfalah Roshan Digital Account Online",
       openModal: true,
     },
-    { question: "How to create Alfa Savings Account?", openModal: true },
+    { question: "How to create Alfa Savings Account", openModal: true },
     {
-      question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
+      question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING",
       openModal: true,
     },
-    { question: "How to activate a credit card?", openModal: true },
-    { question: "How to activate Debit Card via WhatsApp?", openModal: true },
-    { question: "How to view eStatement?", openModal: true },
+    { question: "How to activate a credit card", openModal: true },
+    { question: "How to activate Debit Card via WhatsApp", openModal: true },
+    { question: "How to view eStatement", openModal: true },
   ]);
 
   const navigateToDefaultPath = () => {

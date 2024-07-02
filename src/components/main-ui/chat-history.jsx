@@ -50,6 +50,7 @@ import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 const backendUrl = "http://13.234.218.130:8003";
 
+
 let stepDescriptions = null;
 let images = null;
 
@@ -157,26 +158,68 @@ function ChatHistory({
 
   const playAudio = async (text) => {
     setLoadingAudio(true);
-    try {
-      // Encode the text to be URL-safe
-      const encodedText = encodeURIComponent(text);
-      const response = await fetch(`${backendUrl}/voice/${encodedText}`);
+    // try {
+    //   // Encode the text to be URL-safe
+    //   const encodedText = encodeURIComponent(text);
+    //   const response = await fetch(`${backendUrl}/voice/${encodedText}`);
 
+    //   if (!response.ok) {
+    //     console.error("Error fetching audio:", response.statusText);
+    //     setLoadingAudio(false);
+    //     return;
+    //   }
+
+    //   const data = await response.json();
+    //   const audioData = data.audio; // Assuming the backend returns the audio data directly
+
+    //   if (!audioData) {
+    //     console.error("No audio data returned");
+    //     setLoadingAudio(false);
+    //     return;
+    //   }
+
+    //   // Convert the base64 audio data to a Blob
+    //   const byteCharacters = atob(audioData);
+    //   const byteNumbers = new Array(byteCharacters.length);
+    //   for (let i = 0; i < byteCharacters.length; i++) {
+    //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+    //   }
+    //   const byteArray = new Uint8Array(byteNumbers);
+    //   const audioBlob = new Blob([byteArray], { type: "audio/wav" });
+    //   const audioUrl = URL.createObjectURL(audioBlob);
+
+    //   const audio = new Audio(audioUrl);
+    //   audio.play();
+    // } catch (error) {
+    //   console.error("Error fetching audio:", error);
+    // }
+    // setLoadingAudio(false);
+
+    try {
+      // Create the POST request to send the text
+      const response = await fetch(`${backendUrl}/voice`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: text }), // Send the text in the request body
+      });
+    
       if (!response.ok) {
         console.error("Error fetching audio:", response.statusText);
         setLoadingAudio(false);
         return;
       }
-
+    
       const data = await response.json();
-      const audioData = data.audio; // Assuming the backend returns the audio data directly
-
+      const audioData = data.audio; // Assuming the backend returns the audio data in base64 format
+    
       if (!audioData) {
         console.error("No audio data returned");
         setLoadingAudio(false);
         return;
       }
-
+    
       // Convert the base64 audio data to a Blob
       const byteCharacters = atob(audioData);
       const byteNumbers = new Array(byteCharacters.length);
@@ -186,13 +229,15 @@ function ChatHistory({
       const byteArray = new Uint8Array(byteNumbers);
       const audioBlob = new Blob([byteArray], { type: "audio/wav" });
       const audioUrl = URL.createObjectURL(audioBlob);
-
+    
+      // Play the audio
       const audio = new Audio(audioUrl);
       audio.play();
     } catch (error) {
       console.error("Error fetching audio:", error);
     }
     setLoadingAudio(false);
+    
   };
 
   useEffect(() => {
@@ -316,38 +361,74 @@ function ChatHistory({
 
   const translateText = async (text, index) => {
     setLoadingTranslation(true);
-    try {
-      const encodedText = encodeURIComponent(text);
-      const response = await fetch(`${backendUrl}/translate/ur/${encodedText}`);
+  //   try {
+  //     const encodedText = encodeURIComponent(text);
+  //     const response = await fetch(`${backendUrl}/translate/ur/${encodedText}`);
 
-      if (!response.ok) {
-        console.error("Error fetching translation:", response.statusText);
-        setLoadingTranslation(false);
-        return;
-      }
+  //     if (!response.ok) {
+  //       console.error("Error fetching translation:", response.statusText);
+  //       setLoadingTranslation(false);
+  //       return;
+  //     }
 
-      const data = await response.json();
-      console.log("Translation API response:", data); // Log the response
+  //     const data = await response.json();
+  //     console.log("Translation API response:", data); // Log the response
 
-      if (!data.translation) {
-        console.error("Translated text is missing in the response");
-        setLoadingTranslation(false);
-        return;
-      }
+  //     if (!data.translation) {
+  //       console.error("Translated text is missing in the response");
+  //       setLoadingTranslation(false);
+  //       return;
+  //     }
 
-      const translation = data.translation;
+  //     const translation = data.translation;
 
-      // Update the translatedText state
-      setTranslatedText((prev) => ({
-        ...prev,
-        [index]: translation,
-      }));
-    } catch (error) {
-      console.error("Error fetching translation:", error);
+  //     // Update the translatedText state
+  //     setTranslatedText((prev) => ({
+  //       ...prev,
+  //       [index]: translation,
+  //     }));
+  //   } catch (error) {
+  //     console.error("Error fetching translation:", error);
+  //   }
+  //   setLoadingTranslation(false);
+  // };
+  try {
+    const response = await fetch(`${backendUrl}/translate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ language:"ur",
+        text: text }), // Send the text in the reqdfdfduest body
+    });
+  
+    if (!response.ok) {
+      console.error("Error fetching translation:", response.statusText);
+      setLoadingTranslation(false);
+      return;
     }
-    setLoadingTranslation(false);
-  };
-  console.log(journey.journey_available);
+  
+    const data = await response.json();
+    console.log("Translation API response:", data); // Log the response
+  
+    if (!data.translation) {
+      console.error("Translated text is missing in the response");
+      setLoadingTranslation(false);
+      return;
+    }
+  
+    const translation = data.translation;
+  
+    // Update the translatedText state
+    setTranslatedText((prev) => ({
+      ...prev,
+      [index]: translation,
+    }));
+  } catch (error) {
+    console.error("Error fetching translation:", error);
+  }
+  setLoadingTranslation(false);
+}
 
   return (
     <>

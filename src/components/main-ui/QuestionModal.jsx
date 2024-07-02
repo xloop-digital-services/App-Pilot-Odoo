@@ -24,7 +24,7 @@ import avatarFformalLogo from "../../assets/avatarFFormalLogo.png";
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
-const backendUrl = "http://13.234.218.130:8000";
+const backendUrl = "http://13.234.218.130:8003";
 
 const QuestionModal = ({
   selectedQuestion,
@@ -284,101 +284,135 @@ const QuestionModal = ({
 
   // YE KAM SAHI KR RHA HE TESTING KRNI HOGI WESE
 
+  // const sendMessage = async () => {
+  //   const input = inputRef.current.value.trim();
+  //   setLoading(true);
+
+  //   if (input) {
+  //     if (micOn) {
+  //       setMicOn(false);
+  //       setMicStart(false);
+  //       setStartStopRecording("stop");
+  //     }
+
+  //     setMessages([...messages, { text: input, sender: "user" }]);
+  //     inputRef.current.value = "";
+
+  //     // Check for regular questions like "Hi" or "Hello"
+  //     if (/^(hi|hello)$/i.test(input)) {
+  //       try {
+  //         const response = await fetch(
+  //           `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
+  //         );
+  //         const result = await response.json();
+  //         console.log("response in modal", result);
+
+  //         const myData =
+  //           "en" === "en" ? { ...result.data } : { ...result.translate };
+  //         console.log("only ai data", myData);
+  //         setMessages((prevmsg) => [...prevmsg, myData[0]]);
+  //       } catch (error) {
+  //         console.error("Error sending message:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     } else {
+  //       let processedInput = input;
+
+  //       // Check if the input contains "this step"
+  //       if (/this step/i.test(input)) {
+  //         processedInput = `${input} ${description}`;
+  //       }
+
+  //       const stepMatch = processedInput.match(/step\s+(\d+)/i);
+  //       if (stepMatch) {
+  //         try {
+  //           const stepNumber = stepMatch[1];
+  //           const description = stepDescriptions;
+  //           // const combinedInput = ${processedInput} ${description};
+  //           const combinedInput = processedInput.includes("this step")
+  //             ? processedInput
+  //             : `${processedInput} ${description}`;
+  //           const response = await fetch(
+  //             `${backendUrl}/query_response/${encodeURIComponent(
+  //               combinedInput
+  //             )}/en`
+  //           );
+  //           const result = await response.json();
+
+  //           console.log("description ye he atique:", description);
+  //           console.log("combinedInput with step number:", combinedInput);
+  //           console.log(
+  //             "processedInputFinally with THIS STEP:",
+  //             processedInput
+  //           );
+
+  //           const myData =
+  //             "en" === "en" ? { ...result.data } : { ...result.translate };
+  //           console.log("only ai data", myData);
+  //           setMessages((prevmsg) => [...prevmsg, myData[0]]);
+  //         } catch (error) {
+  //           console.error("Error sending message:", error);
+  //         } finally {
+  //           setLoading(false);
+  //         }
+  //       } else {
+  //         try {
+  //           const response = await fetch(
+  //             `${backendUrl}/query_response/${encodeURIComponent(
+  //               processedInput
+  //             )}/en`
+  //           );
+  //           const result = await response.json();
+  //           console.log("response in modal", result);
+
+  //           const myData =
+  //             "en" === "en" ? { ...result.data } : { ...result.translate };
+  //           console.log("only ai data", myData);
+  //           setMessages((prevmsg) => [...prevmsg, myData[0]]);
+  //         } catch (error) {
+  //           console.error("Error sending message:", error);
+  //         } finally {
+  //           setLoading(false);
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
+
   const sendMessage = async () => {
     const input = inputRef.current.value.trim();
     setLoading(true);
 
     if (input) {
-      if (micOn) {
-        setMicOn(false);
-        setMicStart(false);
-        setStartStopRecording("stop");
-      }
+        setMessages([...messages, { text: input, sender: "user" }]);
+        inputRef.current.value = "";
 
-      setMessages([...messages, { text: input, sender: "user" }]);
-      inputRef.current.value = "";
+       
 
-      // Check for regular questions like "Hi" or "Hello"
-      if (/^(hi|hello)$/i.test(input)) {
+        // Nayi API endpoint ka URL
+        const apiUrl = `${backendUrl}/get_step_response/${encodeURIComponent(selectedQuestion)}/${encodeURIComponent(input)}`;
+
         try {
-          const response = await fetch(
-            `${backendUrl}/query_response/${encodeURIComponent(input)}/en`
-          );
-          const result = await response.json();
-          console.log("response in modal", result);
+            const response = await fetch(apiUrl);
+            const result = await response.json();
+            
+            // Nayi API response ko handle karne ke liye
+            const responseMessage = result.result;  // Extracting the "result" field
 
-          const myData =
-            "en" === "en" ? { ...result.data } : { ...result.translate };
-          console.log("only ai data", myData);
-          setMessages((prevmsg) => [...prevmsg, myData[0]]);
+            // Console me response dekhne ke liye
+            console.log("API Response:", responseMessage);
+
+            // Messages array me response add karna
+            setMessages((prevmsg) => [...prevmsg, { text: responseMessage, sender: "bot" }]);
         } catch (error) {
-          console.error("Error sending message:", error);
+            console.error("Error sending message:", error);
         } finally {
-          setLoading(false);
-        }
-      } else {
-        let processedInput = input;
-
-        // Check if the input contains "this step"
-        if (/this step/i.test(input)) {
-          processedInput = `${input} ${description}`;
-        }
-
-        const stepMatch = processedInput.match(/step\s+(\d+)/i);
-        if (stepMatch) {
-          try {
-            const stepNumber = stepMatch[1];
-            const description = stepDescriptions;
-            // const combinedInput = ${processedInput} ${description};
-            const combinedInput = processedInput.includes("this step")
-              ? processedInput
-              : `${processedInput} ${description}`;
-            const response = await fetch(
-              `${backendUrl}/query_response/${encodeURIComponent(
-                combinedInput
-              )}/en`
-            );
-            const result = await response.json();
-
-            console.log("description:", description);
-            console.log("combinedInput with step number:", combinedInput);
-            console.log(
-              "processedInputFinally with THIS STEP:",
-              processedInput
-            );
-
-            const myData =
-              "en" === "en" ? { ...result.data } : { ...result.translate };
-            console.log("only ai data", myData);
-            setMessages((prevmsg) => [...prevmsg, myData[0]]);
-          } catch (error) {
-            console.error("Error sending message:", error);
-          } finally {
             setLoading(false);
-          }
-        } else {
-          try {
-            const response = await fetch(
-              `${backendUrl}/query_response/${encodeURIComponent(
-                processedInput
-              )}/en`
-            );
-            const result = await response.json();
-            console.log("response in modal", result);
-
-            const myData =
-              "en" === "en" ? { ...result.data } : { ...result.translate };
-            console.log("only ai data", myData);
-            setMessages((prevmsg) => [...prevmsg, myData[0]]);
-          } catch (error) {
-            console.error("Error sending message:", error);
-          } finally {
-            setLoading(false);
-          }
         }
-      }
     }
-  };
+};
+
 
   const startStopHandle = (value) => {
     setStartStopRecording(value);
@@ -390,9 +424,10 @@ const QuestionModal = ({
     setChatOpen(!chatOpen);
   };
 
+  console.log("selectedQuestion ye he atique:", selectedQuestion);
+
   return (
     <Modal
-      
       title={
         <div className="flex items-center justify-between bg-[#ebf2ff]">
           <h1 className="mt-1 -ml-2">{selectedQuestion}</h1>
