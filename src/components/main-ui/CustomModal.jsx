@@ -15,6 +15,8 @@ import avatarFFormal from "../../assets/avatarFformalBig.png";
 import avatarFFormalLogo from "../../assets/avatarFFormalLogo.png";
 import avatarMFormal from "../../assets/avatarMFormalBig.png";
 import avatarMFormalLogo from "../../assets/avatarMFormalLogo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 const CustomModal = ({ title, buttonName }) => {
   const [visible, setVisible] = useState(false);
@@ -54,11 +56,10 @@ const CustomModal = ({ title, buttonName }) => {
       <Button
         type="info"
         onClick={showModal}
-        className={`text-black font-semibold rounded-md shadow-md bg-secondary hover:shadow-lg hover:bg-bg-secondary hover:text-white hover:outline-black focus:outline-none focus:ring-2 focus:ring-bg-secondary hover:border-none`}
+        className={`text-white font-semibold rounded-full h-[37px] w-[37px] shadow-md bg-bg-avatar hover:shadow-lg hover:bg-bg-primary hover:text-bg-avatar hover:outline-black focus:outline-none   hover:border-none`}
         // style={{ border: "black 1px solid"}}
       >
-        {buttonName}
-        
+        <FontAwesomeIcon icon={faUserTie}  className="text-xl -ml-1.5"/>
       </Button>
       <Modal
         title={title}

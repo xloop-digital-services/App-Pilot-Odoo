@@ -13,6 +13,7 @@ import avatarFFormalLogo from "../../assets/avatarFFormalLogo.png";
 import avatarMFormalLogo from "../../assets/avatarMFormalLogo.png";
 import mainPic from "../../assets/mainPic.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaWindowRestore } from "react-icons/fa6";
 import {
   CaretDownOutlined,
   CaretUpOutlined,
@@ -28,6 +29,10 @@ import {
   faPause,
   faVolumeUp,
   faLanguage,
+  faWindowRestore,
+  faList,
+  faQuestion,
+  faBuildingColumns,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Image, Modal, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
@@ -62,7 +67,6 @@ function ChatHistory({
   messages,
   currentIndex,
   specialQuestions,
-  handleQuestionClick,
   setQuestions,
   setNavAddr,
   setNavAddrSmall,
@@ -79,15 +83,77 @@ function ChatHistory({
     setFloatingButton,
     navigateToDefaultPath,
     receivedData,
+    journey,
   } = useChat();
   // console.log(modalContent);
   const [myQuest, setMyQuest] = useState([]);
+  console.log(journey);
 
   const [loadingAudio, setLoadingAudio] = useState(false);
 
   const [loadingTranslation, setLoadingTranslation] = useState(false);
   const [translatedText, setTranslatedText] = useState({});
   const [selectedLanguage, setSelectedLanguage] = useState("es"); // Default language
+  const [stepDescriptions, setStepDescriptions] = useState([]);
+  const [images, setImages] = useState([]);
+  const [noButton, setNoButton] = useState(false);
+
+  const handleNoButtonClick = () => {
+    setNoButton(true); 
+
+    setTimeout(() => {
+      setNoButton(false);
+    }, 10000);
+  };
+
+  const fetchJournies = async (question) => {
+    try {
+      const response = await fetch(`${backendUrl}/get_step_response`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: question }), // Sending question in the body
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      // console.log("result",result);
+      // console.log("result",result.top_results.Steps);
+      return result;
+    } catch (error) {
+      console.error("Error fetching journeys:", error);
+      throw error;
+    }
+  };
+
+  let img = [];
+  let stepDesc = [];
+  const handleQuestionClick = async (question) => {
+    stopAudio();
+    setMyContent(false);
+    setModalLoading(true);
+
+    try {
+      const result = await fetchJournies(question);
+      stepDesc = result.top_results.Steps.map((step) => step.Step);
+      setStepDescriptions(stepDesc);
+      console.log(stepDescriptions);
+      img = result.top_results.Steps.map((step) => step.Image_URL);
+      setImages(img);
+      console.log(images);
+      setSelectedQuestion(question);
+      setModalLoading(false);
+      // Further processing or state updates can be added here
+    } catch (error) {
+      console.error("Error fetching journeys:", error);
+      setModalLoading(false);
+      // Handle error state or display error message as needed
+    }
+  };
 
   const playAudio = async (text) => {
     setLoadingAudio(true);
@@ -191,22 +257,6 @@ function ChatHistory({
     sendMessage(`What is the associated charges of ${modalContent}?`);
   };
 
-  handleQuestionClick = async (question) => {
-    setModalLoading(true);
-
-    const result = await fetchJournies(question);
-
-    console.log("Question response data", result);
-
-    console.log(result.top_results, " result data");
-
-    stepDescriptions = result.top_results.steps.map((step) => step.Step);
-    images = result.top_results.steps.map((step) => step.Image_URL);
-
-    setSelectedQuestion(question);
-    setModalLoading(false);
-  };
-
   const closeModal = () => {
     setSelectedQuestion(null);
   };
@@ -247,10 +297,21 @@ function ChatHistory({
   };
 
   const defaultQuestions = [
-    "What can I help you with?",
-    "How can you assist me?",
-    "Do you have any questions?",
-    "What is BAFL?",
+    {
+      question: "What are the different types of Accounts?",
+      icon: faWindowRestore,
+    },
+    {
+      question:
+        "What are the product features of Alfalah Kamyab Karobar Account?",
+      icon: faList,
+    },
+    {
+      question:
+        "Can a Pehchaan Premier accountholder get Premier Visa Signature Debit Card?",
+      icon: faQuestion,
+    },
+    { question: "What is BAFL?", icon: faBuildingColumns },
   ];
 
   const translateText = async (text, index) => {
@@ -286,11 +347,27 @@ function ChatHistory({
     }
     setLoadingTranslation(false);
   };
+  console.log(journey.journey_available);
 
   return (
     <>
       <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
-        {/* list of messages */}
+        {myContent && (
+          <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center  border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
+            Ask me
+            {floatingButton && (
+              <FloatButton
+                shape="circle"
+                name="name"
+                type="danger"
+                icon={<CaretDownOutlined />}
+                style={{ top: 15, border: "1px solid", boxShadow: "none" }}
+                className="hover:text-white hover:bg-bg-secondary"
+                onClick={MinimizeFunction}
+              />
+            )}
+          </h1>
+        )}{" "}
         <div className="overflow-y-auto lg:h-[80%] h-[77%]">
           {myContent && !loading && (
             <div>
@@ -299,17 +376,11 @@ function ChatHistory({
                   Please select any option for {modalContent}.
                 </h1>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "40px",
-                  justifyContent: "center",
-                }}
-              >
+              <div className="flex justify-center flex-wrap gap-4">
                 {buttons.map((button, index) => (
                   <button
                     key={index}
-                    className="h-[100%] mt-10 flex items-center rounded-xl w-[33%]"
+                    className="h-[100%] mt-10 flex items-center rounded-xl w-[270px]"
                     onClick={button.onClick}
                     style={{ boxShadow: "0 0 15px 5px rgba(255, 0, 0, 0.09)" }}
                   >
@@ -343,6 +414,108 @@ function ChatHistory({
                         {translatedText[index]}
                       </p>
                     )}
+                  </div>
+                ) : journey.journey_available === 0 &&
+                  index >= messages.length - 1 || noButton ? (
+                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
+                    <div className="flex gap-4">
+                      <div>
+                      {showAvatar === "black" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarLogo2}
+                              alt="chat avatar image"
+                              width="65%"
+                              className="mb-2"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {showAvatar === "avatar-fgenz" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarFGenzLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {showAvatar === "avatar-fformal" && (
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <img
+                              src={avatarFFormalLogo}
+                              alt="chat avatar image"
+                              width="75%"
+                              className="mb-2"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      </div>
+                      <div
+                        className="message-content w-full flex flex-col mt-2"
+                        style={{ whiteSpace: "pre-wrap" }}
+                      >
+                        <p>{message.text}</p>
+                        {translatedText[index] && (
+                          <p className="translated-text mt-2 text-blue-600">
+                            {translatedText[index]}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="audio-icon-container flex items-end justify-start ml-14 mb-1">
+                      <FontAwesomeIcon
+                        icon={faVolumeUp}
+                        className="ml-2 cursor-pointer"
+                        onClick={() => playAudio(message.text)}
+                        title="Play Audio"
+                      />
+                      <FontAwesomeIcon
+                        icon={faLanguage}
+                        className={`ml-2 cursor-pointer ${
+                          loadingTranslation ? "text-gray-500" : "text-black"
+                        }`}
+                        onClick={() =>
+                          !loadingTranslation &&
+                          translateText(message.text, index)
+                        }
+                        title="Translate Text"
+                      />
+                    </div>
+                  </div>
+                ) : journey.journey_available === 1 &&
+                  index >= messages.length - 1 ? (
+                  <div className="message-container flex flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
+                    <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                      <img
+                        src={avatarLogo}
+                        alt="chat avatar image"
+                        className="w-9 h-10 mb-1"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <p className="w-full mt-2">
+                        This is a journey question. Do you want to start the
+                        journey?
+                      </p>
+                      <div className="flex flex-row -mb-3">
+                        <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4" onClick={handleNoButtonClick}>
+                          No
+                        </button>
+                        <button
+                          className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#ee1d23] text-[#fff]"
+                          onClick={() => handleQuestionClick(journey.question)}
+                        >
+                          Yes
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
@@ -392,8 +565,43 @@ function ChatHistory({
               </div>
             ))}
           </div>
+          {!myContent && !messages.length > 0 && (
+            <div className="justify-start items-start text-start ">
+              <div className="text-center mt-8 w-[100%]">
+                <p
+                  className="flex text-6xl gradient-text -tracking-[0.12em] pb-1"
+                  style={{ color: "red" }}
+                >
+                  Hello, Wasey{" "}
+                </p>
 
-          {/* 111111111 */}
+                <p className="text-5xl justify-start items-start text-start font-semibold mt-3 text-[#c4c7c5] -tracking-[0.05em]">
+                  How can I help you today?
+                </p>
+              </div>
+              <div className="flex justify-start p-1 gap-5 flex-wrap max-sm:justify-center">
+                {defaultQuestions.map((question, index) => (
+                  <button
+                    key={index}
+                    className="h-[150px] mt-7 flex justify-start items-start text-left rounded-2xl w-[250px] font-medium p-3 relative"
+                    onClick={() => {
+                      handleDefaultQuestionClick(question.question);
+                    }}
+                    style={{
+                      boxShadow: "0px 0px 7px 3px rgba(220, 0, 0, 0.2)",
+                    }}
+                  >
+                    <span className="ml-0 ">{question.question}</span>
+                    <FontAwesomeIcon
+                      icon={question.icon}
+                      className="absolute bottom-3 right-3 text-xl" // Positioned absolutely
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
         </div>
         {selectedQuestion && (
           <QuestionModal
@@ -406,9 +614,7 @@ function ChatHistory({
             showAvatar={showAvatar}
           />
         )}
-
         {/* SEND INPUT BOX IN MAIN PAGE */}
-
         <div className="flex rounded-3xl bg-[#F3F3F3] text-[#9B9B9B] lg:p-4 p-2 absolute bottom-3 right-5 left-5">
           {loading && (
             <div className="absolute inset-y-0 left-0 flex items-center pl-7 ">

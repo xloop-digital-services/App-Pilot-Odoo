@@ -869,7 +869,6 @@ function MainUi() {
             className="flex flex-row space-x-20 mt-8 max-md:mt-0  max-md:flex-col max-md:items-start max-md:text-center"
             ref={dropdownRef}
           >
-            <FontAwesomeIcon icon={faHome} className="bg-bg-avatar text-white p-2 rounded-2xl cursor-pointer" onClick={navigateToDefaultPath}/>
             {bankingOptions.map((option, index) => (
               <div
                 key={index}

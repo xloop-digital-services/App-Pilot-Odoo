@@ -25,6 +25,7 @@ export const ChatProvider = ({ children }) => {
   const [navAddrSmall, setNavAddrSmall] = useState("");
   const [showAddr, setShowAddr] = useState(false);
   const [streamingData, setStreamingData] = useState("");
+  const [journey, setJourney] = useState("");
 
   const [receivedData, setReceivedData] = useState("");
 
@@ -50,7 +51,7 @@ export const ChatProvider = ({ children }) => {
     },
     { question: "How to activate a credit card?", openModal: true },
     { question: "How to activate Debit Card via WhatsApp?", openModal: true },
-    { question: "How to view e-statement?", openModal: true },
+    { question: "How to view eStatement?", openModal: true },
   ]);
 
   const navigateToDefaultPath = () => {
@@ -129,7 +130,19 @@ export const ChatProvider = ({ children }) => {
       }
       setReceivedData(receivedData);
       console.log("Final receivedData:", receivedData);
-
+      const isJourneyResponse = await fetch(
+        `${backendUrl}/is_journey`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text: receivedData })
+        }
+      );
+      const isJourneyData = await isJourneyResponse.json();
+      setJourney(isJourneyData);
+      
       setLoading(false);
     } catch (err) {
       console.error("Error:", err);
@@ -175,6 +188,7 @@ export const ChatProvider = ({ children }) => {
         questions,
         setQuestions,
         navigateToDefaultPath,
+        journey,
       }}
     >
       {children}
