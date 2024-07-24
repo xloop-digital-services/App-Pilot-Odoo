@@ -535,7 +535,15 @@ function ChatHistory({
                         className="message-content w-full flex flex-col mt-2"
                         style={{ whiteSpace: "pre-wrap" }}
                       >
-                        <p>{message.text}</p>
+                        <div
+                          style={{ whiteSpace: "pre-line" }}
+                          dangerouslySetInnerHTML={{
+                            __html: message.text.replace(
+                              /\*\*(.*?)\*\*/g,
+                              '<b style="font-weight:600">$1</b>'
+                            ),
+                          }}
+                        ></div>
                         {translatedText[index] && (
                           <p className="translated-text mt-2 text-blue-600">
                             {translatedText[index]}
