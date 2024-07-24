@@ -85,12 +85,13 @@ function ChatHistory({
     navigateToDefaultPath,
     receivedData,
     journey,
+    playAudio
   } = useChat();
   // console.log(modalContent);
   const [myQuest, setMyQuest] = useState([]);
   console.log(journey);
 
-  const [loadingAudio, setLoadingAudio] = useState(false);
+  // const [loadingAudio, setLoadingAudio] = useState(false);
 
   const [loadingTranslation, setLoadingTranslation] = useState(false);
   const [translatedText, setTranslatedText] = useState({});
@@ -156,89 +157,89 @@ function ChatHistory({
     }
   };
 
-  const playAudio = async (text) => {
-    setLoadingAudio(true);
-    // try {
-    //   // Encode the text to be URL-safe
-    //   const encodedText = encodeURIComponent(text);
-    //   const response = await fetch(`${backendUrl}/voice/${encodedText}`);
+  // const playAudio = async (text) => {
+  //   setLoadingAudio(true);
+  //   // try {
+  //   //   // Encode the text to be URL-safe
+  //   //   const encodedText = encodeURIComponent(text);
+  //   //   const response = await fetch(`${backendUrl}/voice/${encodedText}`);
 
-    //   if (!response.ok) {
-    //     console.error("Error fetching audio:", response.statusText);
-    //     setLoadingAudio(false);
-    //     return;
-    //   }
+  //   //   if (!response.ok) {
+  //   //     console.error("Error fetching audio:", response.statusText);
+  //   //     setLoadingAudio(false);
+  //   //     return;
+  //   //   }
 
-    //   const data = await response.json();
-    //   const audioData = data.audio; // Assuming the backend returns the audio data directly
+  //   //   const data = await response.json();
+  //   //   const audioData = data.audio; // Assuming the backend returns the audio data directly
 
-    //   if (!audioData) {
-    //     console.error("No audio data returned");
-    //     setLoadingAudio(false);
-    //     return;
-    //   }
+  //   //   if (!audioData) {
+  //   //     console.error("No audio data returned");
+  //   //     setLoadingAudio(false);
+  //   //     return;
+  //   //   }
 
-    //   // Convert the base64 audio data to a Blob
-    //   const byteCharacters = atob(audioData);
-    //   const byteNumbers = new Array(byteCharacters.length);
-    //   for (let i = 0; i < byteCharacters.length; i++) {
-    //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-    //   }
-    //   const byteArray = new Uint8Array(byteNumbers);
-    //   const audioBlob = new Blob([byteArray], { type: "audio/wav" });
-    //   const audioUrl = URL.createObjectURL(audioBlob);
+  //   //   // Convert the base64 audio data to a Blob
+  //   //   const byteCharacters = atob(audioData);
+  //   //   const byteNumbers = new Array(byteCharacters.length);
+  //   //   for (let i = 0; i < byteCharacters.length; i++) {
+  //   //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //   //   }
+  //   //   const byteArray = new Uint8Array(byteNumbers);
+  //   //   const audioBlob = new Blob([byteArray], { type: "audio/wav" });
+  //   //   const audioUrl = URL.createObjectURL(audioBlob);
 
-    //   const audio = new Audio(audioUrl);
-    //   audio.play();
-    // } catch (error) {
-    //   console.error("Error fetching audio:", error);
-    // }
-    // setLoadingAudio(false);
+  //   //   const audio = new Audio(audioUrl);
+  //   //   audio.play();
+  //   // } catch (error) {
+  //   //   console.error("Error fetching audio:", error);
+  //   // }
+  //   // setLoadingAudio(false);
 
-    try {
-      // Create the POST request to send the text
-      const response = await fetch(`${backendUrl}/voice`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: text }), // Send the text in the request body
-      });
+  //   try {
+  //     // Create the POST request to send the text
+  //     const response = await fetch(`${backendUrl}/voice`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ text: text }), // Send the text in the request body
+  //     });
     
-      if (!response.ok) {
-        console.error("Error fetching audio:", response.statusText);
-        setLoadingAudio(false);
-        return;
-      }
+  //     if (!response.ok) {
+  //       console.error("Error fetching audio:", response.statusText);
+  //       setLoadingAudio(false);
+  //       return;
+  //     }
     
-      const data = await response.json();
-      const audioData = data.audio; // Assuming the backend returns the audio data in base64 format
+  //     const data = await response.json();
+  //     const audioData = data.audio; // Assuming the backend returns the audio data in base64 format
     
-      if (!audioData) {
-        console.error("No audio data returned");
-        setLoadingAudio(false);
-        return;
-      }
+  //     if (!audioData) {
+  //       console.error("No audio data returned");
+  //       setLoadingAudio(false);
+  //       return;
+  //     }
     
-      // Convert the base64 audio data to a Blob
-      const byteCharacters = atob(audioData);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const audioBlob = new Blob([byteArray], { type: "audio/wav" });
-      const audioUrl = URL.createObjectURL(audioBlob);
+  //     // Convert the base64 audio data to a Blob
+  //     const byteCharacters = atob(audioData);
+  //     const byteNumbers = new Array(byteCharacters.length);
+  //     for (let i = 0; i < byteCharacters.length; i++) {
+  //       byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //     }
+  //     const byteArray = new Uint8Array(byteNumbers);
+  //     const audioBlob = new Blob([byteArray], { type: "audio/wav" });
+  //     const audioUrl = URL.createObjectURL(audioBlob);
     
-      // Play the audio
-      const audio = new Audio(audioUrl);
-      audio.play();
-    } catch (error) {
-      console.error("Error fetching audio:", error);
-    }
-    setLoadingAudio(false);
+  //     // Play the audio
+  //     const audio = new Audio(audioUrl);
+  //     audio.play();
+  //   } catch (error) {
+  //     console.error("Error fetching audio:", error);
+  //   }
+  //   setLoadingAudio(false);
     
-  };
+  // };
 
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
@@ -251,14 +252,6 @@ function ChatHistory({
 
   const chatContainerRef = useRef(null);
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      const firstMessage = chatContainerRef.current.firstChild;
-      if (firstMessage) {
-        firstMessage.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  }, [messages]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -475,7 +468,7 @@ function ChatHistory({
 
           {/* 111111111 */}
 
-          <div className="chat-history">
+          <div className="chat-history" ref={chatContainerRef}>
             {messages.map((message, index) => (
               <div key={index}>
                 {message.sender === "user" ? (

@@ -29,6 +29,8 @@ export const ChatProvider = ({ children }) => {
 
   const [receivedData, setReceivedData] = useState("");
 
+  const [loadingAudio, setLoadingAudio] = useState(false);
+
   const [questions, setQuestions] = useState([
     {
       question: "How to load a mobile package via a banking app",
@@ -93,12 +95,13 @@ export const ChatProvider = ({ children }) => {
     ]);
     setLoading(true);
     setStreamingData("");
-
+  
     try {
+      // Fetch data from the streaming endpoint
       const response = await fetch(
         `${backendUrl}/stream/${encodeURIComponent(message)}`
       );
-
+  
       const reader = response.body.getReader();
       let receivedData = "";
       while (true) {
@@ -106,13 +109,13 @@ export const ChatProvider = ({ children }) => {
         if (done) break;
         const chunk = new TextDecoder().decode(value);
         receivedData += chunk;
-
+        // console.log(receivedData);
+  
         // Update the last message with the new chunk
         setMessages((prevMessages) => {
           const lastMessageIndex = prevMessages.length - 1;
           const lastMessage = prevMessages[lastMessageIndex];
-
-          // Check if the last message is from the receiver
+  
           if (lastMessage && lastMessage.sender === "receiver") {
             const newMessages = [...prevMessages];
             newMessages[lastMessageIndex] = {
@@ -121,38 +124,90 @@ export const ChatProvider = ({ children }) => {
             };
             return newMessages;
           } else {
-            // Add a new message if it's the first response chunk
             return [...prevMessages, { text: chunk, sender: "receiver" }];
           }
         });
-
+  
         setStreamingData((prev) => prev + chunk);
       }
-      setReceivedData(receivedData);
+  
+      // Now that all data is received, call the /is_journey endpoint
       console.log("Final receivedData:", receivedData);
-      const isJourneyResponse = await fetch(
-        `${backendUrl}/is_journey`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ text: receivedData })
-        }
-      );
+      console.log("Sending request to /is_journey with data:", receivedData);
+  
+      const isJourneyResponse = await fetch(`${backendUrl}/is_journey`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: receivedData }),
+      });
+  
       const isJourneyData = await isJourneyResponse.json();
       setJourney(isJourneyData);
-      
-      setLoading(false);
+      console.log("journey", isJourneyData);
+  
     } catch (err) {
       console.error("Error:", err);
+    } finally {
       setLoading(false);
     }
+  };
+  
+
+
+  const playAudio = async (text) => {
+    setLoadingAudio(true);
+
+    try {
+      // Create the POST request to send the text
+      const response = await fetch(`${backendUrl}/voice`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: text }), // Send the text in the request body
+      });
+
+      if (!response.ok) {
+        console.error("Error fetching audio:", response.statusText);
+        setLoadingAudio(false);
+        console.log("Atique audio console yaha he");
+        return;
+      }
+
+      const data = await response.json();
+      const audioData = data.audio; // Assuming the backend returns the audio data in base64 format
+
+      if (!audioData) {
+        console.error("No audio data returned");
+        setLoadingAudio(false);
+        return;
+      }
+
+      // Convert the base64 audio data to a Blob
+      const byteCharacters = atob(audioData);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const audioBlob = new Blob([byteArray], { type: "audio/wav" });
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      // Play the audio
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (error) {
+      console.error("Error fetching audio:", error);
+    }
+    setLoadingAudio(false);
   };
 
   return (
     <ChatContext.Provider
       value={{
+        playAudio,
         receivedData,
         currentIndex,
         setCurrentIndex,
