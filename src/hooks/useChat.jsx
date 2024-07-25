@@ -3,8 +3,8 @@
 import { createContext, useContext, useState } from "react";
 import { stopAudio } from "../components/AudioService";
 
-const backendUrl = "https://8nz0tgsd-8003.asse.devtunnels.ms/stream";
-// const backendUrl = "http://13.234.218.130:8003";
+// const backendUrl = "https://8nz0tgsd-8003.asse.devtunnels.ms/stream";
+const backendUrl = "http://13.234.218.130:8003";
 
 const ChatContext = createContext();
 
@@ -33,7 +33,7 @@ export const ChatProvider = ({ children }) => {
 
   const [questions, setQuestions] = useState([
     {
-      question: "What is IFL",
+      question: "What is IFL?",
       openModal: true,
     },
     {
@@ -51,27 +51,19 @@ export const ChatProvider = ({ children }) => {
   const navigateToDefaultPath = () => {
     setQuestions([
       {
-        question: "How to load a mobile package via a banking app?",
+        question: "What is IFL?",
         openModal: true,
       },
       {
-        question:
-          "How to online apply for a new cheque book using Bank Alfalah Alfa App?",
+        question: "How is the allocation of laptops determined",
         openModal: true,
       },
-      { question: "How to register for Bank Alfalah App?", openModal: true },
+      { question: "Which employees are entitled to laptops, and how is this decided?", openModal: true },
       {
-        question: "How to Open Bank Alfalah Roshan Digital Account Online?",
+        question: "Can employees have both a Desktop PC and a Laptop?",
         openModal: true,
       },
-      { question: "How to create Alfa Savings Account?", openModal: true },
-      {
-        question: "How to do INSTANT REGISTRATION TO ALFALAH INTERNET BANKING?",
-        openModal: true,
-      },
-      { question: "How to activate a credit card?", openModal: true },
-      { question: "How to activate Debit Card via WhatsApp?", openModal: true },
-      { question: "How to view e-statement?", openModal: true },
+      { question: "What is the useful life of a laptop, and what happens after it expires?", openModal: true },
     ]);
     setMessages([]);
     setMyContent(false);
@@ -80,81 +72,18 @@ export const ChatProvider = ({ children }) => {
     stopAudio();
   };
 
-  // const chat = async (message) => {
-  //   setMessages((prevMessages) => [
-  //     ...prevMessages,
-  //     { text: message, sender: "user" },
-  //   ]);
-  //   setLoading(true);
-  //   setStreamingData("");
-
-  //   try {
-  //     // Fetch data from the streaming endpoint
-  //     const response = await fetch(
-  //       `${backendUrl}/stream/${encodeURIComponent(message)}`
-  //     );
-
-  //     const reader = response.body.getReader();
-  //     let receivedData = "";
-  //     while (true) {
-  //       const { done, value } = await reader.read();
-  //       if (done) break;
-  //       const chunk = new TextDecoder().decode(value);
-  //       receivedData += chunk;
-  //       // console.log(receivedData);
-
-  //       // Update the last message with the new chunk
-  //       setMessages((prevMessages) => {
-  //         const lastMessageIndex = prevMessages.length - 1;
-  //         const lastMessage = prevMessages[lastMessageIndex];
-
-  //         if (lastMessage && lastMessage.sender === "receiver") {
-  //           const newMessages = [...prevMessages];
-  //           newMessages[lastMessageIndex] = {
-  //             ...lastMessage,
-  //             text: lastMessage.text + chunk,
-  //           };
-  //           return newMessages;
-  //         } else {
-  //           return [...prevMessages, { text: chunk, sender: "receiver" }];
-  //         }
-  //       });
-
-  //       setStreamingData((prev) => prev + chunk);
-  //     }
-
-  //     console.log("Final receivedData:", receivedData);
-  //   } catch (err) {
-  //     console.error("Error:", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-
-
-
-  // for IFL------------------------
-
   const chat = async (message) => {
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: message, sender: "user" },
     ]);
     setLoading(true);
-    setStreamingData("");
-    
+
     try {
-      // Encode the message properly
-      const encodedMessage = encodeURIComponent(message);
       const response = await fetch(
-        `${backendUrl}/${encodedMessage}`
+        `${backendUrl}/stream/${encodeURIComponent(message)}`
       );
-    
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
+
       const reader = response.body.getReader();
       let receivedData = "";
       while (true) {
@@ -162,12 +91,11 @@ export const ChatProvider = ({ children }) => {
         if (done) break;
         const chunk = new TextDecoder().decode(value);
         receivedData += chunk;
-    
-        // Update the last message with the new chunk
+
         setMessages((prevMessages) => {
           const lastMessageIndex = prevMessages.length - 1;
           const lastMessage = prevMessages[lastMessageIndex];
-    
+
           if (lastMessage && lastMessage.sender === "receiver") {
             const newMessages = [...prevMessages];
             newMessages[lastMessageIndex] = {
@@ -179,37 +107,31 @@ export const ChatProvider = ({ children }) => {
             return [...prevMessages, { text: chunk, sender: "receiver" }];
           }
         });
-    
-        setStreamingData((prev) => prev + chunk);
+
       }
-    
+      setReceivedData(receivedData);
       console.log("Final receivedData:", receivedData);
-    
-      // Send the received data to the /is_journey endpoint
-      // const isJourneyResponse = await fetch(`${backendUrl}/is_journey`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ text: receivedData }),
-      // });
-    
-      // if (!isJourneyResponse.ok) {
-      //   throw new Error(`HTTP error! Status: ${isJourneyResponse.status}`);
-      // }
-  
-      // const isJourneyData = await isJourneyResponse.json();
-      // setJourney(isJourneyData);
-      // console.log("journey", isJourneyData);
-    
+      const isJourneyResponse = await fetch(
+        `${backendUrl}/is_journey`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text: receivedData })
+        }
+      );
+      const isJourneyData = await isJourneyResponse.json();
+      setJourney(isJourneyData);
+      
+      setLoading(false);
     } catch (err) {
       console.error("Error:", err);
-    } finally {
       setLoading(false);
     }
   };
-  
-  
+
+
 
   const playAudio = async (text) => {
     setLoadingAudio(true);

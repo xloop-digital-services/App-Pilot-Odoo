@@ -792,7 +792,7 @@ function MainUi() {
             <img
               src={Logo}
               alt="logo"
-              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
+              className="lg:w-[5rem] w-2 h-5 lg:h-[2.101rem]"
             />
             {/* <img
               src={bflLogo}

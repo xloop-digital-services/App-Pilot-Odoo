@@ -47,6 +47,7 @@ import App from "../../App";
 import { stopAudio } from "../AudioService";
 import { FloatButton } from "antd";
 import { div } from "three/examples/jsm/nodes/Nodes.js";
+import iflLogo from "../../assets/PNG IFL.png";
 
 const backendUrl = "http://13.234.218.130:8003";
 
@@ -439,7 +440,7 @@ function ChatHistory({
             )}
           </h1>
         )}{" "}
-        <div className="overflow-y-auto lg:h-[80%] h-[77%]">
+        <div className="overflow-y-auto lg:h-[85%] h-[77%]">
           {myContent && !loading && (
             <div>
               <div>
@@ -471,9 +472,9 @@ function ChatHistory({
                 {message.sender === "user" ? (
                   <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
                     <div>
-                      <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#9B9B9B] rounded-full flex items-center justify-center">
+                      <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#aad7ff] rounded-full flex items-center justify-center">
                         <img
-                          src={bflLogo}
+                          src={iflLogo}
                           alt="sender image"
                           className="w-9 h-9"
                         />
@@ -489,12 +490,12 @@ function ChatHistory({
                 ) : (journey.journey_available === 0 &&
                     index >= messages.length - 1) ||
                   noButton ? (
-                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
+                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#c2e4ff] lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
                       <div>
                         {showAvatar === "black" && (
                           <div>
-                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                               <img
                                 src={avatarLogo2}
                                 alt="chat avatar image"
@@ -506,7 +507,7 @@ function ChatHistory({
                         )}
                         {showAvatar === "avatar-fgenz" && (
                           <div>
-                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                               <img
                                 src={avatarFGenzLogo}
                                 alt="chat avatar image"
@@ -518,7 +519,7 @@ function ChatHistory({
                         )}
                         {showAvatar === "avatar-fformal" && (
                           <div>
-                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                               <img
                                 src={avatarFFormalLogo}
                                 alt="chat avatar image"
@@ -571,10 +572,10 @@ function ChatHistory({
                   </div>
                 ) : journey.journey_available === 1 &&
                   index >= messages.length - 1 ? (
-                  <div className="message-container flex flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
+                  <div className="message-container flex flex gap-4 mt-3 bg-[#c2e4ff] lg:p-5 py-2 rounded-3xl relative">
                     {showAvatar === "black" && (
                       <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                           <img
                             src={avatarLogo2}
                             alt="chat avatar image"
@@ -586,7 +587,7 @@ function ChatHistory({
                     )}
                     {showAvatar === "avatar-fgenz" && (
                       <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                           <img
                             src={avatarFGenzLogo}
                             alt="chat avatar image"
@@ -598,7 +599,7 @@ function ChatHistory({
                     )}
                     {showAvatar === "avatar-fformal" && (
                       <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                           <img
                             src={avatarFFormalLogo}
                             alt="chat avatar image"
@@ -630,11 +631,11 @@ function ChatHistory({
                     </div>
                   </div>
                 ) : (
-                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
+                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#c2e4ff] lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
                       {showAvatar === "black" && (
                         <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                             <img
                               src={avatarLogo2}
                               alt="chat avatar image"
@@ -646,7 +647,7 @@ function ChatHistory({
                       )}
                       {showAvatar === "avatar-fgenz" && (
                         <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                             <img
                               src={avatarFGenzLogo}
                               alt="chat avatar image"
@@ -658,7 +659,7 @@ function ChatHistory({
                       )}
                       {showAvatar === "avatar-fformal" && (
                         <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
                             <img
                               src={avatarFFormalLogo}
                               alt="chat avatar image"
@@ -672,7 +673,15 @@ function ChatHistory({
                         className="message-content w-full flex flex-col mt-2"
                         style={{ whiteSpace: "pre-wrap" }}
                       >
-                        <p>{message.text}</p>
+                        <div
+                          style={{ whiteSpace: "pre-line" }}
+                          dangerouslySetInnerHTML={{
+                            __html: message.text.replace(
+                              /\*\*(.*?)\*\*/g,
+                              '<b style="font-weight:600">$1</b>'
+                            ),
+                          }}
+                        ></div>
                         {translatedText[index] && (
                           <p className="translated-text mt-2 text-blue-600">
                             {translatedText[index]}
