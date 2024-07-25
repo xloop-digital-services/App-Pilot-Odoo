@@ -131,7 +131,6 @@ export const ChatProvider = ({ children }) => {
         setStreamingData((prev) => prev + chunk);
       }
   
-      // Now that all data is received, call the /is_journey endpoint
       console.log("Final receivedData:", receivedData);
       console.log("Sending request to /is_journey with data:", receivedData);
   

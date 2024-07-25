@@ -5,7 +5,9 @@ import App from "./App";
 import LandingPage from "./components/main-ui/landingpage/LandingPage";
 import { ChatProvider } from "./hooks/useChat";
 import { MuteProvider } from "./components/Avatar2";
+import Login from "./components/main-ui/Login";
 import "./index.css";
+import PrivateRoute from "./components/PrivateRoute";
 
 const Root = () => (
   <React.StrictMode>
@@ -13,8 +15,23 @@ const Root = () => (
       <ChatProvider>
         <MuteProvider>
           <Routes>
-            <Route path="/" element={<LandingPage/>} />
-            <Route path="/app-pilot" element={<App/>} />
+            <Route path="/" element={<Login />} />
+            <Route
+              path="/landing-page"
+              element={
+                <PrivateRoute>
+                  <LandingPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/app-pilot"
+              element={
+                <PrivateRoute>
+                  <App />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </MuteProvider>
       </ChatProvider>
