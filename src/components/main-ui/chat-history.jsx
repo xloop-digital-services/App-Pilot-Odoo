@@ -50,7 +50,6 @@ import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 const backendUrl = "http://13.234.218.130:8003";
 
-
 let stepDescriptions = null;
 let images = null;
 
@@ -85,7 +84,7 @@ function ChatHistory({
     navigateToDefaultPath,
     receivedData,
     journey,
-    playAudio
+    playAudio,
   } = useChat();
   // console.log(modalContent);
   const [myQuest, setMyQuest] = useState([]);
@@ -101,7 +100,7 @@ function ChatHistory({
   const [noButton, setNoButton] = useState(false);
 
   const handleNoButtonClick = () => {
-    setNoButton(true); 
+    setNoButton(true);
 
     setTimeout(() => {
       setNoButton(false);
@@ -205,22 +204,22 @@ function ChatHistory({
   //       },
   //       body: JSON.stringify({ text: text }), // Send the text in the request body
   //     });
-    
+
   //     if (!response.ok) {
   //       console.error("Error fetching audio:", response.statusText);
   //       setLoadingAudio(false);
   //       return;
   //     }
-    
+
   //     const data = await response.json();
   //     const audioData = data.audio; // Assuming the backend returns the audio data in base64 format
-    
+
   //     if (!audioData) {
   //       console.error("No audio data returned");
   //       setLoadingAudio(false);
   //       return;
   //     }
-    
+
   //     // Convert the base64 audio data to a Blob
   //     const byteCharacters = atob(audioData);
   //     const byteNumbers = new Array(byteCharacters.length);
@@ -230,7 +229,7 @@ function ChatHistory({
   //     const byteArray = new Uint8Array(byteNumbers);
   //     const audioBlob = new Blob([byteArray], { type: "audio/wav" });
   //     const audioUrl = URL.createObjectURL(audioBlob);
-    
+
   //     // Play the audio
   //     const audio = new Audio(audioUrl);
   //     audio.play();
@@ -238,7 +237,7 @@ function ChatHistory({
   //     console.error("Error fetching audio:", error);
   //   }
   //   setLoadingAudio(false);
-    
+
   // };
 
   useEffect(() => {
@@ -251,7 +250,6 @@ function ChatHistory({
   }, [modalContent]);
 
   const chatContainerRef = useRef(null);
-
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -354,78 +352,77 @@ function ChatHistory({
 
   const translateText = async (text, index) => {
     setLoadingTranslation(true);
-  //   try {
-  //     const encodedText = encodeURIComponent(text);
-  //     const response = await fetch(`${backendUrl}/translate/ur/${encodedText}`);
+    //   try {
+    //     const encodedText = encodeURIComponent(text);
+    //     const response = await fetch(`${backendUrl}/translate/ur/${encodedText}`);
 
-  //     if (!response.ok) {
-  //       console.error("Error fetching translation:", response.statusText);
-  //       setLoadingTranslation(false);
-  //       return;
-  //     }
+    //     if (!response.ok) {
+    //       console.error("Error fetching translation:", response.statusText);
+    //       setLoadingTranslation(false);
+    //       return;
+    //     }
 
-  //     const data = await response.json();
-  //     console.log("Translation API response:", data); // Log the response
+    //     const data = await response.json();
+    //     console.log("Translation API response:", data); // Log the response
 
-  //     if (!data.translation) {
-  //       console.error("Translated text is missing in the response");
-  //       setLoadingTranslation(false);
-  //       return;
-  //     }
+    //     if (!data.translation) {
+    //       console.error("Translated text is missing in the response");
+    //       setLoadingTranslation(false);
+    //       return;
+    //     }
 
-  //     const translation = data.translation;
+    //     const translation = data.translation;
 
-  //     // Update the translatedText state
-  //     setTranslatedText((prev) => ({
-  //       ...prev,
-  //       [index]: translation,
-  //     }));
-  //   } catch (error) {
-  //     console.error("Error fetching translation:", error);
-  //   }
-  //   setLoadingTranslation(false);
-  // };
-  try {
-    const response = await fetch(`${backendUrl}/translate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ language:"ur",
-        text: text }), // Send the text in the reqdfdfduest body
-    });
-  
-    if (!response.ok) {
-      console.error("Error fetching translation:", response.statusText);
-      setLoadingTranslation(false);
-      return;
+    //     // Update the translatedText state
+    //     setTranslatedText((prev) => ({
+    //       ...prev,
+    //       [index]: translation,
+    //     }));
+    //   } catch (error) {
+    //     console.error("Error fetching translation:", error);
+    //   }
+    //   setLoadingTranslation(false);
+    // };
+    try {
+      const response = await fetch(`${backendUrl}/translate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ language: "ur", text: text }), // Send the text in the reqdfdfduest body
+      });
+
+      if (!response.ok) {
+        console.error("Error fetching translation:", response.statusText);
+        setLoadingTranslation(false);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Translation API response:", data); // Log the response
+
+      if (!data.translation) {
+        console.error("Translated text is missing in the response");
+        setLoadingTranslation(false);
+        return;
+      }
+
+      const translation = data.translation;
+
+      // Update the translatedText state
+      setTranslatedText((prev) => ({
+        ...prev,
+        [index]: translation,
+      }));
+    } catch (error) {
+      console.error("Error fetching translation:", error);
     }
-  
-    const data = await response.json();
-    console.log("Translation API response:", data); // Log the response
-  
-    if (!data.translation) {
-      console.error("Translated text is missing in the response");
-      setLoadingTranslation(false);
-      return;
-    }
-  
-    const translation = data.translation;
-  
-    // Update the translatedText state
-    setTranslatedText((prev) => ({
-      ...prev,
-      [index]: translation,
-    }));
-  } catch (error) {
-    console.error("Error fetching translation:", error);
-  }
-  setLoadingTranslation(false);
-}
+    setLoadingTranslation(false);
+  };
 
   return (
     <>
-      <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[685px] px-5 relative">
+      <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[820px] px-5 relative">
         {myContent && (
           <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center  border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
             Ask me
@@ -489,47 +486,48 @@ function ChatHistory({
                       </p>
                     )}
                   </div>
-                ) : journey.journey_available === 0 &&
-                  index >= messages.length - 1 || noButton ? (
+                ) : (journey.journey_available === 0 &&
+                    index >= messages.length - 1) ||
+                  noButton ? (
                   <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
                       <div>
-                      {showAvatar === "black" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarLogo2}
-                              alt="chat avatar image"
-                              width="65%"
-                              className="mb-2"
-                            />
+                        {showAvatar === "black" && (
+                          <div>
+                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                              <img
+                                src={avatarLogo2}
+                                alt="chat avatar image"
+                                width="65%"
+                                className="mb-2"
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-fgenz" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFGenzLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
+                        )}
+                        {showAvatar === "avatar-fgenz" && (
+                          <div>
+                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                              <img
+                                src={avatarFGenzLogo}
+                                alt="chat avatar image"
+                                width="75%"
+                                className="mb-2"
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-fformal" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFFormalLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
+                        )}
+                        {showAvatar === "avatar-fformal" && (
+                          <div>
+                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                              <img
+                                src={avatarFFormalLogo}
+                                alt="chat avatar image"
+                                width="75%"
+                                className="mb-2"
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                       </div>
                       <div
                         className="message-content w-full flex flex-col mt-2"
@@ -574,49 +572,52 @@ function ChatHistory({
                 ) : journey.journey_available === 1 &&
                   index >= messages.length - 1 ? (
                   <div className="message-container flex flex gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
-                   {showAvatar === "black" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarLogo2}
-                              alt="chat avatar image"
-                              width="65%"
-                              className="mb-2"
-                            />
-                          </div>
+                    {showAvatar === "black" && (
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img
+                            src={avatarLogo2}
+                            alt="chat avatar image"
+                            width="65%"
+                            className="mb-2"
+                          />
                         </div>
-                      )}
-                      {showAvatar === "avatar-fgenz" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFGenzLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
+                      </div>
+                    )}
+                    {showAvatar === "avatar-fgenz" && (
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img
+                            src={avatarFGenzLogo}
+                            alt="chat avatar image"
+                            width="75%"
+                            className="mb-2"
+                          />
                         </div>
-                      )}
-                      {showAvatar === "avatar-fformal" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFFormalLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
+                      </div>
+                    )}
+                    {showAvatar === "avatar-fformal" && (
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
+                          <img
+                            src={avatarFFormalLogo}
+                            alt="chat avatar image"
+                            width="75%"
+                            className="mb-2"
+                          />
                         </div>
-                      )}
+                      </div>
+                    )}
                     <div className="flex flex-col gap-2">
                       <p className="w-full mt-2">
                         This is a journey question. Do you want to start the
                         journey?
                       </p>
                       <div className="flex flex-row -mb-3">
-                        <button className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4" onClick={handleNoButtonClick}>
+                        <button
+                          className="w-[62px] h-[37px] rounded-lg py-0 border border-[#ee1d23] bg-[#faf0f0] text-[#ee1d23] mr-4"
+                          onClick={handleNoButtonClick}
+                        >
                           No
                         </button>
                         <button
@@ -631,7 +632,7 @@ function ChatHistory({
                 ) : (
                   <div className="message-container flex flex-col gap-4 mt-3 bg-[#FAF0F0] lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
-                     {showAvatar === "black" && (
+                      {showAvatar === "black" && (
                         <div>
                           <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#FFD2D2] rounded-full flex items-center justify-center">
                             <img
@@ -706,10 +707,7 @@ function ChatHistory({
           {!myContent && !messages.length > 0 && (
             <div className="justify-start items-start text-start ">
               <div className="text-center mt-8 w-[100%]">
-                <p
-                  className="flex text-6xl gradient-text -tracking-[0.12em] pb-1"
-                  style={{ color: "red" }}
-                >
+                <p className="flex text-6xl gradient-text -tracking-[0.12em] pb-1">
                   Hello, Wasey{" "}
                 </p>
 
@@ -726,7 +724,7 @@ function ChatHistory({
                       handleDefaultQuestionClick(question.question);
                     }}
                     style={{
-                      boxShadow: "0px 0px 7px 3px rgba(220, 0, 0, 0.2)",
+                      boxShadow: "0px 0px 7px 3px rgba(21, 114, 194,0.2)",
                     }}
                   >
                     <span className="ml-0 ">{question.question}</span>
@@ -739,7 +737,6 @@ function ChatHistory({
               </div>
             </div>
           )}
-          
         </div>
         {selectedQuestion && (
           <QuestionModal

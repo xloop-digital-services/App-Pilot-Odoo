@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
     if (username === 'abdulwasey' && password === 'abcd1234') {
       localStorage.setItem('isAuthenticated', 'true');
-      navigate('/landing-page');
+      navigate('/app-pilot');
     } else {
       setError('Wrong username or password');
     }
@@ -45,7 +45,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-bg-secondary text-white p-2 rounded hover:bg-blue-600"
+            className="w-full bg-[#1572c2] text-white p-2 rounded "
           >
             Login
           </button>
