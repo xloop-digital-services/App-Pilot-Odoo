@@ -112,10 +112,10 @@ function SideBar({
   return (
     <div
       className="bg-[#fff] pb-[30px] px-[20px] rounded-3xl overflow-y-hidden"
-      style={{ height: "420px" }}
+      style={{ height: "530px" }}
     >
       <h1 className="text-center p-2.5 text-[20px] font-semQuestionModalibold h-[69px] flex items-center justify-center backdrop-blur-sm border-b-[1px] border-b-[#F0F0F0] mb-2 font-semibold">
-        {" "}
+        {" "} 
         Frequently Asked Journeys{" "}
       </h1>
 
@@ -167,15 +167,15 @@ function SideBar({
       ) : (
         <div></div>
       )}
-      <div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
+      <div className="max-h-[440px] pr-3 overflow-y-auto overflow-x-hidden  ">
         {questions.map((question, index) => (
           <div
-            className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
+            className={`bg-[#a9d7ff] p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
               selectedQuestion === question.question ? "border border-red" : ""
             }`}
             key={index}
           >
-            <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
+            <div className="w-[55px] h-[50px] rounded-full flex justify-center items-center bg-[#1f85df]">
               <img src={QuestionMark} alt="logo" />
             </div>
             <p

@@ -18,7 +18,7 @@ const CustomStepIcon = ({ index, active, completed, onClick }) => {
         width: "24px",
         height: "24px",
         borderRadius: "50%",
-        backgroundColor: completed ? "#d72a1c" : active ? "#d72a1c" : "#fff",
+        backgroundColor: completed ? "#d72a1c" : active ? "#1f85df" : "#fff",
         color: completed ? "#fff" : active ? "#fff" : "#d72a1c",
         border: completed ? "none" : active ? "none" : "1px solid #d72a1c",
         display: "flex",

@@ -792,7 +792,7 @@ function MainUi() {
             <img
               src={Logo}
               alt="logo"
-              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
+              className="lg:w-[5rem] w-2 h-5 lg:h-[2.101rem]"
             />
             {/* <img
               src={bflLogo}
@@ -845,7 +845,7 @@ function MainUi() {
             <select
               onChange={(e) => languageHandleChange(e.target.value)}
               value={selectLanguage}
-              className=" lg:w-[6.688rem] p-2 w-[5rem]  rounded-[20px] bg-bg-secondary text-white font-semibold"
+              className=" lg:w-[6.688rem] p-2 w-[5rem]  rounded-[20px] bg-[#1572c2] text-white font-semibold"
             >
               <option
                 className="text-btn-color bg-bg-primary rounded-lg"
@@ -864,7 +864,7 @@ function MainUi() {
         </header>
 
         {/* Banking Options */}
-        <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 items-center h-auto mb-7 flex justify-center">
+        {/* <div className="bg-[#ffffff] rounded-3xl lg:pb-7 lg:pt-0 py-4 items-center h-auto mb-7 flex justify-center">
           <div
             className="flex flex-row space-x-20 mt-8 max-md:mt-0  max-md:flex-col max-md:items-start max-md:text-center"
             ref={dropdownRef}
@@ -971,7 +971,7 @@ function MainUi() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
