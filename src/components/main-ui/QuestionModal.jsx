@@ -385,34 +385,36 @@ const QuestionModal = ({
     setLoading(true);
 
     if (input) {
-        setMessages([...messages, { text: input, sender: "user" }]);
-        inputRef.current.value = "";
+      setMessages([...messages, { text: input, sender: "user" }]);
+      inputRef.current.value = "";
 
-       
+      // Nayi API endpoint ka URL
+      const apiUrl = `${backendUrl}/get_step_response/${encodeURIComponent(
+        selectedQuestion
+      )}/${encodeURIComponent(input)}`;
 
-        // Nayi API endpoint ka URL
-        const apiUrl = `${backendUrl}/get_step_response/${encodeURIComponent(selectedQuestion)}/${encodeURIComponent(input)}`;
+      try {
+        const response = await fetch(apiUrl);
+        const result = await response.json();
 
-        try {
-            const response = await fetch(apiUrl);
-            const result = await response.json();
-            
-            // Nayi API response ko handle karne ke liye
-            const responseMessage = result.result;  // Extracting the "result" field
+        // Nayi API response ko handle karne ke liye
+        const responseMessage = result.result; // Extracting the "result" field
 
-            // Console me response dekhne ke liye
-            console.log("API Response:", responseMessage);
+        // Console me response dekhne ke liye
+        console.log("API Response:", responseMessage);
 
-            // Messages array me response add karna
-            setMessages((prevmsg) => [...prevmsg, { text: responseMessage, sender: "bot" }]);
-        } catch (error) {
-            console.error("Error sending message:", error);
-        } finally {
-            setLoading(false);
-        }
+        // Messages array me response add karna
+        setMessages((prevmsg) => [
+          ...prevmsg,
+          { text: responseMessage, sender: "bot" },
+        ]);
+      } catch (error) {
+        console.error("Error sending message:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-};
-
+  };
 
   const startStopHandle = (value) => {
     setStartStopRecording(value);
@@ -465,7 +467,7 @@ const QuestionModal = ({
               steps={stepDescriptions}
             />
             <div
-              className="bg-[#ffedfd] border border-2 border-[#ffc3c3] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[600px]"
+              className="bg-[#a9d7ff] border border-2 border-[#1f85df] rounded-2xl mt-0 p-4 mb-7  w-[560px] h-[600px]"
 
               // className={`${
               //   chatOpen
@@ -475,7 +477,7 @@ const QuestionModal = ({
             >
               <div className="flex flex-row  w-full">
                 <div>
-                  <p className="bg-[#ffc3c3] rounded-full h-10 w-10 flex items-center justify-center font-semibold -mt-1 ">
+                  <p className="bg-[#1f85df] rounded-full h-10 w-10 flex items-center justify-center font-semibold -mt-1 ">
                     {activeStep + 1}
                   </p>
                 </div>
@@ -484,7 +486,7 @@ const QuestionModal = ({
 
               {/* STEPPER SHOULD CHANGE THIS End */}
 
-              <hr class="w-[556px] border border-1 border-[#ffc3c3] mt-1 -ml-4"></hr>
+              <hr class="w-[556px] border border-1 border-[#1f85df] mt-1 -ml-4"></hr>
 
               <div className="flex items-center justify-center flex-col mt-3">
                 {/* mid content here */}
@@ -497,19 +499,19 @@ const QuestionModal = ({
                     alt={"step image"}
                   />
                 ) : (
-                  <p className=" mt-10 bg-gray-200 font-semibold flex flex-row">
-                    No Image Available
-                  </p> // Adjust the height and width accordingly
+                  <p className="mt-10 bg-gray-200 font-semibold text-2xl flex flex-row">
+                    Journeys will arrive soon.
+                  </p>
                 )}
               </div>
             </div>
             <React.Fragment>
               <div className="flex flex-row -mt-3 -mb-2">
                 <button
-                  className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] mr-4 ${
+                  className={`w-[110px] rounded-3xl py-2 border border-[#1f85df] mr-4 ${
                     activeStep === 0
-                      ? "bg-white text-[#ee1d23]"
-                      : "bg-[#ee1d23] text-[#fff]"
+                      ? "bg-white text-[#1f85df]"
+                      : "bg-[#1f85df] text-[#fff]"
                   } ${activeStep === 0 && "disabled-button"}`}
                   onClick={handleBack}
                   disabled={activeStep < 1}
@@ -517,10 +519,10 @@ const QuestionModal = ({
                   Back
                 </button>
                 <button
-                  className={`w-[110px] rounded-3xl py-2 border border-[#ee1d23] ${
+                  className={`w-[110px] rounded-3xl py-2 border border-[#1f85df] ${
                     activeStep === stepDescriptions.length - 1
-                      ? "bg-white text-[#ee1d23]"
-                      : "bg-[#ee1d23] text-[#fff]"
+                      ? "bg-white text-[#1f85df]"
+                      : "bg-[#1f85df] text-[#fff]"
                   } ${
                     activeStep === stepDescriptions.length - 1 &&
                     "disabled-button"
@@ -718,11 +720,11 @@ const QuestionModal = ({
                           })
                         ) : (
                           <div className="flex justify-center items-center h-full">
-                            <img
+                            {/* <img
                               src={mainPic}
                               alt="chat icon"
                               className="sm:w-[60%] sm:h-[100%] p-0 "
-                            />
+                            /> */}
                           </div>
                         )}
                       </div>

@@ -167,15 +167,16 @@ function SideBar({
       ) : (
         <div></div>
       )}
+      {/* #1571c2 */}
       <div className="max-h-[335px] pr-3 overflow-y-auto overflow-x-hidden  sideBarQuestion">
         {questions.map((question, index) => (
           <div
-            className={`bg-sidbar-color p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
+            className={`bg-[#a9d7ff] p-2.5 flex items-center mb-3 mt-3 gap-4 rounded-3xl w-[480px] ${
               selectedQuestion === question.question ? "border border-red" : ""
             }`}
             key={index}
           >
-            <div className="w-[50px] h-[50px] rounded-full flex justify-center items-center bg-[#FFD2D2]">
+            <div className="w-[55px] h-[50px] rounded-full flex justify-center items-center bg-[#1f85df]">
               <img src={QuestionMark} alt="logo" />
             </div>
             <p
