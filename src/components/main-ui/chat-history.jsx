@@ -49,7 +49,7 @@ import { FloatButton } from "antd";
 import { div } from "three/examples/jsm/nodes/Nodes.js";
 import iflLogo from "../../assets/PNG IFL.png";
 
-const backendUrl = "http://13.234.218.130:8003";
+const backendUrl = "http://13.234.218.130:8000";
 
 let stepDescriptions = null;
 let images = null;
@@ -335,20 +335,20 @@ function ChatHistory({
 
   const defaultQuestions = [
     {
-      question: "What are the different types of Accounts?",
+      question: "What is the password policy for application users?",
       icon: faWindowRestore,
     },
     {
       question:
-        "What are the product features of Alfalah Kamyab Karobar Account?",
+        "How much worth of phone i can get for Deputy Manager desgination?",
       icon: faList,
     },
     {
       question:
-        "Can a Pehchaan Premier accountholder get Premier Visa Signature Debit Card?",
+        "Mujhe IFL ky baray my btao.",
       icon: faQuestion,
     },
-    { question: "What is BAFL?", icon: faBuildingColumns },
+    { question: "Give details about access control policy.", icon: faBuildingColumns },
   ];
 
   const translateText = async (text, index) => {

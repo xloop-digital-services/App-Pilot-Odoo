@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { stopAudio } from "../components/AudioService";
 
 // const backendUrl = "https://8nz0tgsd-8003.asse.devtunnels.ms/stream";
-const backendUrl = "http://13.234.218.130:8003";
+const backendUrl = "http://13.234.218.130:8000";
 
 const ChatContext = createContext();
 
