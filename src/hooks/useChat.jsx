@@ -33,7 +33,7 @@ export const ChatProvider = ({ children }) => {
 
   const [questions, setQuestions] = useState([
     {
-      question: "What is IFL?",
+      question: "Tell me about IFL.",
       openModal: true,
     },
     {
@@ -51,7 +51,7 @@ export const ChatProvider = ({ children }) => {
   const navigateToDefaultPath = () => {
     setQuestions([
       {
-        question: "What is IFL?",
+        question: "Tell me about IFL.",
         openModal: true,
       },
       {
