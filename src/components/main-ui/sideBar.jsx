@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons/faLocationDot";
 // import { useChatModal } from "../../hooks/useChatModal";
 
-const backendUrl = "http://13.234.218.130:8000";
+const backendUrl = "http://65.0.229.53:8000";
 
 let stepDescriptions = null;
 let images = null;

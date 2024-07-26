@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (username === 'abdulwasey' && password === 'abcd1234') {
+    if (username === 'ifl' && password === 'ifl123') {
       localStorage.setItem('isAuthenticated', 'true');
       navigate('/app-pilot');
     } else {

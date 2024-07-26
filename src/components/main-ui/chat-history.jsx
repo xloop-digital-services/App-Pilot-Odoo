@@ -717,7 +717,7 @@ function ChatHistory({
             <div className="justify-start items-start text-start ">
               <div className="text-center mt-8 w-[100%]">
                 <p className="flex text-6xl gradient-text -tracking-[0.12em] pb-1">
-                  Hello, Wasey{" "}
+                  Hello, User{" "}
                 </p>
 
                 <p className="text-5xl justify-start items-start text-start font-semibold mt-3 text-[#c4c7c5] -tracking-[0.05em]">

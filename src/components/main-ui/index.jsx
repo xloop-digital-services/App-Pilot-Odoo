@@ -789,10 +789,10 @@ function MainUi() {
       <div className="lg:p-[2rem]  absolute z-30 w-full ">
         <header className="flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4 max-md:flex-col">
           <div className="flex gap-2 items-center">
-            <img
+          <img
               src={Logo}
               alt="logo"
-              className="lg:w-[5rem] w-2 h-5 lg:h-[2.101rem]"
+              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
             />
             {/* <img
               src={bflLogo}

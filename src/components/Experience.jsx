@@ -34,7 +34,7 @@ const Dots = (props) => {
             icon={faCommentDots}
             bounce
             size="2xl"
-            style={{ color: "#DA2D27" }}
+            style={{ color: "#1472c3" }}
           />
         );
       }, 800);
@@ -110,7 +110,7 @@ export const Experience = () => {
       <Environment preset="sunset" />
       {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
       <Suspense>
-        <Dots position-y={1.6} position-x={-1.2} />
+        <Dots position-y={1.6} position-x={-0.4} />
       </Suspense>
 
       {/* <Avatar /> */}
