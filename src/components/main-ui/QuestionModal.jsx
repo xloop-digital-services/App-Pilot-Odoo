@@ -24,7 +24,7 @@ import avatarFformalLogo from "../../assets/avatarFFormalLogo.png";
 
 // const steps = ["Step-1", "Step-2", "Step-3", "Step-4"];
 
-const backendUrl = "http://13.234.218.130:8003";
+const backendUrl = "http://13.234.218.130:8000";
 
 const QuestionModal = ({
   selectedQuestion,
