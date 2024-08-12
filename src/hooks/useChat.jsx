@@ -73,6 +73,10 @@ export const ChatProvider = ({ children }) => {
   };
 
   const chat = async (message) => {
+
+    const userId = localStorage.getItem('userId'); 
+    console.log("userID ye aae he", userId);
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: message, sender: "user" },
@@ -81,8 +85,10 @@ export const ChatProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${backendUrl}/stream/${encodeURIComponent(message)}`
+        `${backendUrl}/stream/${userId}/${encodeURIComponent(message)}`
       );
+      console.log("userID ye aae he",userId);
+      
 
       const reader = response.body.getReader();
       let receivedData = "";

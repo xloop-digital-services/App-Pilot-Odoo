@@ -1,19 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const backendUrl = "http://13.234.218.130:8000";
+
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === 'ifl' && password === 'ifl123') {
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/app-pilot');
-    } else {
-      setError('Wrong username or password');
+    setError('');
+
+    try {
+      const response = await fetch(`${backendUrl}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("User ID:", data.user_id);
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('userId', data.user_id); 
+        navigate('/app-pilot');
+      } else {
+        setError(data.message || 'Wrong username or password');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again later.');
     }
   };
 
@@ -24,13 +44,13 @@ const Login = () => {
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="username">Username</label>
+            <label className="block text-gray-700 mb-2" htmlFor="email">Email</label>
             <input
               type="text"
-              id="username"
+              id="email"
               className="w-full p-2 border border-gray-300 rounded"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -56,3 +76,4 @@ const Login = () => {
 };
 
 export default Login;
+
