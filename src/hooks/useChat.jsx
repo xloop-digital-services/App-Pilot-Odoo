@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import { stopAudio } from "../components/AudioService";
+import LimitReachedModal from "../components/LimitReachedModal";
 
 // const backendUrl = "https://8nz0tgsd-8003.asse.devtunnels.ms/stream";
 const backendUrl = "http://13.234.218.130:8000";
@@ -48,6 +49,12 @@ export const ChatProvider = ({ children }) => {
     { question: "What is the useful life of a laptop, and what happens after it expires?", openModal: true },
   ]);
 
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const handleCloseModal = () => {
+    setShowLimitModal(false);
+    window.location.reload();
+  };
+
   const navigateToDefaultPath = () => {
     setQuestions([
       {
@@ -87,7 +94,12 @@ export const ChatProvider = ({ children }) => {
       const response = await fetch(
         `${backendUrl}/stream/${userId}/${encodeURIComponent(message)}`
       );
-      console.log("userID ye aae he",userId);
+      
+      if (response.status === 429) {
+        setShowLimitModal(true);
+        setLoading(false);
+        return;
+      }
       
 
       const reader = response.body.getReader();
@@ -149,7 +161,7 @@ export const ChatProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: text }), // Send the text in the request body
+        body: JSON.stringify({ text: text }),
       });
 
       if (!response.ok) {
@@ -230,6 +242,12 @@ export const ChatProvider = ({ children }) => {
       }}
     >
       {children}
+      <LimitReachedModal
+        show={showLimitModal}
+        onClose={handleCloseModal}
+        title="Limit Reached"
+        message="You have tried too many times today."
+      />
     </ChatContext.Provider>
   );
 };
