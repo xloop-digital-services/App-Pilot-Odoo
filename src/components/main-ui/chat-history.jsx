@@ -334,22 +334,6 @@ function ChatHistory({
   return (
     <>
       <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[820px] px-5 relative">
-        {myContent && (
-          <h1 className=" lg:text-[20px] t-[16px] font-semibold lg:h-[69px] h-[55px] flex items-center  border-b-[#F0F0F0] backdrop-blur-2xl justify-between">
-            Ask me
-            {floatingButton && (
-              <FloatButton
-                shape="circle"
-                name="name"
-                type="danger"
-                icon={<CaretDownOutlined />}
-                style={{ top: 15, border: "1px solid", boxShadow: "none" }}
-                className="hover:text-white hover:bg-bg-secondary"
-                onClick={MinimizeFunction}
-              />
-            )}
-          </h1>
-        )}{" "}
         <div
           className="overflow-y-auto lg:h-[85%] h-[77%]"
           ref={chatContainerRef}
@@ -509,11 +493,11 @@ function ChatHistory({
                   How can I help you today?
                 </p>
               </div>
-              <div className="flex justify-start p-1 gap-5 flex-wrap max-sm:justify-center ">
+              <div className="flex justify-start p-1 gap-5 flex-wrap max-sm:justify-center max-sm:grid max-sm:grid-col-1 max-sm:gap-2">
                 {defaultQuestions.map((question, index) => (
                   <button
                     key={index}
-                    className="h-[150px] mt-7 flex justify-start items-start text-left rounded-2xl w-[250px] font-medium p-3 relative "
+                    className="h-[150px] mt-7 flex justify-start items-start text-left rounded-2xl w-[250px] font-medium p-3 relative max-sm:justify-between max-sm:text-left max-sm:h-auto"
                     onClick={() => {
                       handleDefaultQuestionClick(question.question);
                     }}
