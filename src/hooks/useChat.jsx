@@ -3,9 +3,10 @@
 import { createContext, useContext, useState } from "react";
 import { stopAudio } from "../components/AudioService";
 import LimitReachedModal from "../components/LimitReachedModal";
+import MarkdownRenderer from "../components/main-ui/MarkDown";
 
 // const backendUrl = "https://8nz0tgsd-8003.asse.devtunnels.ms/stream";
-const backendUrl = "http://13.234.218.130:8000";
+const backendUrl = "https://aam-api-apppilot.com";
 
 const ChatContext = createContext();
 
@@ -80,40 +81,47 @@ export const ChatProvider = ({ children }) => {
   };
 
   const chat = async (message) => {
-
-    const userId = localStorage.getItem('userId'); 
+    const userId = localStorage.getItem('userId');
     console.log("userID ye aae he", userId);
-
+  
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: message, sender: "user" },
     ]);
     setLoading(true);
-
+  
     try {
-      const response = await fetch(
-        `${backendUrl}/stream/${userId}/${encodeURIComponent(message)}`
-      );
-      
+      const response = await fetch(`${backendUrl}/odoo/get_response`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: message }), // Correct body
+      });
+  
+      console.log("Initial response received");
+  
       if (response.status === 429) {
         setShowLimitModal(true);
         setLoading(false);
         return;
       }
-      
-
+  
       const reader = response.body.getReader();
       let receivedData = "";
+      const decoder = new TextDecoder();
+  
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        const chunk = new TextDecoder().decode(value);
+  
+        const chunk = decoder.decode(value);
         receivedData += chunk;
-
+  
         setMessages((prevMessages) => {
           const lastMessageIndex = prevMessages.length - 1;
           const lastMessage = prevMessages[lastMessageIndex];
-
+  
           if (lastMessage && lastMessage.sender === "receiver") {
             const newMessages = [...prevMessages];
             newMessages[lastMessageIndex] = {
@@ -125,29 +133,30 @@ export const ChatProvider = ({ children }) => {
             return [...prevMessages, { text: chunk, sender: "receiver" }];
           }
         });
-
       }
+  
       setReceivedData(receivedData);
       console.log("Final receivedData:", receivedData);
-      const isJourneyResponse = await fetch(
-        `${backendUrl}/is_journey`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ text: receivedData })
-        }
-      );
+  
+      const isJourneyResponse = await fetch(`${backendUrl}/is_journey`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: receivedData }),
+      });
+  
       const isJourneyData = await isJourneyResponse.json();
+      console.log("Journey check response:", isJourneyData);
       setJourney(isJourneyData);
-      
+  
       setLoading(false);
     } catch (err) {
       console.error("Error:", err);
       setLoading(false);
     }
   };
+  
 
 
 

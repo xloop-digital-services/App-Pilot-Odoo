@@ -97,7 +97,7 @@ body.greenScreen {
   background-color: #00ff00;
 } */
 .gradient-text {
-  background: linear-gradient(181deg, rgb(253, 244, 244), rgb(21, 114, 194));
+  background: linear-gradient(181deg, rgb(253, 244, 244), rgb(156, 68, 133));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

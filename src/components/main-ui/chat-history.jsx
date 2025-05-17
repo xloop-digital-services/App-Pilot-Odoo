@@ -33,6 +33,10 @@ import {
   faList,
   faQuestion,
   faBuildingColumns,
+  faMoneyBill,
+  faFileText,
+  faEnvelope,
+  faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Image, Modal, Spin } from "antd";
 import QuestionModal from "./QuestionModal";
@@ -48,6 +52,9 @@ import { stopAudio } from "../AudioService";
 import { FloatButton } from "antd";
 import { div } from "three/examples/jsm/nodes/Nodes.js";
 import iflLogo from "../../assets/PNG IFL.png";
+import odoo from "../../assets/OdooChat.png";
+import odooResponse from "../../assets/OdooResponse.png";
+import MarkdownRenderer from "./MarkDown";
 
 const backendUrl = "http://13.234.218.130:8000";
 
@@ -99,6 +106,8 @@ function ChatHistory({
   const [stepDescriptions, setStepDescriptions] = useState([]);
   const [images, setImages] = useState([]);
   const [noButton, setNoButton] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const chatEndRef = useRef(null);
 
   const handleNoButtonClick = () => {
     setNoButton(true);
@@ -157,90 +166,6 @@ function ChatHistory({
     }
   };
 
-  // const playAudio = async (text) => {
-  //   setLoadingAudio(true);
-  //   // try {
-  //   //   // Encode the text to be URL-safe
-  //   //   const encodedText = encodeURIComponent(text);
-  //   //   const response = await fetch(`${backendUrl}/voice/${encodedText}`);
-
-  //   //   if (!response.ok) {
-  //   //     console.error("Error fetching audio:", response.statusText);
-  //   //     setLoadingAudio(false);
-  //   //     return;
-  //   //   }
-
-  //   //   const data = await response.json();
-  //   //   const audioData = data.audio; // Assuming the backend returns the audio data directly
-
-  //   //   if (!audioData) {
-  //   //     console.error("No audio data returned");
-  //   //     setLoadingAudio(false);
-  //   //     return;
-  //   //   }
-
-  //   //   // Convert the base64 audio data to a Blob
-  //   //   const byteCharacters = atob(audioData);
-  //   //   const byteNumbers = new Array(byteCharacters.length);
-  //   //   for (let i = 0; i < byteCharacters.length; i++) {
-  //   //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-  //   //   }
-  //   //   const byteArray = new Uint8Array(byteNumbers);
-  //   //   const audioBlob = new Blob([byteArray], { type: "audio/wav" });
-  //   //   const audioUrl = URL.createObjectURL(audioBlob);
-
-  //   //   const audio = new Audio(audioUrl);
-  //   //   audio.play();
-  //   // } catch (error) {
-  //   //   console.error("Error fetching audio:", error);
-  //   // }
-  //   // setLoadingAudio(false);
-
-  //   try {
-  //     // Create the POST request to send the text
-  //     const response = await fetch(`${backendUrl}/voice`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ text: text }), // Send the text in the request body
-  //     });
-
-  //     if (!response.ok) {
-  //       console.error("Error fetching audio:", response.statusText);
-  //       setLoadingAudio(false);
-  //       return;
-  //     }
-
-  //     const data = await response.json();
-  //     const audioData = data.audio; // Assuming the backend returns the audio data in base64 format
-
-  //     if (!audioData) {
-  //       console.error("No audio data returned");
-  //       setLoadingAudio(false);
-  //       return;
-  //     }
-
-  //     // Convert the base64 audio data to a Blob
-  //     const byteCharacters = atob(audioData);
-  //     const byteNumbers = new Array(byteCharacters.length);
-  //     for (let i = 0; i < byteCharacters.length; i++) {
-  //       byteNumbers[i] = byteCharacters.charCodeAt(i);
-  //     }
-  //     const byteArray = new Uint8Array(byteNumbers);
-  //     const audioBlob = new Blob([byteArray], { type: "audio/wav" });
-  //     const audioUrl = URL.createObjectURL(audioBlob);
-
-  //     // Play the audio
-  //     const audio = new Audio(audioUrl);
-  //     audio.play();
-  //   } catch (error) {
-  //     console.error("Error fetching audio:", error);
-  //   }
-  //   setLoadingAudio(false);
-
-  // };
-
   useEffect(() => {
     if (specialQuestions.includes(modalContent)) {
       setMyContent(true);
@@ -253,11 +178,8 @@ function ChatHistory({
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    if (chatContainerRef.current) {
-      const lastMessage = chatContainerRef.current.lastChild;
-      if (lastMessage) {
-        lastMessage.scrollIntoView({ behavior: "smooth" });
-      }
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
@@ -335,55 +257,26 @@ function ChatHistory({
 
   const defaultQuestions = [
     {
-      question: "What is the password policy for application users?",
-      icon: faWindowRestore,
+      question: "What are the types of payments in Odoo?",
+      icon: faMoneyBill,
+    },
+    {
+      question: "⁠What are tax groups in Odoo, and how are they used?",
+      icon: faFileText,
     },
     {
       question:
-        "How much worth of phone i can get for Deputy Manager desgination?",
-      icon: faList,
+        "⁠How does Odoo handle email scheduling and what options are available?",
+      icon: faEnvelope,
     },
     {
-      question:
-        "Mujhe IFL ky baray my btao.",
-      icon: faQuestion,
+      question: "⁠How do you set up default sales and purchase taxes in Odoo?",
+      icon: faCreditCard,
     },
-    { question: "Give details about access control policy.", icon: faBuildingColumns },
   ];
 
   const translateText = async (text, index) => {
     setLoadingTranslation(true);
-    //   try {
-    //     const encodedText = encodeURIComponent(text);
-    //     const response = await fetch(`${backendUrl}/translate/ur/${encodedText}`);
-
-    //     if (!response.ok) {
-    //       console.error("Error fetching translation:", response.statusText);
-    //       setLoadingTranslation(false);
-    //       return;
-    //     }
-
-    //     const data = await response.json();
-    //     console.log("Translation API response:", data); // Log the response
-
-    //     if (!data.translation) {
-    //       console.error("Translated text is missing in the response");
-    //       setLoadingTranslation(false);
-    //       return;
-    //     }
-
-    //     const translation = data.translation;
-
-    //     // Update the translatedText state
-    //     setTranslatedText((prev) => ({
-    //       ...prev,
-    //       [index]: translation,
-    //     }));
-    //   } catch (error) {
-    //     console.error("Error fetching translation:", error);
-    //   }
-    //   setLoadingTranslation(false);
-    // };
     try {
       const response = await fetch(`${backendUrl}/translate`, {
         method: "POST",
@@ -421,6 +314,23 @@ function ChatHistory({
     setLoadingTranslation(false);
   };
 
+  useEffect(() => {
+    const container = chatContainerRef.current;
+
+    const handleScroll = () => {
+      if (!container) return;
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      setShowScrollButton(scrollTop + clientHeight < scrollHeight - 100);
+    };
+
+    container?.addEventListener("scroll", handleScroll);
+    return () => container?.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <div className=" bg-[#fff] lg:ml-9 rounded-3xl h-[820px] px-5 relative">
@@ -440,7 +350,10 @@ function ChatHistory({
             )}
           </h1>
         )}{" "}
-        <div className="overflow-y-auto lg:h-[85%] h-[77%]">
+        <div
+          className="overflow-y-auto lg:h-[85%] h-[77%]"
+          ref={chatContainerRef}
+        >
           {myContent && !loading && (
             <div>
               <div>
@@ -466,17 +379,17 @@ function ChatHistory({
 
           {/* 111111111 */}
 
-          <div className="chat-history" ref={chatContainerRef}>
+          <div className="chat-history">
             {messages.map((message, index) => (
               <div key={index}>
                 {message.sender === "user" ? (
                   <div className="flex gap-4 lg:p-5 lg:mt-3 mt-1">
                     <div>
-                      <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#aad7ff] rounded-full flex items-center justify-center">
+                      <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px]  flex items-center justify-center">
                         <img
-                          src={iflLogo}
+                          src={odoo}
                           alt="sender image"
-                          className="w-9 h-9"
+                          className="w-12 h-12 max-sm:w-9 max-sm:h-9"
                         />
                       </div>
                     </div>
@@ -490,59 +403,26 @@ function ChatHistory({
                 ) : (journey.journey_available === 0 &&
                     index >= messages.length - 1) ||
                   noButton ? (
-                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#c2e4ff] lg:p-5 py-2 rounded-3xl relative">
+                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#9c4485] bg-opacity-20 lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
                       <div>
-                        {showAvatar === "black" && (
-                          <div>
-                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                              <img
-                                src={avatarLogo2}
-                                alt="chat avatar image"
-                                width="65%"
-                                className="mb-2"
-                              />
-                            </div>
+                        <div>
+                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#ffffff] max-sm:ml-1 rounded-full flex items-center justify-center">
+                            <img
+                              src={odooResponse}
+                              alt="chat avatar image"
+                              width="65%"
+                              className=""
+                            />
                           </div>
-                        )}
-                        {showAvatar === "avatar-fgenz" && (
-                          <div>
-                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                              <img
-                                src={avatarFGenzLogo}
-                                alt="chat avatar image"
-                                width="75%"
-                                className="mb-2"
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {showAvatar === "avatar-fformal" && (
-                          <div>
-                            <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                              <img
-                                src={avatarFFormalLogo}
-                                alt="chat avatar image"
-                                width="75%"
-                                className="mb-2"
-                              />
-                            </div>
-                          </div>
-                        )}
+                        </div>
                       </div>
                       <div
-                        className="message-content w-full flex flex-col mt-2"
+                        className="message-content w-full flex flex-col"
                         style={{ whiteSpace: "pre-wrap" }}
                       >
-                        <div
-                          style={{ whiteSpace: "pre-line" }}
-                          dangerouslySetInnerHTML={{
-                            __html: message.text.replace(
-                              /\*\*(.*?)\*\*/g,
-                              '<b style="font-weight:600">$1</b>'
-                            ),
-                          }}
-                        ></div>
+                        <MarkdownRenderer markdownText={message.text} />
+
                         {translatedText[index] && (
                           <p className="translated-text mt-2 text-blue-600">
                             {translatedText[index]}
@@ -550,65 +430,21 @@ function ChatHistory({
                         )}
                       </div>
                     </div>
-                    <div className="audio-icon-container flex items-end justify-start ml-14 mb-1">
-                      <FontAwesomeIcon
-                        icon={faVolumeUp}
-                        className="ml-2 cursor-pointer"
-                        onClick={() => playAudio(message.text)}
-                        title="Play Audio"
-                      />
-                      <FontAwesomeIcon
-                        icon={faLanguage}
-                        className={`ml-2 cursor-pointer ${
-                          loadingTranslation ? "text-gray-500" : "text-black"
-                        }`}
-                        onClick={() =>
-                          !loadingTranslation &&
-                          translateText(message.text, index)
-                        }
-                        title="Translate Text"
-                      />
-                    </div>
                   </div>
                 ) : journey.journey_available === 1 &&
                   index >= messages.length - 1 ? (
-                  <div className="message-container flex flex gap-4 mt-3 bg-[#c2e4ff] lg:p-5 py-2 rounded-3xl relative">
-                    {showAvatar === "black" && (
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                          <img
-                            src={avatarLogo2}
-                            alt="chat avatar image"
-                            width="65%"
-                            className="mb-2"
-                          />
-                        </div>
+                  <div className="message-container flex flex gap-4 mt-3 bg-[#9c4485] bg-opacity-20 lg:p-5 py-2 rounded-3xl relative">
+                    <div>
+                      <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#ffffff] rounded-full flex items-center justify-center">
+                        <img
+                          src={odooResponse}
+                          alt="chat avatar image"
+                          width="65%"
+                          className=""
+                        />
                       </div>
-                    )}
-                    {showAvatar === "avatar-fgenz" && (
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                          <img
-                            src={avatarFGenzLogo}
-                            alt="chat avatar image"
-                            width="75%"
-                            className="mb-2"
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {showAvatar === "avatar-fformal" && (
-                      <div>
-                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                          <img
-                            src={avatarFFormalLogo}
-                            alt="chat avatar image"
-                            width="75%"
-                            className="mb-2"
-                          />
-                        </div>
-                      </div>
-                    )}
+                    </div>
+
                     <div className="flex flex-col gap-2">
                       <p className="w-full mt-2">
                         This is a journey question. Do you want to start the
@@ -631,57 +467,24 @@ function ChatHistory({
                     </div>
                   </div>
                 ) : (
-                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#c2e4ff] lg:p-5 py-2 rounded-3xl relative">
+                  <div className="message-container flex flex-col gap-4 mt-3 bg-[#9c4485] bg-opacity-20 lg:p-5 py-2 rounded-3xl relative">
                     <div className="flex gap-4">
-                      {showAvatar === "black" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarLogo2}
-                              alt="chat avatar image"
-                              width="65%"
-                              className="mb-2"
-                            />
-                          </div>
+                      <div>
+                        <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#ffffff] rounded-full flex items-center justify-center">
+                          <img
+                            src={odooResponse}
+                            alt="chat avatar image"
+                            width="65%"
+                            className=""
+                          />
                         </div>
-                      )}
-                      {showAvatar === "avatar-fgenz" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFGenzLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {showAvatar === "avatar-fformal" && (
-                        <div>
-                          <div className="lg:w-[50px] lg:h-[50px] w-[40px] h-[40px] bg-[#93c4c8] rounded-full flex items-center justify-center">
-                            <img
-                              src={avatarFFormalLogo}
-                              alt="chat avatar image"
-                              width="75%"
-                              className="mb-2"
-                            />
-                          </div>
-                        </div>
-                      )}
+                      </div>
                       <div
-                        className="message-content w-full flex flex-col mt-2"
+                        className="message-content w-full flex flex-col"
                         style={{ whiteSpace: "pre-wrap" }}
                       >
-                        <div
-                          style={{ whiteSpace: "pre-line" }}
-                          dangerouslySetInnerHTML={{
-                            __html: message.text.replace(
-                              /\*\*(.*?)\*\*/g,
-                              '<b style="font-weight:600">$1</b>'
-                            ),
-                          }}
-                        ></div>
+                        <MarkdownRenderer markdownText={message.text} />
+
                         {translatedText[index] && (
                           <p className="translated-text mt-2 text-blue-600">
                             {translatedText[index]}
@@ -689,29 +492,11 @@ function ChatHistory({
                         )}
                       </div>
                     </div>
-                    <div className="audio-icon-container flex items-end justify-start ml-14 mb-1">
-                      <FontAwesomeIcon
-                        icon={faVolumeUp}
-                        className="ml-2 cursor-pointer"
-                        onClick={() => playAudio(message.text)}
-                        title="Play Audio"
-                      />
-                      <FontAwesomeIcon
-                        icon={faLanguage}
-                        className={`ml-2 cursor-pointer ${
-                          loadingTranslation ? "text-gray-500" : "text-black"
-                        }`}
-                        onClick={() =>
-                          !loadingTranslation &&
-                          translateText(message.text, index)
-                        }
-                        title="Translate Text"
-                      />
-                    </div>
                   </div>
                 )}
               </div>
             ))}
+            <div ref={chatEndRef} />
           </div>
           {!myContent && !messages.length > 0 && (
             <div className="justify-start items-start text-start ">
@@ -724,16 +509,16 @@ function ChatHistory({
                   How can I help you today?
                 </p>
               </div>
-              <div className="flex justify-start p-1 gap-5 flex-wrap max-sm:justify-center">
+              <div className="flex justify-start p-1 gap-5 flex-wrap max-sm:justify-center ">
                 {defaultQuestions.map((question, index) => (
                   <button
                     key={index}
-                    className="h-[150px] mt-7 flex justify-start items-start text-left rounded-2xl w-[250px] font-medium p-3 relative"
+                    className="h-[150px] mt-7 flex justify-start items-start text-left rounded-2xl w-[250px] font-medium p-3 relative "
                     onClick={() => {
                       handleDefaultQuestionClick(question.question);
                     }}
                     style={{
-                      boxShadow: "0px 0px 7px 3px rgba(21, 114, 194,0.2)",
+                      boxShadow: "0px 0px 7px 3px rgb(156, 68, 133,0.25)",
                     }}
                   >
                     <span className="ml-0 ">{question.question}</span>
@@ -821,6 +606,14 @@ function ChatHistory({
             </button>
           </div>
         </div>
+        {showScrollButton && (
+          <button
+            onClick={scrollToBottom}
+            className="fixed z-50 bottom-[170px] right-5 sm:right-28 p-3 bg-[#edc8f4] w-8 h-8 border border-[#9c4485] text-black rounded-full shadow-lg hover:scale-110 transition duration-200 flex items-center justify-center"
+            >
+            <CaretDownOutlined className="text-xs flex items-center text-center" />
+          </button>
+        )}
       </div>
     </>
   );

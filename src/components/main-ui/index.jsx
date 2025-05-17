@@ -11,6 +11,7 @@ import { useMuteContext } from "../Avatar2";
 import { Select, MenuItem } from "@mui/material";
 import CustomModal from "./CustomModal";
 import StaticData from "./StaticData";
+import odoo from "../../assets/Odoo.png"
 
 function MainUi() {
   const [micStart, setMicStart] = useState(false);
@@ -788,24 +789,24 @@ function MainUi() {
     <>
       <div className="lg:p-[2rem]  absolute z-30 w-full ">
         <header className="flex justify-between w-[100%] items-center lg:pb-7 lg:pt-0 py-4 px-4 max-md:flex-col">
-          <div className="flex gap-2 items-center">
+          <div className=" w-full justify-start h-full flex gap-1 items-center max-sm:justify-center">
           <img
-              src={Logo}
+              src={odoo}
               alt="logo"
-              className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
+              className="lg:w-[8rem] w-20 h-10 lg:h-[4rem] mb-2"
             />
             {/* <img
               src={bflLogo}
               alt="logo"
               className="lg:w-[2.468rem] w-5 h-5 lg:h-[2.101rem]"
             /> */}
-            <h3 className="text-h-color lg:text-[2.106rem]  font-semibold cursor-pointer" onClick={navigateToDefaultPath} style={{fontFamily:"lekton"}}>
+            <h3 className="text-h-color lg:text-[2.106rem] text-[25px]  font-semibold cursor-pointer" onClick={navigateToDefaultPath} style={{fontFamily:"lekton"}}>
               App Pilot
             </h3>
           </div>
           <div className="flex items-center gap-4 ">
             {/* Select Avatar :  */}
-            <CustomModal buttonName={"Select Avatar"} />
+            {/* <CustomModal buttonName={"Select Avatar"} /> */}
             {/* <select
               onChange={(e) => avatarHandleChange(e.target.value)}
               value={showAvatar}
@@ -824,7 +825,7 @@ function MainUi() {
                 Red
               </option>
             </select> */}
-            {isMuted ? (
+            {/* {isMuted ? (
               <button
                 onClick={toggleVolume}
                 className={`text-white bg-btn-color lg:w-[37px] w-[30px] h-[30px] lg:h-[37px] rounded-full font-semibold
@@ -859,7 +860,7 @@ function MainUi() {
               <option className="text-btn-color bg-bg-primary" value={"ar"}>
                 Arabic
               </option>
-            </select>
+            </select> */}
           </div>
         </header>
 
@@ -975,7 +976,7 @@ function MainUi() {
 
         {/* main dashboard css */}
         <div className="flex justify-between w-[100%]">
-          <div className=" hidden lg:block">
+          {/* <div className=" hidden lg:block">
             <SideBar
               sendMessage={sendMessage}
               questions={questions}
@@ -984,7 +985,7 @@ function MainUi() {
               navAddr={navAddr}
               navAddrSmall={navAddrSmall}
             />
-          </div>
+          </div> */}
 
           <div className="  lg:w-[100%] w-full">
             {!minimize ? (

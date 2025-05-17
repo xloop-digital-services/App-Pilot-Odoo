@@ -66,26 +66,26 @@ const Root = () => {
         <ChatProvider>
           <MuteProvider>
             <Routes>
-              <Route path="/" element={<Login />} />
+              <Route path="/" element={<App />} />
               
               {/* <Route path="/register" element={<Registration />} />  */}
 
-              <Route
-                path="/landing-page"
-                element={
-                  <PrivateRoute>
-                    <LandingPage />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/app-pilot"
-                element={
-                  <PrivateRoute>
-                    <App />
-                  </PrivateRoute>
-                }
-              />
+                {/* <Route
+                  path="/landing-page"
+                  element={
+                    <PrivateRoute>
+                      <LandingPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/app-pilot"
+                  element={
+                    <PrivateRoute>
+                      <App />
+                    </PrivateRoute>
+                  }
+                /> */}
             </Routes>
           </MuteProvider>
         </ChatProvider>
