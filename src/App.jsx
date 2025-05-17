@@ -44,7 +44,7 @@ function App() {
 
   return (
     <>
-      <Loader />
+      {/* <Loader /> */}
       <Leva hidden/>
       {/* <UI /> */}
       <MainUi />

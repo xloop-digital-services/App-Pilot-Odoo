@@ -497,14 +497,6 @@ function ChatHistory({
               </div>
             ))}
             <div ref={chatEndRef} />
-            {showScrollButton && (
-          <button
-            onClick={scrollToBottom}
-            className="fixed z-50 bottom-[170px] right-5 sm:right-28 p-3 bg-[#edc8f4] w-8 h-8 border border-[#9c4485] text-black rounded-full shadow-lg hover:scale-110 transition duration-200 flex items-center justify-center"
-            >
-            <CaretDownOutlined className="text-xs flex items-center text-center" />
-          </button>
-        )}
           </div>
           {!myContent && !messages.length > 0 && (
             <div className="justify-start items-start text-start ">
@@ -614,7 +606,14 @@ function ChatHistory({
             </button>
           </div>
         </div>
-        
+        {showScrollButton && messages.length > 0 && (
+          <button
+            onClick={scrollToBottom}
+            className="fixed z-50 bottom-[170px] right-5 sm:right-28 p-3 bg-[#edc8f4] w-8 h-8 border border-[#9c4485] text-black rounded-full shadow-lg hover:scale-110 transition duration-200 flex items-center justify-center"
+          >
+            <CaretDownOutlined className="text-xs" />
+          </button>
+        )}
       </div>
     </>
   );
