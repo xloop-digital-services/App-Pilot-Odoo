@@ -102,9 +102,9 @@ body.greenScreen {
   -webkit-text-fill-color: transparent;
 }
 
-body {
+/* body {
   overflow: hidden;
-}
+} */
 
 .ant-spin-dot i {
   background-color: rgb(156, 68, 133) !important;
