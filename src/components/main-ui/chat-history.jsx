@@ -107,6 +107,8 @@ function ChatHistory({
   const [images, setImages] = useState([]);
   const [noButton, setNoButton] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [showTopFade, setShowTopFade] = useState(false);
+
   const chatEndRef = useRef(null);
 
   const handleNoButtonClick = () => {
@@ -116,6 +118,25 @@ function ChatHistory({
       setNoButton(false);
     }, 10000);
   };
+
+  useEffect(() => {
+    const container = chatContainerRef.current;
+
+    const handleScroll = () => {
+      if (!container) return;
+
+      const { scrollTop, scrollHeight, clientHeight } = container;
+
+      // Show fade when scrolled down from top
+      setShowTopFade(scrollTop > 5);
+
+      // Your existing scroll button logic
+      setShowScrollButton(scrollTop + clientHeight < scrollHeight - 100);
+    };
+
+    container?.addEventListener("scroll", handleScroll);
+    return () => container?.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const fetchJournies = async (question) => {
     try {
@@ -338,6 +359,16 @@ function ChatHistory({
           className="overflow-y-auto lg:h-[85%] h-[77%]"
           ref={chatContainerRef}
         >
+          <div
+            className={`pointer-events-none absolute top-0 left-0 w-full h-20 z-10 transition-opacity duration-300 ${
+              showTopFade ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(255,255,255,1),rgba(255,255,255,0.6), rgba(255,255,255,0.5), rgba(255,255,255,0))",
+            }}
+          />
+
           {myContent && !loading && (
             <div>
               <div>
